@@ -3,15 +3,6 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Explore from '../components/Explore'
 import { resetErrorMessage } from '../actions'
-import LeftNav from 'material-ui/lib/left-nav'
-import MenuItem from 'material-ui/lib/menus/menu-item'
-
-const SideNavLabel = props =>
-<div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
->
-  {props.children}
-</div>
-
 
 class App extends Component {
   constructor(props) {
@@ -47,61 +38,18 @@ class App extends Component {
     )
   }
 
-  randomLocation() {
-    //this.setState(this.getLatLngFromRandom());
-    console.log('randomLocation')
-  }
-
   render() {
     const { children, inputValue } = this.props
     return (
       <div>
-        /*
         <Explore value={inputValue}
                  onChange={this.handleChange} />
-        */
-        <LeftNav width={408}>
-          <MenuItem onTouchTap={this.randomLocation.bind(this)}>Get Random Location</MenuItem>
-          <SideNavLabel>
-            latitude, longitude: {'lat'}, {'lng'}
-          </SideNavLabel>
-        </LeftNav>
-
-
         <hr />
         {this.renderErrorMessage()}
         {children}
       </div>
     )
   }
-
-/*
-render() {
-  console.log('root app');
-  let {lat, lng} = this.state;
-
-  let map = {
-    center: latLng(lat, lng),
-    zoom: 12,
-    disableDefaultUI: true
-  };
-
-  return (
-    <div>
-      <LeftNav width={408}>
-         <MenuItem onTouchTap={this.randomLocation.bind(this)}>Get Random Location</MenuItem>
-         <SideNavLabel>
-          latitude, longitude: {lat}, {lng}
-          </SideNavLabel>
-       </LeftNav>
-      <div>
-      </div>
-      <Map map={map}/>
-    </div>
-  );
-}
-*/
-
 }
 
 App.propTypes = {
