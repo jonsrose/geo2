@@ -32,6 +32,27 @@ function errorMessage(state = null, action) {
   return state
 }
 
+// from stack overflow, lookup random coordinates
+function getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+    // .toFixed() returns string, so ' * 1' is a trick to convert to number
+}
+
+function coordinates(state = null, action) {
+  console.log(`/reducers/index.js coordinates: `)
+  console.log(state)
+  console.log(action)
+  const { type } = action
+
+  if (type === ActionTypes.RANDOM_COORDINATES) {
+    let lat = getRandomInRange(-90, 90, 3)
+    let lng = getRandomInRange(-180, 180, 3)
+    return {lat, lng}
+  }
+
+  return state
+}
+
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
   starredByUser: paginate({
@@ -59,7 +80,8 @@ const rootReducer = combineReducers({
   entities,
   pagination,
   errorMessage,
-  routing
+  routing,
+  coordinates
 })
 
 export default rootReducer

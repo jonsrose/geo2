@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Explore from '../components/Explore'
-import { resetErrorMessage } from '../actions'
+import { resetErrorMessage, randomCoordinates } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 
@@ -47,9 +47,29 @@ class App extends Component {
     )
   }
 
-  randomLocation() {
+  randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
-    console.log('randomLocation')
+    this.props.randomCoordinates()
+    console.log('randomCoordinates')
+  }
+
+  renderCoordinates() {
+      const { coordinates } = this.props
+
+      if (!coordinates) {
+        return null
+      }
+
+      const { lat, lng } = coordinates
+      if (!lat || !lng) {
+        return null
+      }
+      
+      return (
+        <SideNavLabel>
+          latitude, longitude: {lat}, {lng}
+        </SideNavLabel>
+      )
   }
 
   render() {
@@ -61,13 +81,9 @@ class App extends Component {
                  onChange={this.handleChange} />
         */
         <LeftNav width={408}>
-          <MenuItem onTouchTap={this.randomLocation.bind(this)}>Get Random Location</MenuItem>
-          <SideNavLabel>
-            latitude, longitude: {'lat'}, {'lng'}
-          </SideNavLabel>
+          <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+          {this.renderCoordinates()}
         </LeftNav>
-
-
         <hr />
         {this.renderErrorMessage()}
         {children}
@@ -108,6 +124,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
+  randomCoordinates: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   // Injected by React Router
   children: PropTypes.node
@@ -116,10 +133,11 @@ App.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     errorMessage: state.errorMessage,
+    coordinates: state.coordinates,
     inputValue: ownProps.location.pathname.substring(1)
   }
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage
+  resetErrorMessage, randomCoordinates
 })(App)

@@ -15,7 +15,7 @@ function loadData(props) {
 
 class UserPage extends Component {
   constructor(props) {
-    console.log(`containers/UserPage constructor props:`)
+    console.log('containers/UserPage constructor props:')
     console.log(props)
     super(props)
     this.renderRepo = this.renderRepo.bind(this)
@@ -23,7 +23,7 @@ class UserPage extends Component {
   }
 
   componentWillMount() {
-    console.log(`containers/UserPage componentWillMount`)
+    console.log('containers/UserPage componentWillMount')
     loadData(this.props)
   }
 

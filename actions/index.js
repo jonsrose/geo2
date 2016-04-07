@@ -148,3 +148,13 @@ export function resetErrorMessage() {
     type: RESET_ERROR_MESSAGE
   }
 }
+
+export const RANDOM_COORDINATES = 'RANDOM_COORDINATES'
+
+// Resets the currently visible error message.
+export function randomCoordinates() {
+  console.log(`/actions/index randomCoordinates`)
+  return {
+    type: RANDOM_COORDINATES
+  }
+}
