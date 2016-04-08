@@ -37,7 +37,20 @@ function callApi(endpoint, schema) {
         return Promise.reject(json)
       }
 
-      const camelizedJson = camelizeKeys(json)
+      if (json.status && json.status === 'ZERO_RESULTS') {
+        console.log('failed')
+        console.log(json)
+        return Promise.reject(json)
+      } else {
+        console.log('nailed')
+      }
+
+      let firstResultJson = json.results[0];
+
+      console.log('schema')
+      console.log(schema)
+
+      const camelizedJson = camelizeKeys(firstResultJson)
       const nextPageUrl = getNextPageUrl(response)
 
       return Object.assign({},
@@ -68,7 +81,7 @@ repoSchema.define({
 })
 
 const locationSchema = new Schema('locations', {
-  idAttribute: 'place_id'
+  idAttribute: 'placeId'
 })
 
 /*
