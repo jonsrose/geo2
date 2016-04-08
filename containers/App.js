@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Explore from '../components/Explore'
-import { resetErrorMessage, randomCoordinates } from '../actions'
+import { resetErrorMessage, loadRandomLocation } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 
@@ -47,10 +47,10 @@ class App extends Component {
     )
   }
 
-  randomCoordinates() {
+  loadRandomLocation() {
     //this.setState(this.getLatLngFromRandom());
-    this.props.randomCoordinates()
-    console.log('randomCoordinates')
+    this.props.loadRandomLocation()
+    console.log('loadRandomLocation')
   }
 
   renderCoordinates() {
@@ -64,7 +64,7 @@ class App extends Component {
       if (!lat || !lng) {
         return null
       }
-      
+
       return (
         <SideNavLabel>
           latitude, longitude: {lat}, {lng}
@@ -81,7 +81,7 @@ class App extends Component {
                  onChange={this.handleChange} />
         */
         <LeftNav width={408}>
-          <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+          <MenuItem onTouchTap={this.loadRandomLocation.bind(this)}>Get Random Coordinates</MenuItem>
           {this.renderCoordinates()}
         </LeftNav>
         <hr />
@@ -124,7 +124,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  randomCoordinates: PropTypes.func.isRequired,
+  loadRandomLocation: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   // Injected by React Router
   children: PropTypes.node
@@ -139,5 +139,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates
+  resetErrorMessage, loadRandomLocation
 })(App)

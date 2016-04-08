@@ -1,5 +1,70 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
+
+//https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNwz2AmIdACEiuR5aOObQZarSwZCVVJg
+export const GOOGLE_API_SERVER_KEY='AIzaSyDNwz2AmIdACEiuR5aOObQZarSwZCVVJ6g'
+
+export const LOCATION_REQUEST = 'LOCATION_REQUEST'
+export const LOCATION_SUCCESS = 'LOCATION_SUCCESS'
+export const LOCATION_FAILURE = 'LOCATION_FAILURE'
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchLocation(lat,lng) {
+  console.log(`/actions/index fetchLocation ${lat}, ${lng}`)
+  return {
+    [CALL_API]: {
+      types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
+      endpoint: `geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_SERVER_KEY}`,
+      schema: Schemas.LOCATION
+    }
+  }
+}
+
+// Fetches a single location from Github API unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadLocation(lat,lng) {
+  console.log(`/actions/index loadLocation ${lat}, ${lng}`)
+  console.log(requiredFields)
+  return (dispatch, getState) => {
+    /*
+    const location = getState().entities.locations[login]
+    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
+      console.log(`actions/index about to return null`)
+      react-routern null
+    } 
+    */
+
+    return dispatch(fetchLocation(lat,lng))
+  }
+}
+
+// from stack overflow, lookup random coordinates
+function getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+    // .toFixed() returns string, so ' * 1' is a trick to convert to number
+}
+
+// Fetches a single location from Github API unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadRandomLocation() {
+  let lat = getRandomInRange(-90, 90, 3)
+  let lng = getRandomInRange(-180, 180, 3)
+  console.log(`/actions/index loadLocation ${lat}, ${lng}`)
+  return (dispatch, getState) => {
+    /*
+    const location = getState().entities.locations[login]
+    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
+      console.log(`actions/index about to return null`)
+      react-routern null
+    } 
+    */
+
+    return dispatch(fetchLocation(lat,lng))
+  }
+}
+
+
 export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'

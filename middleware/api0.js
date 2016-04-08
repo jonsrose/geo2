@@ -18,9 +18,7 @@ function getNextPageUrl(response) {
   return nextLink.split(';')[0].slice(1, -1)
 }
 
-//const API_ROOT = 'https://api.github.com/'
-// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-const API_ROOT = 'https://maps.googleapis.com/maps/api/'
+const API_ROOT = 'https://api.github.com/'
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -67,27 +65,12 @@ repoSchema.define({
   owner: userSchema
 })
 
-const locationSchema = new Schema('locations', {
-  idAttribute: 'place_id'
-})
-
-/*
-resultsSchema.define({
-    address: arrayOf(addressSchema)
-});
-
-addressSchema.define({
-    idAttribute: 'place_id'
-    address_components: arrayOf(addressComponentSchema);
-});
-*/
 // Schemas for Github API responses.
 export const Schemas = {
   USER: userSchema,
   USER_ARRAY: arrayOf(userSchema),
   REPO: repoSchema,
-  REPO_ARRAY: arrayOf(repoSchema),
-  LOCATION: locationSchema
+  REPO_ARRAY: arrayOf(repoSchema)
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
