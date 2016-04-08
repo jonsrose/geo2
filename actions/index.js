@@ -25,39 +25,44 @@ function fetchLocation(lat,lng) {
 // Relies on Redux Thunk middleware.
 export function loadLocation(lat,lng) {
   console.log(`/actions/index loadLocation ${lat}, ${lng}`)
-  console.log(requiredFields)
-  return (dispatch, getState) => {
+  //return (dispatch, getState) => {
+  return (dispatch) => {
     /*
     const location = getState().entities.locations[login]
     if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
       console.log(`actions/index about to return null`)
       react-routern null
-    } 
+    }
     */
 
     return dispatch(fetchLocation(lat,lng))
   }
 }
 
+/*
 // from stack overflow, lookup random coordinates
 function getRandomInRange(from, to, fixed) {
-    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1
     // .toFixed() returns string, so ' * 1' is a trick to convert to number
 }
+*/
 
 // Fetches a single location from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadRandomLocation() {
-  let lat = getRandomInRange(-90, 90, 3)
-  let lng = getRandomInRange(-180, 180, 3)
+
+  // let lat = getRandomInRange(-90, 90, 3)
+  // let lng = getRandomInRange(-180, 180, 3)
+  let lat = 72.24
+  let lng = 86.337
   console.log(`/actions/index loadLocation ${lat}, ${lng}`)
-  return (dispatch, getState) => {
+  return (dispatch) => {
     /*
     const location = getState().entities.locations[login]
     if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
       console.log(`actions/index about to return null`)
       react-routern null
-    } 
+    }
     */
 
     return dispatch(fetchLocation(lat,lng))
@@ -90,7 +95,7 @@ export function loadUser(login, requiredFields = []) {
   return (dispatch, getState) => {
     const user = getState().entities.users[login]
     if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
-      console.log(`actions/index about to return null`)
+      console.log('actions/index about to return null')
       return null
     }
 
@@ -208,7 +213,7 @@ export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 // Resets the currently visible error message.
 export function resetErrorMessage() {
-  console.log(`/actions/index resetErrorMessage`)
+  console.log('/actions/index resetErrorMessage')
   return {
     type: RESET_ERROR_MESSAGE
   }
@@ -218,7 +223,7 @@ export const RANDOM_COORDINATES = 'RANDOM_COORDINATES'
 
 // Resets the currently visible error message.
 export function randomCoordinates() {
-  console.log(`/actions/index randomCoordinates`)
+  console.log('/actions/index randomCoordinates')
   return {
     type: RANDOM_COORDINATES
   }
