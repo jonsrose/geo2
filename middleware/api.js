@@ -80,8 +80,12 @@ repoSchema.define({
   owner: userSchema
 })
 
+function makeSlug(locationSchema) {
+  return locationSchema.formattedAddress.toLowerCase().replace(/\,/g, '').replace(/ /g, '-')
+}
+
 const locationSchema = new Schema('locations', {
-  idAttribute: 'placeId'
+  idAttribute: makeSlug
 })
 
 /*
