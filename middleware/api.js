@@ -45,7 +45,7 @@ function callApi(endpoint, schema) {
         console.log('nailed')
       }
 
-      let firstResultJson = json.results[0];
+      let firstResultJson = json.results[0]
 
       console.log('schema')
       console.log(schema)
