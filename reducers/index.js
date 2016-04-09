@@ -46,6 +46,10 @@ function currentLocation(state = null, action) {
     if (action.response) {
       return action.response.result
     }
+  } else if (type === ActionTypes.LOCATION_REQUEST) {
+      return null
+  } else if (type === ActionTypes.LOCATION_FAILURE) {
+      return null
   }
 
   return state
