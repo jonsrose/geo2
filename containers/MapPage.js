@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -70,16 +71,41 @@ class MapPage extends Component {
 
   */
 
-    render() {
-      return <h1>Current Location</h1>
-    }
+  render() {
+    console.log('map page')
+    return (
+      <section style={{ height: '500px' }}>
+        <GoogleMapLoader
+          containerElement={
+            <div
+              {...this.props}
+              style={{
+                height: '100%'
+              }}
+            />
+          }
+          googleMapElement={
+            <GoogleMap
+              ref={(map) => console.log(map)}
+              defaultZoom={3}
+              center={ { lat: this.props.lat, lng: this.props.lng } }
+              ref="map">
+              <Marker position={{lat: this.props.lat, lng: this.props.lng}}              />
+            </GoogleMap>
+          }
+        />
+      </section>
+    )
+  }
 
 }
 
 
 
 MapPage.propTypes = {
-  currentLocation: PropTypes.string
+  currentLocation: PropTypes.string,
+  lat: PropTypes.number,
+  lng: PropTypes.number
 }
 
 /*
@@ -115,12 +141,38 @@ function mapStateToProps(state, ownProps) {
 */
 
 function mapStateToProps(state) {
-  const { currentLocation } = state
+  const { currentLocation, coordinates } = state
+  const {lat, lng} = coordinates
 
   return {
-    currentLocation
+    currentLocation,
+    lat,
+    lng
   }
 }
 
 export default connect(mapStateToProps, {
 })(MapPage)
+
+/*
+
+import React, { Component } from 'react';
+
+
+
+export default class SimpleMap extends Component {
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+*/
