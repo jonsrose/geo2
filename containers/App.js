@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, loadRandomLocation, randomCoordinates } from '../actions'
+import { resetErrorMessage, loadLocation, randomCoordinates } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 
@@ -39,9 +39,9 @@ class App extends Component {
     browserHistory.push(`/${nextValue}`)
   }
 
-  loadLocation(currentLocation) {
-    browserHistory.push(`/locations/${currentLocation}`)
-  }
+  //loadLocation(currentLocation) {
+    //browserHistory.push(`/locations/${currentLocation}`)
+  //}
 
   loadCoordinates(coordinates) {
     browserHistory.push(`/coordinates/${coordinates.lat},${coordinates.lng}`)
@@ -50,36 +50,13 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.coordinates !== this.props.coordinates) {
       this.loadCoordinates(nextProps.coordinates)
+      console.log('componentWillReceiveProps')
+      console.log('this.props.loadLocation')
+      console.log(this.props.loadLocation)
+      this.props.loadLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
+  }
 
-    if (nextProps.currentLocation !== this.props.currentLocation) {
-      this.loadLocation(nextProps.currentLocation)
-    }
-  }
-/*
-  renderErrorMessage() {
-    const { errorMessage } = this.props
-    if (!errorMessage) {
-      return null
-    }
-
-    return (
-      <p style={{ backgroundColor: '#e99', padding: 10 }}>
-        <b>{errorMessage}</b>
-        {' '}
-        (<a href="#"
-            onClick={this.handleDismissClick}>
-          Dismiss
-        </a>)
-      </p>
-    )
-  }
-*/
-  loadRandomLocation() {
-    //this.setState(this.getLatLngFromRandom());
-    this.props.loadRandomLocation()
-    console.log('loadRandomLocation')
-  }
 
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
@@ -107,12 +84,8 @@ class App extends Component {
   }
 
   render() {
-    console.log(this)
-    console.log('randomCoordinates')
-    console.log(this.randomCoordinates)
     const { children } = this.props
-    console.log('loadRandomLocation')
-    console.log(this.loadRandomLocation)
+
     return (
       <div>
         <LeftNav width={408}>
@@ -125,42 +98,14 @@ class App extends Component {
       </div>
     )
   }
-
-/*
-render() {
-  console.log('root app');
-  let {lat, lng} = this.state;
-
-  let map = {
-    center: latLng(lat, lng),
-    zoom: 12,
-    disableDefaultUI: true
-  };
-
-  return (
-    <div>
-      <LeftNav width={408}>
-         <MenuItem onTouchTap={this.randomLocation.bind(this)}>Get Random Location</MenuItem>
-         <SideNavLabel>
-          latitude, longitude: {lat}, {lng}
-          </SideNavLabel>
-       </LeftNav>
-      <div>
-      </div>
-      <Map map={map}/>
-    </div>
-  );
-}
-*/
-
 }
 
 App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  loadRandomLocation: PropTypes.func.isRequired,
   randomCoordinates: PropTypes.func.isRequired,
+  loadLocation: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   // Injected by React Router
@@ -177,5 +122,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, loadRandomLocation, randomCoordinates
+  resetErrorMessage, loadLocation, randomCoordinates
 })(App)

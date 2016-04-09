@@ -1,6 +1,5 @@
 import * as ActionTypes from '../actions'
 import merge from 'lodash/merge'
-import paginate from './paginate'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
@@ -34,16 +33,8 @@ function errorMessage(state = null, action) {
 
 function coordinates(state = null, action) {
   const { type } = action
-  if (type === ActionTypes.LOCATION_SUCCESS) {
-    if (action.response && action.response.entities && action.response.result) {
-        console.log('coordinates')
-        console.log('location')
-        console.log(action.response.entities.locations[action.response.result])
-        const location = action.response.entities.locations[action.response.result].geometry.location
-        return location
-    }
-  } else if (type === ActionTypes.RANDOM_COORDINATES) {
-      return action.coordinates
+  if (type === ActionTypes.RANDOM_COORDINATES) {
+    return action.coordinates
   }
 
   return state
@@ -52,7 +43,7 @@ function coordinates(state = null, action) {
 function currentLocation(state = null, action) {
   const { type } = action
   if (type === ActionTypes.LOCATION_SUCCESS) {
-    if (action.response && action.response.entities) {
+    if (action.response) {
       return action.response.result
     }
   }
@@ -60,34 +51,11 @@ function currentLocation(state = null, action) {
   return state
 }
 
-// Updates the pagination data for different actions.
-const pagination = combineReducers({
-  starredByUser: paginate({
-    mapActionToKey: action => action.login,
-    types: [
-      ActionTypes.STARRED_REQUEST,
-      ActionTypes.STARRED_SUCCESS,
-      ActionTypes.STARRED_FAILURE
-    ]
-  }),
-  stargazersByRepo: paginate({
-    mapActionToKey: action => action.fullName,
-    types: [
-      ActionTypes.STARGAZERS_REQUEST,
-      ActionTypes.STARGAZERS_SUCCESS,
-      ActionTypes.STARGAZERS_FAILURE
-    ]
-  })
-})
 
 
-
-console.log('pagination')
-console.log(pagination)
 
 const rootReducer = combineReducers({
   entities,
-  pagination,
   errorMessage,
   routing,
   coordinates,
