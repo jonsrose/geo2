@@ -6,7 +6,7 @@ import { combineReducers } from 'redux'
 
 // Updates an entity cache in response to any action with response.entities.
 function entities(state = { users: {}, repos: {} }, action) {
-  console.log(`/reducers/index.js entities() state: action: `)
+  console.log('/reducers/index.js entities() state: action: ')
   console.log(state)
   console.log(action)
   if (action.response && action.response.entities) {
@@ -18,7 +18,7 @@ function entities(state = { users: {}, repos: {} }, action) {
 
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
-  console.log(`/reducers/index.js errorMessage: `)
+  console.log('/reducers/index.js errorMessage: ')
   console.log(state)
   console.log(action)
   const { type, error } = action
@@ -34,12 +34,12 @@ function errorMessage(state = null, action) {
 
 // from stack overflow, lookup random coordinates
 function getRandomInRange(from, to, fixed) {
-    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1
     // .toFixed() returns string, so ' * 1' is a trick to convert to number
 }
 
 function coordinates(state = null, action) {
-  console.log(`/reducers/index.js coordinates: `)
+  console.log('/reducers/index.js coordinates: ')
   console.log(state)
   console.log(action)
   const { type } = action
@@ -48,6 +48,17 @@ function coordinates(state = null, action) {
     let lat = getRandomInRange(-90, 90, 3)
     let lng = getRandomInRange(-180, 180, 3)
     return {lat, lng}
+  }
+
+  return state
+}
+
+function currentLocation(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.LOCATION_SUCCESS) {
+    if (action.response && action.response.entities) {
+      return action.response.result
+    }
   }
 
   return state
@@ -73,6 +84,8 @@ const pagination = combineReducers({
   })
 })
 
+
+
 console.log('pagination')
 console.log(pagination)
 
@@ -81,7 +94,8 @@ const rootReducer = combineReducers({
   pagination,
   errorMessage,
   routing,
-  coordinates
+  coordinates,
+  currentLocation
 })
 
 export default rootReducer
