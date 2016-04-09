@@ -39,13 +39,12 @@ export function loadLocation(lat,lng) {
   }
 }
 
-/*
-// from stack overflow, lookup random coordinates
+
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
     // .toFixed() returns string, so ' * 1' is a trick to convert to number
 }
-*/
+
 
 // Fetches a single location from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
@@ -221,10 +220,12 @@ export function resetErrorMessage() {
 
 export const RANDOM_COORDINATES = 'RANDOM_COORDINATES'
 
-// Resets the currently visible error message.
 export function randomCoordinates() {
   console.log('/actions/index randomCoordinates')
+  let lat = getRandomInRange(-90, 90, 3)
+  let lng = getRandomInRange(-180, 180, 3)
   return {
-    type: RANDOM_COORDINATES
+    type: RANDOM_COORDINATES,
+    coordinates: {lat, lng}
   }
 }

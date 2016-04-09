@@ -42,6 +42,8 @@ function coordinates(state = null, action) {
         const location = action.response.entities.locations[action.response.result].geometry.location
         return location
     }
+  } else if (type === ActionTypes.RANDOM_COORDINATES) {
+      return action.coordinates
   }
 
   return state

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, loadRandomLocation } from '../actions'
+import { resetErrorMessage, loadRandomLocation, randomCoordinates } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 
@@ -43,7 +43,15 @@ class App extends Component {
     browserHistory.push(`/locations/${currentLocation}`)
   }
 
+  loadCoordinates(coordinates) {
+    browserHistory.push(`/coordinates/${coordinates.lat},${coordinates.lng}`)
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.coordinates !== this.props.coordinates) {
+      this.loadCoordinates(nextProps.coordinates)
+    }
+
     if (nextProps.currentLocation !== this.props.currentLocation) {
       this.loadLocation(nextProps.currentLocation)
     }
@@ -73,6 +81,12 @@ class App extends Component {
     console.log('loadRandomLocation')
   }
 
+  randomCoordinates() {
+    //this.setState(this.getLatLngFromRandom());
+    this.props.randomCoordinates()
+    console.log('randomCoordinates')
+  }
+
   renderCoordinates() {
       const { coordinates } = this.props
 
@@ -93,11 +107,16 @@ class App extends Component {
   }
 
   render() {
+    console.log(this)
+    console.log('randomCoordinates')
+    console.log(this.randomCoordinates)
     const { children } = this.props
+    console.log('loadRandomLocation')
+    console.log(this.loadRandomLocation)
     return (
       <div>
         <LeftNav width={408}>
-          <MenuItem onTouchTap={this.loadRandomLocation.bind(this)}>Get Random Coordinates</MenuItem>
+          <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
           {this.renderCoordinates()}
         </LeftNav>
         <RightSide sideNavWidth={408}>
@@ -141,6 +160,7 @@ App.propTypes = {
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
   loadRandomLocation: PropTypes.func.isRequired,
+  randomCoordinates: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   // Injected by React Router
@@ -157,5 +177,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, loadRandomLocation
+  resetErrorMessage, loadRandomLocation, randomCoordinates
 })(App)
