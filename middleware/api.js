@@ -53,8 +53,64 @@ function callApi(endpoint, schema) {
       const camelizedJson = camelizeKeys(firstResultJson)
       const nextPageUrl = getNextPageUrl(response)
 
+      var options = {
+        assignEntity: function (obj, key, val) {
+          if (key === 'addressComponents') {
+            val.forEach(addressComponent => {
+              if (addressComponent.types.indexOf('country') > -1) {
+                obj.country = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('locality') > -1) {
+                obj.locality = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality') > -1) {
+                obj.sublocality = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('postalCode') > -1) {
+                obj.postalCode = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('administrative_area_level_1') > -1) {
+                obj.areaLevel1 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('administrative_area_level_2') > -1) {
+                obj.areaLevel2 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('administrative_area_level_3') > -1) {
+                obj.areaLevel3 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('administrative_area_level_4') > -1) {
+                obj.areaLevel4 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('administrative_area_level_5') > -1) {
+                obj.areaLevel5 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality_level_1') > -1) {
+                obj.sublocalityLevel1 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality_level_2') > -1) {
+                obj.sublocalityLevel2 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality_level_3') > -1) {
+                obj.sublocalityLevel3 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality_level_4') > -1) {
+                obj.sublocalityLevel4 = addressComponent.longName
+              }
+              if (addressComponent.types.indexOf('sublocality_level_5') > -1) {
+                obj.sublocalityLevel5 = addressComponent.longName
+              }
+            })
+          } else if (key === 'formattedAddress'){
+            obj.id = makeSlugForString(val)
+            obj[key] = val
+          } else {
+            obj[key] = val
+          }
+        }
+      }
+
       return Object.assign({},
-        normalize(camelizedJson, schema),
+        normalize(camelizedJson, schema, options),
         { nextPageUrl }
       )
     })
@@ -81,7 +137,11 @@ repoSchema.define({
 })
 
 function makeSlug(locationSchema) {
-  return locationSchema.formattedAddress.toLowerCase().replace(/\,/g, '').replace(/ /g, '-')
+  return makeSlugForString(locationSchema.formattedAddress)
+}
+
+function makeSlugForString(formattedAddress) {
+  return formattedAddress.toLowerCase().replace(/\,/g, '').replace(/ /g, '-')
 }
 
 const locationSchema = new Schema('locations', {
