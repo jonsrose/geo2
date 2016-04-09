@@ -7,6 +7,8 @@ import MapPage from './containers/MapPage'
 
 export default (
   <Route path="/" component={App}>
+    <Route path="/coordinates/:coordinatesString"
+           component={MapPage} />
     <Route path="/locations/:name"
            component={MapPage} />
     <Route path="/:login/:name"

@@ -72,7 +72,7 @@ class MapPage extends Component {
   */
 
   render() {
-    console.log('map page')
+    console.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
     return (
       <section style={{ height: '500px' }}>
         <GoogleMapLoader
@@ -103,9 +103,9 @@ class MapPage extends Component {
 
 
 MapPage.propTypes = {
-  currentLocation: PropTypes.string,
   lat: PropTypes.number,
-  lng: PropTypes.number
+  lng: PropTypes.number,
+  coordinatesString: PropTypes.string
 }
 
 /*
@@ -140,12 +140,16 @@ function mapStateToProps(state, ownProps) {
 }
 */
 
-function mapStateToProps(state) {
-  const { currentLocation, coordinates } = state
-  const {lat, lng} = coordinates
+function mapStateToProps(state, ownProps) {
+  //const { currentLocation, coordinates } = state
+  const { coordinatesString } = ownProps.params
+  console.log('coordinatesString')
+  console.log(coordinatesString)
+  const coordinatesArray = coordinatesString.split(',')
+  const lat = Number(coordinatesArray[0])
+  const lng = Number(coordinatesArray[1])
 
   return {
-    currentLocation,
     lat,
     lng
   }
