@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import Explore from '../components/Explore'
 import { resetErrorMessage, loadRandomLocation } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
@@ -12,6 +11,17 @@ const SideNavLabel = props =>
   {props.children}
 </div>
 
+const RightSide = props =>
+<div style={{
+    position: 'absolute',
+    top: 0,
+    left: props.sideNavWidth + 'px',
+    right: 0,
+    bottom: 0
+  }}
+>
+  {props.children}
+</div>
 
 class App extends Component {
   constructor(props) {
@@ -29,6 +39,16 @@ class App extends Component {
     browserHistory.push(`/${nextValue}`)
   }
 
+  loadLocation(currentLocation) {
+    browserHistory.push(`/locations/${currentLocation}`)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentLocation !== this.props.currentLocation) {
+      this.loadLocation(nextProps.currentLocation)
+    }
+  }
+/*
   renderErrorMessage() {
     const { errorMessage } = this.props
     if (!errorMessage) {
@@ -46,7 +66,7 @@ class App extends Component {
       </p>
     )
   }
-
+*/
   loadRandomLocation() {
     //this.setState(this.getLatLngFromRandom());
     this.props.loadRandomLocation()
@@ -73,20 +93,16 @@ class App extends Component {
   }
 
   render() {
-    const { children, inputValue } = this.props
+    const { children } = this.props
     return (
       <div>
-        /*
-        <Explore value={inputValue}
-                 onChange={this.handleChange} />
-        */
         <LeftNav width={408}>
           <MenuItem onTouchTap={this.loadRandomLocation.bind(this)}>Get Random Coordinates</MenuItem>
           {this.renderCoordinates()}
         </LeftNav>
-        <hr />
-        {this.renderErrorMessage()}
-        {children}
+        <RightSide sideNavWidth={408}>
+          {children}
+        </RightSide>
       </div>
     )
   }
@@ -126,6 +142,7 @@ App.propTypes = {
   resetErrorMessage: PropTypes.func.isRequired,
   loadRandomLocation: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
+  currentLocation: PropTypes.string,
   // Injected by React Router
   children: PropTypes.node
 }
@@ -134,7 +151,8 @@ function mapStateToProps(state, ownProps) {
   return {
     errorMessage: state.errorMessage,
     coordinates: state.coordinates,
-    inputValue: ownProps.location.pathname.substring(1)
+    inputValue: ownProps.location.pathname.substring(1),
+    currentLocation: state.currentLocation
   }
 }
 
