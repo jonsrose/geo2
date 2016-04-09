@@ -74,7 +74,7 @@ class MapPage extends Component {
   render() {
     console.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
     return (
-      <section style={{ height: '500px' }}>
+      <section style={{ height: '100%' }}>
         <GoogleMapLoader
           containerElement={
             <div
