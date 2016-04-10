@@ -50,9 +50,6 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.coordinates !== this.props.coordinates) {
       this.loadCoordinates(nextProps.coordinates)
-      console.log('componentWillReceiveProps')
-      console.log('this.props.loadLocation')
-      console.log(this.props.loadLocation)
       this.props.loadLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
   }
@@ -83,6 +80,26 @@ class App extends Component {
       )
   }
 
+  renderCurrentLocation() {
+    console.log('renderCurrentLocation this.props')
+    console.log(this.props)
+    const { currentLocationObject } = this.props
+    console.log(currentLocationObject)
+
+    if (!currentLocationObject) {
+      return null
+    }
+
+
+
+    return (
+      <SideNavLabel>
+        {currentLocationObject.formattedAddress}
+      </SideNavLabel>
+    )
+
+  }
+
   render() {
     const { children } = this.props
 
@@ -91,6 +108,7 @@ class App extends Component {
         <LeftNav width={408}>
           <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
           {this.renderCoordinates()}
+          {this.renderCurrentLocation()}
         </LeftNav>
         <RightSide sideNavWidth={408}>
           {children}
@@ -108,6 +126,7 @@ App.propTypes = {
   loadLocation: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
+  currentLocationObject: PropTypes.object,
   // Injected by React Router
   children: PropTypes.node
 }
@@ -117,7 +136,8 @@ function mapStateToProps(state, ownProps) {
     errorMessage: state.errorMessage,
     coordinates: state.coordinates,
     inputValue: ownProps.location.pathname.substring(1),
-    currentLocation: state.currentLocation
+    currentLocation: state.currentLocation,
+    currentLocationObject: state.currentLocationObject
   }
 }
 

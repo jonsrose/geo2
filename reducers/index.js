@@ -55,6 +55,23 @@ function currentLocation(state = null, action) {
   return state
 }
 
+function currentLocationObject(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.LOCATION_SUCCESS) {
+    if (action.response) {
+      let locationName = action.response.result
+
+      return action.response.entities.locations[locationName]
+    }
+  } else if (type === ActionTypes.LOCATION_REQUEST) {
+      return null
+  } else if (type === ActionTypes.LOCATION_FAILURE) {
+      return null
+  }
+
+  return state
+}
+
 
 
 
@@ -63,7 +80,8 @@ const rootReducer = combineReducers({
   errorMessage,
   routing,
   coordinates,
-  currentLocation
+  currentLocation,
+  currentLocationObject
 })
 
 export default rootReducer
