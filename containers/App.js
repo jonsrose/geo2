@@ -4,6 +4,9 @@ import { browserHistory } from 'react-router'
 import { resetErrorMessage, loadLocation, randomCoordinates } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
+import AppBar from 'material-ui/lib/app-bar'
+
+// todo on page load it needs to handle case where coords already present, e.g. put load location in right place
 
 const SideNavLabel = props =>
 <div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
@@ -11,7 +14,7 @@ const SideNavLabel = props =>
   {props.children}
 </div>
 
-const RightSide = props =>
+const MainSection = props =>
 <div style={{
     position: 'absolute',
     top: 0,
@@ -61,6 +64,23 @@ class App extends Component {
     console.log('randomCoordinates')
   }
 
+  getAppBarTitle() {
+    let title = 'GEOJUMPER -'
+
+    if (this.props.coordinates) {
+      if (this.props.currentLocationObject) {
+          title += ` ${this.props.currentLocationObject.formattedAddress} - Coords: `
+      } else {
+        title += ' Coords: '
+      }
+      title += ` ${this.props.coordinates.lat}, ${this.props.coordinates.lng}`
+    } else {
+      title += ' Get Random Location'
+    }
+
+    return title
+  }
+
   renderCoordinates() {
       const { coordinates } = this.props
 
@@ -105,14 +125,17 @@ class App extends Component {
 
     return (
       <div>
-        <LeftNav width={408}>
+        <AppBar
+          title={this.getAppBarTitle()}
+          style={{position:'fixed', top: 0, left:0, zIndex: 1101}}
+          showMenuIconButton={false}
+        />
+        <MainSection sideNavWidth={408} style={{marginTop:64}}>
+            {children}
+        </MainSection>
+        <LeftNav width={408} containerStyle={{zIndex: 1100, marginTop:64}}>
           <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
-          {this.renderCoordinates()}
-          {this.renderCurrentLocation()}
         </LeftNav>
-        <RightSide sideNavWidth={408}>
-          {children}
-        </RightSide>
       </div>
     )
   }
@@ -127,8 +150,10 @@ App.propTypes = {
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
+  coordinates: PropTypes.string,
   // Injected by React Router
-  children: PropTypes.node
+  children: PropTypes.node,
+  appBarTitle: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {
@@ -137,7 +162,8 @@ function mapStateToProps(state, ownProps) {
     coordinates: state.coordinates,
     inputValue: ownProps.location.pathname.substring(1),
     currentLocation: state.currentLocation,
-    currentLocationObject: state.currentLocationObject
+    currentLocationObject: state.currentLocationObject,
+    appBarTitle: state.appBarTitle
   }
 }
 
