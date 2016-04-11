@@ -148,7 +148,7 @@ App.propTypes = {
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
-  coordinates: PropTypes.string,
+  coordinates: PropTypes.object,
   // Injected by React Router
   children: PropTypes.node,
   appBarTitle: PropTypes.string
