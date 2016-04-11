@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
+import { newCoordinates, loadLocation } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -25,9 +26,22 @@ class MapPage extends Component {
     // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
   }
 
+  loadData(props) {
+    this.props.newCoordinates(props.lat, props.lng)
+    this.props.loadLocation(props.lat, props.lng)
+  }
+
   componentWillMount() {
     console.log('containers/MapPage componentWillMount')
     // loadData(this.props)
+    console.log(this.props)
+    this.loadData(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
+      this.loadData(nextProps)
+    }
   }
 
 /*
@@ -103,9 +117,12 @@ class MapPage extends Component {
 
 
 MapPage.propTypes = {
+
   lat: PropTypes.number,
   lng: PropTypes.number,
-  coordinatesString: PropTypes.string
+  coordinatesString: PropTypes.string,
+  newCoordinates: PropTypes.func.isRequired,
+  loadLocation: PropTypes.func.isRequired
 }
 
 /*
@@ -150,12 +167,13 @@ function mapStateToProps(state, ownProps) {
   const lng = Number(coordinatesArray[1])
 
   return {
+    coordinatesString,
     lat,
     lng
   }
 }
 
-export default connect(mapStateToProps, {
+export default connect(mapStateToProps, { loadLocation, newCoordinates
 })(MapPage)
 
 /*

@@ -33,7 +33,7 @@ function errorMessage(state = null, action) {
 
 function coordinates(state = null, action) {
   const { type } = action
-  if (type === ActionTypes.RANDOM_COORDINATES) {
+  if (type === ActionTypes.NEW_COORDINATES) {
     return action.coordinates
   }
 

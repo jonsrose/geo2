@@ -218,14 +218,21 @@ export function resetErrorMessage() {
   }
 }
 
-export const RANDOM_COORDINATES = 'RANDOM_COORDINATES'
+export const NEW_COORDINATES = 'NEW_COORDINATES'
 
 export function randomCoordinates() {
   console.log('/actions/index randomCoordinates')
   let lat = getRandomInRange(-90, 90, 3)
   let lng = getRandomInRange(-180, 180, 3)
   return {
-    type: RANDOM_COORDINATES,
+    type: NEW_COORDINATES,
+    coordinates: {lat, lng}
+  }
+}
+
+export function newCoordinates(lat, lng) {
+  return {
+    type: NEW_COORDINATES,
     coordinates: {lat, lng}
   }
 }
