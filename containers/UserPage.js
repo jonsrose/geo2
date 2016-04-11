@@ -5,6 +5,9 @@ import User from '../components/User'
 import Repo from '../components/Repo'
 import List from '../components/List'
 import zip from 'lodash/zip'
+// https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.865025,-119.538308&radius=20&key=ABCDEF
+
+// todo fix layout on ios
 
 function loadData(props) {
   console.log('loadData')

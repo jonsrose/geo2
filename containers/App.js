@@ -7,6 +7,8 @@ import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
+// todo: fix mobile, maybe use appleftnav? download source of material ui
+// todo: link up panoramio
 
 const SideNavLabel = props =>
 <div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
