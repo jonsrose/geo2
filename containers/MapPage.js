@@ -94,20 +94,56 @@ class MapPage extends Component {
 
   */
 
+  renderCoordinates(coordinates) {
+    return (
+      <div>Coordinates: {coordinates.lat}, {coordinates.lng}</div>
+    )
+  }
 
+  renderInfoWindowContent() {
+    console.log('renderInfoWindowContent')
 
-  renderInfoWindow(){
-    if (!this.props.currentLocationObject) {
+    const { coordinates, currentLocationObject } = this.props
+
+    console.log(coordinates)
+    console.log(currentLocationObject)
+
+    if (!coordinates) {
       return null
     }
 
+    if (!currentLocationObject ){
+      return this.renderCoordinates(coordinates)
+    }
+
+    const {country, locality, areaLevel1, areaLevel2, areaLevel3} = currentLocationObject
+
+    return (
+      <div>
+        {locality && <div>{locality}</div>}
+        {areaLevel1 && <div>{areaLevel1}</div>}
+        {areaLevel2 && <div>{areaLevel2}</div>}
+        {areaLevel3 && <div>{areaLevel3}</div>}
+        {country && <div>{country}</div>}
+        {this.renderCoordinates(coordinates)}
+      </div>
+    )
+
+
+
+
+  }
+
+  renderInfoWindow(){
     if (!this.props.infoWindow) {
         return null
     }
 
     return (
-      <InfoWindow key="info" content={this.props.currentLocationObject.formattedAddress}
-        onCloseclick={this.handleCloseInfoWindow.bind(this)} />
+      <InfoWindow key="info"
+        onCloseclick={this.handleCloseInfoWindow.bind(this)}>
+        {this.renderInfoWindowContent()}
+      </InfoWindow>
     )
   }
 
@@ -150,6 +186,7 @@ MapPage.propTypes = {
 
   lat: PropTypes.number,
   lng: PropTypes.number,
+  coordinates: PropTypes.object,
   coordinatesString: PropTypes.string,
   newCoordinates: PropTypes.func.isRequired,
   loadLocation: PropTypes.func.isRequired,
@@ -199,6 +236,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     coordinatesString,
+    coordinates: state.coordinates,
     lat,
     lng,
     currentLocationObject: state.currentLocationObject,
