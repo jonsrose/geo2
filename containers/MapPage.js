@@ -85,6 +85,8 @@ class MapPage extends Component {
 
   */
 
+
+
   renderInfoWindow(){
     if (!this.props.currentLocationObject) {
       return null
@@ -93,7 +95,6 @@ class MapPage extends Component {
     return (
       <InfoWindow key="info" position={{ lat: this.props.lat, lng: this.props.lng }} content={this.props.currentLocationObject.formattedAddress} />
     )
-
   }
 
   render() {
@@ -115,7 +116,7 @@ class MapPage extends Component {
               defaultZoom={3}
               center={ { lat: this.props.lat, lng: this.props.lng } }
               ref="map">
-              <Marker position={{lat: this.props.lat, lng: this.props.lng}}              />
+              <Marker position={{lat: this.props.lat, lng: this.props.lng}} />
               {this.renderInfoWindow()}
             </GoogleMap>
           }
