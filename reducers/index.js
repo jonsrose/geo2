@@ -80,6 +80,16 @@ function sideNav(state = true, action) {
   return state
 }
 
+function infoWindow(state = true, action) {
+  const { type } = action
+  if (type === ActionTypes.HIDE_INFO_WINDOW ) {
+    return false
+  } else if (type === ActionTypes.SHOW_INFO_WINDOW || type === ActionTypes.NEW_COORDINATES) {
+    return true
+  }
+  return state
+}
+
 const rootReducer = combineReducers({
   entities,
   errorMessage,
@@ -87,7 +97,8 @@ const rootReducer = combineReducers({
   coordinates,
   currentLocation,
   currentLocationObject,
-  sideNav
+  sideNav,
+  infoWindow
 })
 
 export default rootReducer

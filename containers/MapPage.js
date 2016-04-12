@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
-import { newCoordinates, loadLocation } from '../actions'
+import { newCoordinates, loadLocation, showInfoWindow, hideInfoWindow } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -25,6 +25,15 @@ class MapPage extends Component {
     // this.renderRepo = this.renderRepo.bind(this)
     // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
   }
+
+  handleMarkerClick() {
+    this.props.showInfoWindow()
+  }
+
+  handleCloseInfoWindow() {
+    this.props.hideInfoWindow()
+  }
+
 
   loadData(props) {
     this.props.newCoordinates(props.lat, props.lng)
@@ -92,8 +101,13 @@ class MapPage extends Component {
       return null
     }
 
+    if (!this.props.infoWindow) {
+        return null
+    }
+
     return (
-      <InfoWindow key="info" content={this.props.currentLocationObject.formattedAddress} />
+      <InfoWindow key="info" content={this.props.currentLocationObject.formattedAddress}
+        onCloseclick={this.handleCloseInfoWindow.bind(this)} />
     )
   }
 
@@ -116,7 +130,7 @@ class MapPage extends Component {
               defaultZoom={3}
               center={ { lat: this.props.lat, lng: this.props.lng } }
               ref="map">
-              <Marker position={{lat: this.props.lat, lng: this.props.lng}}>
+              <Marker position={{lat: this.props.lat, lng: this.props.lng}} onClick={this.handleMarkerClick.bind(this)}>
                 {this.renderInfoWindow()}
               </Marker>
 
@@ -187,11 +201,12 @@ function mapStateToProps(state, ownProps) {
     coordinatesString,
     lat,
     lng,
-    currentLocationObject: state.currentLocationObject
+    currentLocationObject: state.currentLocationObject,
+    infoWindow: state.infoWindow
   }
 }
 
-export default connect(mapStateToProps, { loadLocation, newCoordinates
+export default connect(mapStateToProps, { loadLocation, newCoordinates, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*

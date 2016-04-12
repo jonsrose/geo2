@@ -244,3 +244,19 @@ export function toggleSideNav() {
     type: TOGGLE_SIDE_NAV
   }
 }
+
+export const SHOW_INFO_WINDOW = 'SHOW_INFO_WINDOW'
+
+export function showInfoWindow() {
+  return {
+    type: SHOW_INFO_WINDOW
+  }
+}
+
+export const HIDE_INFO_WINDOW = 'HIDE_INFO_WINDOW'
+
+export function hideInfoWindow() {
+  return {
+    type: HIDE_INFO_WINDOW
+  }
+}
