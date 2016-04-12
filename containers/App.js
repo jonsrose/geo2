@@ -5,6 +5,7 @@ import { resetErrorMessage, randomCoordinates, toggleSideNav } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
+import FlatButton from 'material-ui/lib/flat-button'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
 // todo: fix mobile, maybe use appleftnav? download source of material ui
@@ -15,6 +16,8 @@ const SideNavLabel = props =>
 >
   {props.children}
 </div>
+
+
 
 const MainSection = props =>
 <div style={{
@@ -125,22 +128,19 @@ class App extends Component {
     this.props.toggleSideNav()
   }
 
-
-
-
   render() {
     const { children } = this.props
 
     return (
       <div>
         <AppBar
-          title={this.getAppBarTitle()}
+          title='GEOJUMPER'
           style={{position:'fixed', top: 0, left:0, zIndex: 1101}}
           onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
+          iconElementRight={<FlatButton label="Random Coordinates" onTouchTap={this.randomCoordinates.bind(this)}/>}
         />
-        <LeftNav open={this.props.sideNav} docked={false}>
+        <LeftNav open={this.props.sideNav}>
           <MenuItem onTouchTap={this.handleToggle.bind(this)}>Close</MenuItem>
-          <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
         </LeftNav>
         <MainSection sideNavWidth={0} style={{marginTop:64}}>
             {children}
