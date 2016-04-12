@@ -72,7 +72,7 @@ function currentLocationObject(state = null, action) {
   return state
 }
 
-function sideNav(state = false, action) {
+function sideNav(state = true, action) {
   const { type } = action
   if (type === ActionTypes.TOGGLE_SIDE_NAV) {
     return !state

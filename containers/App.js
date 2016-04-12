@@ -6,6 +6,7 @@ import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
 import RaisedButton from 'material-ui/lib/raised-button'
+import Paper from 'material-ui/lib/paper'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
 // todo: fix mobile, maybe use appleftnav? download source of material ui
@@ -68,24 +69,25 @@ class App extends Component {
     console.log('randomCoordinates')
   }
 
-  getAppBarTitle() {
-    let title = 'GEOJUMPER -'
+  getTitle() {
+    let title
 
     if (this.props.coordinates) {
       if (this.props.currentLocationObject) {
-          title += ` ${this.props.currentLocationObject.formattedAddress} - Coords: `
+          title = `${this.props.currentLocationObject.formattedAddress} - Coords: `
       } else {
-        title += ' Coords: '
+        title = 'Coords: '
       }
-      title += ` ${this.props.coordinates.lat}, ${this.props.coordinates.lng}`
+      title += `${this.props.coordinates.lat}, ${this.props.coordinates.lng}`
     } else {
-      title += ' Get Random Location'
+      title = 'Get Random Location'
     }
 
     return title
   }
 
   renderCoordinates() {
+      console.log('renderCoordinates')
       const { coordinates } = this.props
 
       if (!coordinates) {
@@ -128,23 +130,29 @@ class App extends Component {
     this.props.toggleSideNav()
   }
 
+  renderPaper() {
+    return (
+      <Paper zDepth={1} style={{position:'fixed', top: 64, left:0, right:0, height:44, zIndex: 1101, width:'inherit', fontSize:18, lineHeight:'44px', textAlign: 'center' }}>
+        {this.getTitle()}
+      </Paper>
+    )
+  }
+
   render() {
     const { children } = this.props
 
     return (
       <div>
-        <AppBar
-          title="GEOJUMP"
-          zDepth={2}
-          style={{position:'fixed', top: 0, left:0, right:0 , zIndex: 1101, width:'inherit'}}
-          onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
-          iconElementRight={<RaisedButton secondary={true} label="Random Coordinates" onTouchTap={this.randomCoordinates.bind(this)} style={{marginTop: 6, marginRight: 6}} />}
-        />
-      <LeftNav open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
-          <MenuItem onTouchTap={this.handleToggle.bind(this)}>Close</MenuItem>
+
+      <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
+        <AppBar title="GEOJUMP" showMenuIconButton={false}>
+        </AppBar>
+        <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+          {this.renderCurrentLocation()}
+          {this.renderCoordinates()}
         </LeftNav>
-        <MainSection sideNavWidth={0} style={{marginTop:64}}>
-            {children}
+        <MainSection sideNavWidth={400}>
+          {children}
         </MainSection>
       </div>
     )
@@ -152,6 +160,14 @@ class App extends Component {
 }
 
 /*
+<AppBar
+  title="GEOJUMP"
+  zDepth={1}
+  style={{position:'fixed', top: 0, left:0, right:0, zIndex: 1102, width:'inherit'}}
+  onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
+  iconElementRight={<RaisedButton secondary={true} label="Random Coordinates" onTouchTap={this.randomCoordinates.bind(this)} style={{marginTop: 6, marginRight: 6}} />}
+/>
+
 <LeftNav width={408} containerStyle={{zIndex: 1100, marginTop:64}}>
   <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
 </LeftNav>

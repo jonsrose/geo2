@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
+import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinates, loadLocation } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
@@ -85,6 +85,17 @@ class MapPage extends Component {
 
   */
 
+  renderInfoWindow(){
+    if (!this.props.currentLocationObject) {
+      return null
+    }
+
+    return (
+      <InfoWindow key="info" position={{ lat: this.props.lat, lng: this.props.lng }} content={this.props.currentLocationObject.formattedAddress} />
+    )
+
+  }
+
   render() {
     console.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
     return (
@@ -105,9 +116,11 @@ class MapPage extends Component {
               center={ { lat: this.props.lat, lng: this.props.lng } }
               ref="map">
               <Marker position={{lat: this.props.lat, lng: this.props.lng}}              />
+              {this.renderInfoWindow()}
             </GoogleMap>
           }
         />
+
       </section>
     )
   }
@@ -122,7 +135,8 @@ MapPage.propTypes = {
   lng: PropTypes.number,
   coordinatesString: PropTypes.string,
   newCoordinates: PropTypes.func.isRequired,
-  loadLocation: PropTypes.func.isRequired
+  loadLocation: PropTypes.func.isRequired,
+  currentLocationObject: PropTypes.object
 }
 
 /*
@@ -169,7 +183,8 @@ function mapStateToProps(state, ownProps) {
   return {
     coordinatesString,
     lat,
-    lng
+    lng,
+    currentLocationObject: state.currentLocationObject
   }
 }
 
