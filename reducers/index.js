@@ -72,8 +72,13 @@ function currentLocationObject(state = null, action) {
   return state
 }
 
-
-
+function sideNav(state = false, action) {
+  const { type } = action
+  if (type === ActionTypes.TOGGLE_SIDE_NAV) {
+    return !state
+  }
+  return state
+}
 
 const rootReducer = combineReducers({
   entities,
@@ -81,7 +86,8 @@ const rootReducer = combineReducers({
   routing,
   coordinates,
   currentLocation,
-  currentLocationObject
+  currentLocationObject,
+  sideNav
 })
 
 export default rootReducer

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, randomCoordinates } from '../actions'
+import { resetErrorMessage, randomCoordinates, toggleSideNav } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -121,6 +121,13 @@ class App extends Component {
 
   }
 
+  handleToggle() {
+    this.props.toggleSideNav()
+  }
+
+
+
+
   render() {
     const { children } = this.props
 
@@ -129,18 +136,25 @@ class App extends Component {
         <AppBar
           title={this.getAppBarTitle()}
           style={{position:'fixed', top: 0, left:0, zIndex: 1101}}
-          showMenuIconButton={false}
+          onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
         />
-        <MainSection sideNavWidth={408} style={{marginTop:64}}>
-            {children}
-        </MainSection>
-        <LeftNav width={408} containerStyle={{zIndex: 1100, marginTop:64}}>
+        <LeftNav open={this.props.sideNav} docked={false}>
+          <MenuItem onTouchTap={this.handleToggle.bind(this)}>Close</MenuItem>
           <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
         </LeftNav>
+        <MainSection sideNavWidth={0} style={{marginTop:64}}>
+            {children}
+        </MainSection>
       </div>
     )
   }
 }
+
+/*
+<LeftNav width={408} containerStyle={{zIndex: 1100, marginTop:64}}>
+  <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+</LeftNav>
+*/
 
 App.propTypes = {
   // Injected by React Redux
@@ -153,7 +167,8 @@ App.propTypes = {
   coordinates: PropTypes.object,
   // Injected by React Router
   children: PropTypes.node,
-  appBarTitle: PropTypes.string
+  appBarTitle: PropTypes.string,
+  toggleSideNav: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -163,10 +178,11 @@ function mapStateToProps(state, ownProps) {
     inputValue: ownProps.location.pathname.substring(1),
     currentLocation: state.currentLocation,
     currentLocationObject: state.currentLocationObject,
-    appBarTitle: state.appBarTitle
+    appBarTitle: state.appBarTitle,
+    sideNav: state.sideNav
   }
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates
+  resetErrorMessage, randomCoordinates, toggleSideNav
 })(App)
