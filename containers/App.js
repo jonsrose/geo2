@@ -148,8 +148,6 @@ class App extends Component {
         <AppBar title="GEOJUMP" showMenuIconButton={false}>
         </AppBar>
         <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
-          {this.renderCurrentLocation()}
-          {this.renderCoordinates()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
           {children}
