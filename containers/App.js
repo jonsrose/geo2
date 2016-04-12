@@ -5,7 +5,7 @@ import { resetErrorMessage, randomCoordinates, toggleSideNav } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
-import FlatButton from 'material-ui/lib/flat-button'
+import RaisedButton from 'material-ui/lib/raised-button'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
 // todo: fix mobile, maybe use appleftnav? download source of material ui
@@ -134,12 +134,13 @@ class App extends Component {
     return (
       <div>
         <AppBar
-          title='GEOJUMPER'
-          style={{position:'fixed', top: 0, left:0, zIndex: 1101}}
+          title="GEOJUMP"
+          zDepth={2}
+          style={{position:'fixed', top: 0, left:0, right:0 , zIndex: 1101, width:'inherit'}}
           onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
-          iconElementRight={<FlatButton label="Random Coordinates" onTouchTap={this.randomCoordinates.bind(this)}/>}
+          iconElementRight={<RaisedButton secondary={true} label="Random Coordinates" onTouchTap={this.randomCoordinates.bind(this)} style={{marginTop: 6, marginRight: 6}} />}
         />
-        <LeftNav open={this.props.sideNav}>
+      <LeftNav open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
           <MenuItem onTouchTap={this.handleToggle.bind(this)}>Close</MenuItem>
         </LeftNav>
         <MainSection sideNavWidth={0} style={{marginTop:64}}>
@@ -168,7 +169,8 @@ App.propTypes = {
   // Injected by React Router
   children: PropTypes.node,
   appBarTitle: PropTypes.string,
-  toggleSideNav: PropTypes.func.isRequired
+  toggleSideNav: PropTypes.func.isRequired,
+  appBarLeft: PropTypes.number
 }
 
 function mapStateToProps(state, ownProps) {
@@ -179,7 +181,8 @@ function mapStateToProps(state, ownProps) {
     currentLocation: state.currentLocation,
     currentLocationObject: state.currentLocationObject,
     appBarTitle: state.appBarTitle,
-    sideNav: state.sideNav
+    sideNav: state.sideNav,
+    appBarLeft: state.sideNav? 256 : 0
   }
 }
 
