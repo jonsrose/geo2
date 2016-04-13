@@ -39,6 +39,12 @@ export function loadLocation(lat,lng) {
   }
 }
 
+export function loadLocationFromCoordinatesString(coordinatesString) {
+  const {lat,lng} = getCoordinatesFromCoordinatesString(coordinatesString)
+  return loadLocation(lat,lng)
+}
+
+
 export const COUNTRY_REQUEST = 'COUNTRY_REQUEST'
 export const COUNTRY_SUCCESS = 'COUNTRY_SUCCESS'
 export const COUNTRY_FAILURE = 'COUNTRY_FAILURE'
@@ -263,12 +269,15 @@ export function randomCoordinates() {
   return newCoordinates(lat,lng)
 }
 
-export function newCoordinatesString(coordinatesString) {
-
+function getCoordinatesFromCoordinatesString(coordinatesString) {
   const coordinatesArray = coordinatesString.split(',')
   const lat = Number(coordinatesArray[0])
   const lng = Number(coordinatesArray[1])
+  return {lat, lng}
+}
 
+export function newCoordinatesString(coordinatesString) {
+  const {lat, lng} = getCoordinatesFromCoordinatesString(coordinatesString)
   return newCoordinates(lat,lng)
 }
 

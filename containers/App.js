@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry } from '../actions'
+import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocationFromCoordinatesString } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -59,7 +59,10 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.coordinatesString !== this.props.coordinatesString) {
       this.loadCoordinates(nextProps.coordinatesString)
+      this.props.loadLocationFromCoordinatesString(nextProps.coordinatesString)
     }
+
+
 /*
     if (nextProps.currentLocationObject != this.props.currentLocationObject) {
       if (nextProps.currentLocationObject.country) {
@@ -208,5 +211,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry
+  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocationFromCoordinatesString
 })(App)
