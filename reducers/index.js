@@ -20,8 +20,11 @@ function errorMessage(state = null, action) {
   // sole.log('/reducers/index.js errorMessage: ')
   // sole.log(state)
   // sole.log(action)
-  const { type, error } = action
+  // const { type, error } = action
 
+  return null
+
+  /*
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {
     return null
   } else if (error) {
@@ -29,6 +32,7 @@ function errorMessage(state = null, action) {
   }
 
   return state
+  */
 }
 
 function coordinates(state = null, action) {

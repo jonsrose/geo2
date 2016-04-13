@@ -1,7 +1,6 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
-import fetchJsonp from 'fetch-jsonp'
 
 // Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {
@@ -272,10 +271,10 @@ export default store => next => action => {
     response => next(actionWith({
       response,
       type: successType
-    }))/*,
+    })),
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))*/
+    }))
   )
 }

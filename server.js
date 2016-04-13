@@ -7,6 +7,7 @@ var express    = require('express');
 var app = express()
 var port = 3000
 var router = express.Router();
+var querystring = require('querystring')
 
 require('es6-promise').polyfill();
 // var fetch = require ('isomorphic-fetch')
@@ -18,7 +19,8 @@ router.get('/wikipedia', function(req, res) {
 
   //res.json({ message: 'hooray! welcome to our api!' });
   //var country = 'Antarctica'
-  var endpoint = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=Antarctica'
+  var endpoint = 'https://en.wikipedia.org/w/api.php'
+// ?action=parse&format=json&prop=text&page=Antarctica
   //console.log(endpoint)
   // var json = getRestApi(endpoint)
 /*
@@ -30,7 +32,16 @@ router.get('/wikipedia', function(req, res) {
     res.send(response.json())
   })
 */
-  request({url: endpoint, json: true}, function (error, response, body) {
+
+  console.log(req.query)
+
+  var paramsQueryString = querystring.stringify(req.query)
+
+  var url = endpoint + '?' + paramsQueryString
+
+  console.log(url)
+
+  request({url, json: true}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       //console.log(body)
       res.json(body)
