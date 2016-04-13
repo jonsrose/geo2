@@ -267,8 +267,23 @@ export function randomCoordinates() {
 }
 
 export function newCoordinates(lat, lng) {
+  let coordinatesString = `${lat},${lng}`
+
+  const coordinates = {}
+  coordinates[coordinatesString] = {
+    lat,
+    lng,
+    coordinatesString
+  }
+
   return {
     type: NEW_COORDINATES,
+    response: {
+        entities: {
+          coordinates
+        },
+        result: coordinatesString
+    },
     coordinates: {lat, lng}
   }
 }
