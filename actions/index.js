@@ -10,12 +10,12 @@ export const LOCATION_FAILURE = 'LOCATION_FAILURE'
 
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchLocation(lat,lng) {
+function fetchLocation(coordinatesString) {
   // sole.log(`/actions/index fetchLocation ${lat}, ${lng}`)
   return {
     [CALL_API]: {
       types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
-      endpoint: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_SERVER_KEY}`,
+      endpoint: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinatesString}&key=${GOOGLE_API_SERVER_KEY}`,
       schema: Schemas.LOCATION
     }
   }
@@ -23,7 +23,7 @@ function fetchLocation(lat,lng) {
 
 // Fetches a single location from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
-export function loadLocation(lat,lng) {
+export function loadLocation(coordinatesString) {
   // sole.log(`/actions/index loadLocation ${lat}, ${lng}`)
   //return (dispatch, getState) => {
   return (dispatch) => {
@@ -35,15 +35,9 @@ export function loadLocation(lat,lng) {
     }
     */
 
-    return dispatch(fetchLocation(lat,lng))
+    return dispatch(fetchLocation(coordinatesString))
   }
 }
-
-export function loadLocationFromCoordinatesString(coordinatesString) {
-  const {lat,lng} = getCoordinatesFromCoordinatesString(coordinatesString)
-  return loadLocation(lat,lng)
-}
-
 
 export const COUNTRY_REQUEST = 'COUNTRY_REQUEST'
 export const COUNTRY_SUCCESS = 'COUNTRY_SUCCESS'

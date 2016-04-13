@@ -115,4 +115,6 @@ const rootReducer = combineReducers({
   coordinatesString
 })
 
+
+
 export default rootReducer
