@@ -120,12 +120,7 @@ function callGoogleApi(endpoint, schema) {
 }
 
 function callWikipediaApi(endpoint, schema) {
-  const options = {
-    jsonpCallback: 'custom_callback',
-    timeout: 3000
-  }
-
-  return fetchJsonp(endpoint, options)
+  return fetch(endpoint)
   .then(response => {
     console.log('Im in the first response bro')
     console.log(response)
@@ -141,8 +136,15 @@ function callWikipediaApi(endpoint, schema) {
       return Promise.reject(json)
     }
 
+
     console.log('wikiwikiwiki')
-    const camelizedJson = camelizeKeys(json)
+
+    let firstResultJson = json.parse
+
+    // sole.log('schema')
+    // sole.log(schema)
+
+    const camelizedJson = camelizeKeys(firstResultJson)
     const nextPageUrl = getNextPageUrl(response)
 
     return Object.assign({},

@@ -8,8 +8,35 @@ var app = express()
 var port = 3000
 var router = express.Router();
 
-router.get('/', function(req, res) {
-  res.json({ message: 'hooray! welcome to our api!' });
+require('es6-promise').polyfill();
+// var fetch = require ('isomorphic-fetch')
+// var fetch = require('node-fetch');
+
+var request = require('request');
+
+router.get('/wikipedia', function(req, res) {
+
+  //res.json({ message: 'hooray! welcome to our api!' });
+  //var country = 'Antarctica'
+  var endpoint = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=Antarctica'
+  //console.log(endpoint)
+  // var json = getRestApi(endpoint)
+/*
+  fetch(endpoint)
+    .then(function(response) {
+    var json = response.json()
+    var text = json.parse.text
+    console.log(text)
+    res.send(response.json())
+  })
+*/
+  request({url: endpoint, json: true}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      //console.log(body)
+      res.json(body)
+    }
+  })
+
 });
 
 var compiler = webpack(config)

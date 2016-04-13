@@ -60,12 +60,12 @@ class App extends Component {
     if (nextProps.coordinates !== this.props.coordinates) {
       this.loadCoordinates(nextProps.coordinates)
     }
-/*
+
     if (nextProps.currentLocationObject != this.props.currentLocationObject) {
       if (nextProps.currentLocationObject.country) {
         this.props.loadCountry(nextProps.currentLocationObject.country)
       }
-    } */
+    } 
   }
 
   randomCoordinates() {
