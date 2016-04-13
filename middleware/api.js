@@ -21,7 +21,7 @@ function getNextPageUrl(response) {
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 
-function callGoogleApi(endpoint, schema) {
+function callGoogleApi(endpoint, schema, info) {
   return fetch(endpoint)
   .then(response => {
     console.log('Im in the first response bro')
@@ -111,9 +111,11 @@ function callGoogleApi(endpoint, schema) {
       }
     }
 
+    const coordinatesString = info.coordinatesString
+
     return Object.assign({},
       normalize(camelizedJson, schema, options),
-      { nextPageUrl }
+      { coordinatesString, nextPageUrl }
     )
   })
 }
@@ -156,14 +158,14 @@ function callWikipediaApi(endpoint, schema) {
 
 
 
-function callApi(endpoint, schema) {
+function callApi(endpoint, schema, info) {
     // sole.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
     // sole.log(schema)
 
     if (endpoint.indexOf('wikipedia') > -1) {
       return callWikipediaApi(endpoint, schema)
     } else {
-      return callGoogleApi(endpoint, schema)
+      return callGoogleApi(endpoint, schema, info)
     }
 }
 
@@ -241,6 +243,10 @@ export default store => next => action => {
   let { endpoint } = callAPI
   const { schema, types } = callAPI
 
+  const {info} = callAPI
+  console.log('info')
+  console.log(info)
+
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())
   }
@@ -267,7 +273,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(endpoint, schema).then(
+  return callApi(endpoint, schema, info).then(
     response => next(actionWith({
       response,
       type: successType

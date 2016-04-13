@@ -53,6 +53,15 @@ function coordinatesString(state = null, action) {
   return state
 }
 
+function locationForCoordinates(state = {}, action) {
+  const { type } = action
+  if (type === ActionTypes.LOCATION_SUCCESS) {
+    return merge({}, state, {[action.response.coordinatesString]: action.response.result})
+  }
+
+  return state
+}
+
 function currentLocation(state = null, action) {
   const { type } = action
   if (type === ActionTypes.LOCATION_SUCCESS) {
@@ -112,7 +121,8 @@ const rootReducer = combineReducers({
   currentLocationObject,
   sideNav,
   infoWindow,
-  coordinatesString
+  coordinatesString,
+  locationForCoordinates
 })
 
 

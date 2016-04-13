@@ -16,7 +16,8 @@ function fetchLocation(coordinatesString) {
     [CALL_API]: {
       types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
       endpoint: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinatesString}&key=${GOOGLE_API_SERVER_KEY}`,
-      schema: Schemas.LOCATION
+      schema: Schemas.LOCATION,
+      info: {coordinatesString}
     }
   }
 }
