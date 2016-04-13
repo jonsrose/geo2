@@ -6,8 +6,8 @@ import User from '../components/User'
 import List from '../components/List'
 
 function loadData(props) {
-  console.log(`loadData props:`)
-  console.log(props)
+  // sole.log(`loadData props:`)
+  // sole.log(props)
   const { fullName } = props
   props.loadRepo(fullName, [ 'description' ])
   props.loadStargazers(fullName)

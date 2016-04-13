@@ -10,7 +10,7 @@ import { newCoordinates, loadLocation, showInfoWindow, hideInfoWindow } from '..
 
 /*
 function loadData(props) {
-  console.log('loadData')
+  // sole.log('loadData')
   const { login } = props
   props.loadUser(login, [ 'name' ])
   props.loadStarred(login)
@@ -19,8 +19,8 @@ function loadData(props) {
 
 class MapPage extends Component {
   constructor(props) {
-    console.log('containers/MapPage constructor props:')
-    console.log(props)
+    // sole.log('containers/MapPage constructor props:')
+    // sole.log(props)
     super(props)
     // this.renderRepo = this.renderRepo.bind(this)
     // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
@@ -41,9 +41,9 @@ class MapPage extends Component {
   }
 
   componentWillMount() {
-    console.log('containers/MapPage componentWillMount')
+    // sole.log('containers/MapPage componentWillMount')
     // loadData(this.props)
-    console.log(this.props)
+    // sole.log(this.props)
     this.loadData(this.props)
   }
 
@@ -101,12 +101,12 @@ class MapPage extends Component {
   }
 
   renderInfoWindowContent() {
-    console.log('renderInfoWindowContent')
+    // sole.log('renderInfoWindowContent')
 
     const { coordinates, currentLocationObject } = this.props
 
-    console.log(coordinates)
-    console.log(currentLocationObject)
+    // sole.log(coordinates)
+    // sole.log(currentLocationObject)
 
     if (!coordinates) {
       return null
@@ -148,7 +148,7 @@ class MapPage extends Component {
   }
 
   render() {
-    console.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
+    // sole.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
     return (
       <section style={{ height: '100%' }}>
         <GoogleMapLoader
@@ -228,8 +228,8 @@ function mapStateToProps(state, ownProps) {
 function mapStateToProps(state, ownProps) {
   //const { currentLocation, coordinates } = state
   const { coordinatesString } = ownProps.params
-  console.log('coordinatesString')
-  console.log(coordinatesString)
+  // sole.log('coordinatesString')
+  // sole.log(coordinatesString)
   const coordinatesArray = coordinatesString.split(',')
   const lat = Number(coordinatesArray[0])
   const lng = Number(coordinatesArray[1])

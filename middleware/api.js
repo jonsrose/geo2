@@ -1,10 +1,11 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
+import fetchJsonp from 'fetch-jsonp'
 
 // Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {
-  console.log('middleware/api getNextPageUrl')
+  // sole.log('middleware/api getNextPageUrl')
   const link = response.headers.get('link')
   if (!link) {
     return null
@@ -18,102 +19,151 @@ function getNextPageUrl(response) {
   return nextLink.split(';')[0].slice(1, -1)
 }
 
-//const API_ROOT = 'https://api.github.com/'
-// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-const API_ROOT = 'https://maps.googleapis.com/maps/api/'
-
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, schema) {
-  console.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
-  console.log(schema)
-  const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
-  console.log(`middleware/api callApi fullUrl: ${fullUrl}}`)
-  return fetch(fullUrl)
-    .then(response =>
-      response.json().then(json => ({ json, response }))
-    ).then(({ json, response }) => {
-      if (!response.ok) {
-        return Promise.reject(json)
-      }
 
-      if (json.status && json.status === 'ZERO_RESULTS') {
-        console.log('failed')
-        console.log(json)
-        return Promise.reject(json)
-      } else {
-        console.log('nailed')
-      }
+function callGoogleApi(endpoint, schema) {
+  return fetch(endpoint)
+  .then(response => {
+    console.log('Im in the first response bro')
+    console.log(response)
+    return response.json()
+    .then(json => {
+      console.log('Im in the 2nd response bro')
+      return { json, response }
+    })
+  }
+  ).then(({ json, response }) => {
+    console.log('Im in the 3rd response bro')
+    if (!response.ok) {
+      return Promise.reject(json)
+    }
 
-      let firstResultJson = json.results[0]
+    console.log('googlygooglygoogly')
+    if (json.status && json.status === 'ZERO_RESULTS') {
+      // sole.log('failed')
+      // sole.log(json)
+      return Promise.reject(json)
+    } else {
+      // sole.log('nailed')
+    }
 
-      console.log('schema')
-      console.log(schema)
+    let firstResultJson = json.results[0]
 
-      const camelizedJson = camelizeKeys(firstResultJson)
-      const nextPageUrl = getNextPageUrl(response)
+    // sole.log('schema')
+    // sole.log(schema)
 
-      var options = {
-        assignEntity: function (obj, key, val) {
-          if (key === 'addressComponents') {
-            val.forEach(addressComponent => {
-              if (addressComponent.types.indexOf('country') > -1) {
-                obj.country = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('locality') > -1) {
-                obj.locality = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality') > -1) {
-                obj.sublocality = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('postalCode') > -1) {
-                obj.postalCode = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('administrative_area_level_1') > -1) {
-                obj.areaLevel1 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('administrative_area_level_2') > -1) {
-                obj.areaLevel2 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('administrative_area_level_3') > -1) {
-                obj.areaLevel3 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('administrative_area_level_4') > -1) {
-                obj.areaLevel4 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('administrative_area_level_5') > -1) {
-                obj.areaLevel5 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality_level_1') > -1) {
-                obj.sublocalityLevel1 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality_level_2') > -1) {
-                obj.sublocalityLevel2 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality_level_3') > -1) {
-                obj.sublocalityLevel3 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality_level_4') > -1) {
-                obj.sublocalityLevel4 = addressComponent.longName
-              }
-              if (addressComponent.types.indexOf('sublocality_level_5') > -1) {
-                obj.sublocalityLevel5 = addressComponent.longName
-              }
-            })
-          } else if (key === 'formattedAddress'){
-            obj.id = makeSlugForString(val)
-            obj[key] = val
-          } else {
-            obj[key] = val
-          }
+    const camelizedJson = camelizeKeys(firstResultJson)
+    const nextPageUrl = getNextPageUrl(response)
+
+    var options = {
+      assignEntity: function (obj, key, val) {
+        if (key === 'addressComponents') {
+          val.forEach(addressComponent => {
+            if (addressComponent.types.indexOf('country') > -1) {
+              obj.country = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('locality') > -1) {
+              obj.locality = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality') > -1) {
+              obj.sublocality = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('postalCode') > -1) {
+              obj.postalCode = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('administrative_area_level_1') > -1) {
+              obj.areaLevel1 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('administrative_area_level_2') > -1) {
+              obj.areaLevel2 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('administrative_area_level_3') > -1) {
+              obj.areaLevel3 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('administrative_area_level_4') > -1) {
+              obj.areaLevel4 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('administrative_area_level_5') > -1) {
+              obj.areaLevel5 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality_level_1') > -1) {
+              obj.sublocalityLevel1 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality_level_2') > -1) {
+              obj.sublocalityLevel2 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality_level_3') > -1) {
+              obj.sublocalityLevel3 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality_level_4') > -1) {
+              obj.sublocalityLevel4 = addressComponent.longName
+            }
+            if (addressComponent.types.indexOf('sublocality_level_5') > -1) {
+              obj.sublocalityLevel5 = addressComponent.longName
+            }
+          })
+        } else if (key === 'formattedAddress'){
+          obj.id = makeSlugForString(val)
+          obj[key] = val
+        } else {
+          obj[key] = val
         }
       }
+    }
 
-      return Object.assign({},
-        normalize(camelizedJson, schema, options),
-        { nextPageUrl }
-      )
+    return Object.assign({},
+      normalize(camelizedJson, schema, options),
+      { nextPageUrl }
+    )
+  })
+}
+
+function callWikipediaApi(endpoint, schema) {
+  const options = {
+    jsonpCallback: 'custom_callback',
+    timeout: 3000
+  }
+
+  return fetchJsonp(endpoint, options)
+  .then(response => {
+    console.log('Im in the first response bro')
+    console.log(response)
+    return response.json()
+    .then(json => {
+      console.log('Im in the 2nd response bro')
+      return { json, response }
     })
+  }
+  ).then(({ json, response }) => {
+    console.log('Im in the 3rd response bro')
+    if (!response.ok) {
+      return Promise.reject(json)
+    }
+
+    console.log('wikiwikiwiki')
+    const camelizedJson = camelizeKeys(json)
+    const nextPageUrl = getNextPageUrl(response)
+
+    return Object.assign({},
+      normalize(camelizedJson, schema),
+      { nextPageUrl }
+    )
+  })
+}
+
+
+
+
+function callApi(endpoint, schema) {
+    // sole.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
+    // sole.log(schema)
+
+    if (endpoint.indexOf('wikipedia') > -1) {
+      return callWikipediaApi(endpoint, schema)
+    } else {
+      return callGoogleApi(endpoint, schema)
+    }
 }
 
 // We use this Normalizr schemas to transform API responses from a nested form
@@ -136,8 +186,12 @@ repoSchema.define({
   owner: userSchema
 })
 
-function makeSlug(locationSchema) {
+function makeSlugForLocationSchema(locationSchema) {
   return makeSlugForString(locationSchema.formattedAddress)
+}
+
+function makeSlugForCountrySchema(countrySchema) {
+  return makeSlugForString(countrySchema.title)
 }
 
 function makeSlugForString(formattedAddress) {
@@ -145,7 +199,11 @@ function makeSlugForString(formattedAddress) {
 }
 
 const locationSchema = new Schema('locations', {
-  idAttribute: makeSlug
+  idAttribute: makeSlugForLocationSchema
+})
+
+const countrySchema = new Schema('countries', {
+  idAttribute: makeSlugForCountrySchema
 })
 
 /*
@@ -164,7 +222,8 @@ export const Schemas = {
   USER_ARRAY: arrayOf(userSchema),
   REPO: repoSchema,
   REPO_ARRAY: arrayOf(repoSchema),
-  LOCATION: locationSchema
+  LOCATION: locationSchema,
+  COUNTRY: countrySchema
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
@@ -211,10 +270,10 @@ export default store => next => action => {
     response => next(actionWith({
       response,
       type: successType
-    })),
+    }))/*,
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))
+    }))*/
   )
 }

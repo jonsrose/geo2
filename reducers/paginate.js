@@ -4,9 +4,9 @@ import union from 'lodash/union'
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
 export default function paginate({ types, mapActionToKey }) {
-  console.log('/reducers/paginate.js paginate(types, mapActionToKey)')
-  console.log(types)
-  console.log(mapActionToKey)
+  // sole.log('/reducers/paginate.js paginate(types, mapActionToKey)')
+  // sole.log(types)
+  // sole.log(mapActionToKey)
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected types to be an array of three elements.')
   }
@@ -25,9 +25,9 @@ export default function paginate({ types, mapActionToKey }) {
     pageCount: 0,
     ids: []
   }, action) {
-    console.log('/reducers/paginate.js updatePagination state action')
-    console.log(state)
-    console.log(action)
+    // sole.log('/reducers/paginate.js updatePagination state action')
+    // sole.log(state)
+    // sole.log(action)
     switch (action.type) {
       case requestType:
         return merge({}, state, {
@@ -50,9 +50,9 @@ export default function paginate({ types, mapActionToKey }) {
   }
 
   return function updatePaginationByKey(state = {}, action) {
-    console.log('/reducers/paginate.js updatePaginationByKey')
-    console.log(state)
-    console.log(action)
+    // sole.log('/reducers/paginate.js updatePaginationByKey')
+    // sole.log(state)
+    // sole.log(action)
     switch (action.type) {
       case requestType:
       case successType:
@@ -62,13 +62,13 @@ export default function paginate({ types, mapActionToKey }) {
           throw new Error('Expected key to be a string.')
         }
 
-        console.log('key')
-        console.log(key)
+        // sole.log('key')
+        // sole.log(key)
 
-        console.log(key)
+        // sole.log(key)
 
-        console.log('state[key]')
-        console.log(state[key])
+        // sole.log('state[key]')
+        // sole.log(state[key])
 
 
         return merge({}, state, {

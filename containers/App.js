@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, randomCoordinates, toggleSideNav } from '../actions'
+import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry } from '../actions'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
-import RaisedButton from 'material-ui/lib/raised-button'
+// import RaisedButton from 'material-ui/lib/raised-button'
 import Paper from 'material-ui/lib/paper'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
@@ -60,13 +60,18 @@ class App extends Component {
     if (nextProps.coordinates !== this.props.coordinates) {
       this.loadCoordinates(nextProps.coordinates)
     }
+/*
+    if (nextProps.currentLocationObject != this.props.currentLocationObject) {
+      if (nextProps.currentLocationObject.country) {
+        this.props.loadCountry(nextProps.currentLocationObject.country)
+      }
+    } */
   }
-
 
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
     this.props.randomCoordinates()
-    console.log('randomCoordinates')
+    // sole.log('randomCoordinates')
   }
 
   getTitle() {
@@ -87,7 +92,7 @@ class App extends Component {
   }
 
   renderCoordinates() {
-      console.log('renderCoordinates')
+      // sole.log('renderCoordinates')
       const { coordinates } = this.props
 
       if (!coordinates) {
@@ -107,10 +112,10 @@ class App extends Component {
   }
 
   renderCurrentLocation() {
-    console.log('renderCurrentLocation this.props')
-    console.log(this.props)
+    // sole.log('renderCurrentLocation this.props')
+    // sole.log(this.props)
     const { currentLocationObject } = this.props
-    console.log(currentLocationObject)
+    // sole.log(currentLocationObject)
 
     if (!currentLocationObject) {
       return null
@@ -201,5 +206,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates, toggleSideNav
+  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry
 })(App)

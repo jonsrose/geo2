@@ -5,9 +5,9 @@ import { combineReducers } from 'redux'
 
 // Updates an entity cache in response to any action with response.entities.
 function entities(state = { users: {}, repos: {} }, action) {
-  console.log('/reducers/index.js entities() state: action: ')
-  console.log(state)
-  console.log(action)
+  // sole.log('/reducers/index.js entities() state: action: ')
+  // sole.log(state)
+  // sole.log(action)
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
@@ -17,9 +17,9 @@ function entities(state = { users: {}, repos: {} }, action) {
 
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
-  console.log('/reducers/index.js errorMessage: ')
-  console.log(state)
-  console.log(action)
+  // sole.log('/reducers/index.js errorMessage: ')
+  // sole.log(state)
+  // sole.log(action)
   const { type, error } = action
 
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {

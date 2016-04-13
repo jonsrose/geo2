@@ -10,7 +10,7 @@ import zip from 'lodash/zip'
 // todo fix layout on ios
 
 function loadData(props) {
-  console.log('loadData')
+  // sole.log('loadData')
   const { login } = props
   props.loadUser(login, [ 'name' ])
   props.loadStarred(login)
@@ -18,15 +18,15 @@ function loadData(props) {
 
 class UserPage extends Component {
   constructor(props) {
-    console.log('containers/UserPage constructor props:')
-    console.log(props)
+    // sole.log('containers/UserPage constructor props:')
+    // sole.log(props)
     super(props)
     this.renderRepo = this.renderRepo.bind(this)
     this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
   }
 
   componentWillMount() {
-    console.log('containers/UserPage componentWillMount')
+    // sole.log('containers/UserPage componentWillMount')
     loadData(this.props)
   }
 

@@ -6,13 +6,11 @@ import { Router } from 'react-router'
 export default class Root extends Component {
   render() {
     const { store, history } = this.props
-    console.log('/containers/Root.dev.js Root.render()')
-    console.log(store)
+    // sole.log('/containers/Root.dev.js Root.render()')
+    // sole.log(store)
     return (
       <Provider store={store}>
         <div>
-          {console.log('/containers/Root.dev.js Root.render() inside provider store=')}
-          {console.log(store)}
           <Router history={history} routes={routes} />
         </div>
       </Provider>

@@ -11,14 +11,14 @@ injectTapEventPlugin()
 
 const store = configureStore()
 
-console.log ('/index.js after configureStore()')
+// sole.log ('/index.js after configureStore()')
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-console.log ('/index.js after syncHistoryWithStore()')
+// sole.log ('/index.js after syncHistoryWithStore()')
 
-console.log ('/index.js store: ${JSON.stringify(store)} history:')
-console.log(history)
+// sole.log ('/index.js store: ${JSON.stringify(store)} history:')
+// sole.log(history)
 
 render(
   <Root store={store} history={history} />,

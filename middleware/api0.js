@@ -4,7 +4,7 @@ import 'isomorphic-fetch'
 
 // Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {
-  console.log('middleware/api getNextPageUrl')
+  // sole.log('middleware/api getNextPageUrl')
   const link = response.headers.get('link')
   if (!link) {
     return null
@@ -23,10 +23,10 @@ const API_ROOT = 'https://api.github.com/'
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 function callApi(endpoint, schema) {
-  console.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
-  console.log(schema)
+  // sole.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
+  // sole.log(schema)
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
-  console.log(`middleware/api callApi fullUrl: ${fullUrl}}`)
+  // sole.log(`middleware/api callApi fullUrl: ${fullUrl}}`)
   return fetch(fullUrl)
     .then(response =>
       response.json().then(json => ({ json, response }))

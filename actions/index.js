@@ -11,11 +11,11 @@ export const LOCATION_FAILURE = 'LOCATION_FAILURE'
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchLocation(lat,lng) {
-  console.log(`/actions/index fetchLocation ${lat}, ${lng}`)
+  // sole.log(`/actions/index fetchLocation ${lat}, ${lng}`)
   return {
     [CALL_API]: {
       types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
-      endpoint: `geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_SERVER_KEY}`,
+      endpoint: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_SERVER_KEY}`,
       schema: Schemas.LOCATION
     }
   }
@@ -24,13 +24,13 @@ function fetchLocation(lat,lng) {
 // Fetches a single location from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadLocation(lat,lng) {
-  console.log(`/actions/index loadLocation ${lat}, ${lng}`)
+  // sole.log(`/actions/index loadLocation ${lat}, ${lng}`)
   //return (dispatch, getState) => {
   return (dispatch) => {
     /*
     const location = getState().entities.locations[login]
     if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
-      console.log(`actions/index about to return null`)
+      // sole.log(`actions/index about to return null`)
       react-routern null
     }
     */
@@ -38,6 +38,42 @@ export function loadLocation(lat,lng) {
     return dispatch(fetchLocation(lat,lng))
   }
 }
+
+export const COUNTRY_REQUEST = 'COUNTRY_REQUEST'
+export const COUNTRY_SUCCESS = 'COUNTRY_SUCCESS'
+export const COUNTRY_FAILURE = 'COUNTRY_FAILURE'
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchCountry(country) {
+  // sole.log(`/actions/index fetchCountry ${country}`)
+  return {
+    [CALL_API]: {
+      types: [ COUNTRY_REQUEST, COUNTRY_SUCCESS, COUNTRY_FAILURE ],
+      endpoint: `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${country}`,
+      schema: Schemas.COUNTRY
+    }
+  }
+}
+
+// Fetches a single location from Github API unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadCountry(country) {
+  // sole.log(`/actions/index loadCountry ${country}`)
+  //return (dispatch, getState) => {
+  return (dispatch) => {
+    /*
+    const location = getState().entities.locations[login]
+    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
+      // sole.log(`actions/index about to return null`)
+      react-routern null
+    }
+    */
+
+    return dispatch(fetchCountry(country))
+  }
+}
+
 
 
 function getRandomInRange(from, to, fixed) {
@@ -54,12 +90,12 @@ export function loadRandomLocation() {
   // let lng = getRandomInRange(-180, 180, 3)
   let lat = 72.24
   let lng = 86.337
-  console.log(`/actions/index loadLocation ${lat}, ${lng}`)
+  // sole.log(`/actions/index loadLocation ${lat}, ${lng}`)
   return (dispatch) => {
     /*
     const location = getState().entities.locations[login]
     if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
-      console.log(`actions/index about to return null`)
+      // sole.log(`actions/index about to return null`)
       react-routern null
     }
     */
@@ -76,7 +112,7 @@ export const USER_FAILURE = 'USER_FAILURE'
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchUser(login) {
-  console.log(`/actions/index fetchUser ${login}`)
+  // sole.log(`/actions/index fetchUser ${login}`)
   return {
     [CALL_API]: {
       types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
@@ -89,12 +125,12 @@ function fetchUser(login) {
 // Fetches a single user from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadUser(login, requiredFields = []) {
-  console.log(`/actions/index loadUser ${login} requiredFields `)
-  console.log(requiredFields)
+  // sole.log(`/actions/index loadUser ${login} requiredFields `)
+  // sole.log(requiredFields)
   return (dispatch, getState) => {
     const user = getState().entities.users[login]
     if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
-      console.log('actions/index about to return null')
+      // sole.log('actions/index about to return null')
       return null
     }
 
@@ -109,7 +145,7 @@ export const REPO_FAILURE = 'REPO_FAILURE'
 // Fetches a single repository from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchRepo(fullName) {
-  console.log(`/actions/index fetchRepo ${fullName}`)
+  // sole.log(`/actions/index fetchRepo ${fullName}`)
   return {
     [CALL_API]: {
       types: [ REPO_REQUEST, REPO_SUCCESS, REPO_FAILURE ],
@@ -122,8 +158,8 @@ function fetchRepo(fullName) {
 // Fetches a single repository from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadRepo(fullName, requiredFields = []) {
-  console.log(`/actions/index loadRepo ${fullName} requiredFields`)
-  console.log(requiredFields)
+  // sole.log(`/actions/index loadRepo ${fullName} requiredFields`)
+  // sole.log(requiredFields)
   return (dispatch, getState) => {
     const repo = getState().entities.repos[fullName]
     if (repo && requiredFields.every(key => repo.hasOwnProperty(key))) {
@@ -141,7 +177,7 @@ export const STARRED_FAILURE = 'STARRED_FAILURE'
 // Fetches a page of starred repos by a particular user.
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchStarred(login, nextPageUrl) {
-  console.log(`/actions/index fetchStarred ${login} ${nextPageUrl}`)
+  // sole.log(`/actions/index fetchStarred ${login} ${nextPageUrl}`)
   return {
     login,
     [CALL_API]: {
@@ -156,7 +192,7 @@ function fetchStarred(login, nextPageUrl) {
 // Bails out if page is cached and user didn’t specifically request next page.
 // Relies on Redux Thunk middleware.
 export function loadStarred(login, nextPage) {
-  console.log(`/actions/index loadStarred ${login} ${nextPage}`)
+  // sole.log(`/actions/index loadStarred ${login} ${nextPage}`)
   return (dispatch, getState) => {
     const {
       nextPageUrl = `users/${login}/starred`,
@@ -178,7 +214,7 @@ export const STARGAZERS_FAILURE = 'STARGAZERS_FAILURE'
 // Fetches a page of stargazers for a particular repo.
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchStargazers(fullName, nextPageUrl) {
-  console.log(`/actions/index fetchStargazers ${fullName} ${nextPageUrl}`)
+  // sole.log(`/actions/index fetchStargazers ${fullName} ${nextPageUrl}`)
   return {
     fullName,
     [CALL_API]: {
@@ -193,7 +229,7 @@ function fetchStargazers(fullName, nextPageUrl) {
 // Bails out if page is cached and user didn’t specifically request next page.
 // Relies on Redux Thunk middleware.
 export function loadStargazers(fullName, nextPage) {
-  console.log(`/actions/index loadStargazers ${fullName} ${nextPage}`)
+  // sole.log(`/actions/index loadStargazers ${fullName} ${nextPage}`)
   return (dispatch, getState) => {
     const {
       nextPageUrl = `repos/${fullName}/stargazers`,
@@ -212,7 +248,7 @@ export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 // Resets the currently visible error message.
 export function resetErrorMessage() {
-  console.log('/actions/index resetErrorMessage')
+  // sole.log('/actions/index resetErrorMessage')
   return {
     type: RESET_ERROR_MESSAGE
   }
@@ -221,7 +257,7 @@ export function resetErrorMessage() {
 export const NEW_COORDINATES = 'NEW_COORDINATES'
 
 export function randomCoordinates() {
-  console.log('/actions/index randomCoordinates')
+  // sole.log('/actions/index randomCoordinates')
   let lat = getRandomInRange(-90, 90, 3)
   let lng = getRandomInRange(-180, 180, 3)
   return {
