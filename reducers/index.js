@@ -44,6 +44,15 @@ function coordinates(state = null, action) {
   return state
 }
 
+function coordinatesString(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.NEW_COORDINATES) {
+    return action.response.entities.coordinates[action.response.result].coordinatesString
+  }
+
+  return state
+}
+
 function currentLocation(state = null, action) {
   const { type } = action
   if (type === ActionTypes.LOCATION_SUCCESS) {
@@ -102,7 +111,8 @@ const rootReducer = combineReducers({
   currentLocation,
   currentLocationObject,
   sideNav,
-  infoWindow
+  infoWindow,
+  coordinatesString
 })
 
 export default rootReducer

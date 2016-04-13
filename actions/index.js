@@ -260,10 +260,16 @@ export function randomCoordinates() {
   // sole.log('/actions/index randomCoordinates')
   let lat = getRandomInRange(-90, 90, 3)
   let lng = getRandomInRange(-180, 180, 3)
-  return {
-    type: NEW_COORDINATES,
-    coordinates: {lat, lng}
-  }
+  return newCoordinates(lat,lng)
+}
+
+export function newCoordinatesString(coordinatesString) {
+
+  const coordinatesArray = coordinatesString.split(',')
+  const lat = Number(coordinatesArray[0])
+  const lng = Number(coordinatesArray[1])
+
+  return newCoordinates(lat,lng)
 }
 
 export function newCoordinates(lat, lng) {

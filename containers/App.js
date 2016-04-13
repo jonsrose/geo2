@@ -52,20 +52,20 @@ class App extends Component {
     //browserHistory.push(`/locations/${currentLocation}`)
   //}
 
-  loadCoordinates(coordinates) {
-    browserHistory.push(`/coordinates/${coordinates.lat},${coordinates.lng}`)
+  loadCoordinates(coordinatesString) {
+    browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.coordinates !== this.props.coordinates) {
-      this.loadCoordinates(nextProps.coordinates)
+    if (nextProps.coordinatesString !== this.props.coordinatesString) {
+      this.loadCoordinates(nextProps.coordinatesString)
     }
-
+/*
     if (nextProps.currentLocationObject != this.props.currentLocationObject) {
       if (nextProps.currentLocationObject.country) {
         this.props.loadCountry(nextProps.currentLocationObject.country)
       }
-    } 
+    }*/
   }
 
   randomCoordinates() {
@@ -189,7 +189,8 @@ App.propTypes = {
   children: PropTypes.node,
   appBarTitle: PropTypes.string,
   toggleSideNav: PropTypes.func.isRequired,
-  appBarLeft: PropTypes.number
+  appBarLeft: PropTypes.number,
+  coordinatesString: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {
@@ -201,7 +202,8 @@ function mapStateToProps(state, ownProps) {
     currentLocationObject: state.currentLocationObject,
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
-    appBarLeft: state.sideNav? 256 : 0
+    appBarLeft: state.sideNav? 256 : 0,
+    coordinatesString: state.coordinatesString
   }
 }
 

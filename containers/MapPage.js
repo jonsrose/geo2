@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
-import { newCoordinates, loadLocation, showInfoWindow, hideInfoWindow } from '../actions'
+import { newCoordinatesString, loadLocation, showInfoWindow, hideInfoWindow } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -36,21 +36,27 @@ class MapPage extends Component {
 
 
   loadData(props) {
-    this.props.newCoordinates(props.lat, props.lng)
-    this.props.loadLocation(props.lat, props.lng)
+    if (!props.coordinatesString || props.coordinatesStringParam != props.coordinatesString) {
+      console.log('newCoordinatesString')
+      this.props.newCoordinatesString(props.coordinatesStringParam)
+    } else {
+      console.log('no need for newCoordinatesString')
+    }
+
+    //this.props.loadLocation(props.lat, props.lng)
   }
 
   componentWillMount() {
     // sole.log('containers/MapPage componentWillMount')
     // loadData(this.props)
     // sole.log(this.props)
-    this.loadData(this.props)
+    this.loadData(this.props) /* TODO what here */
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
-      this.loadData(nextProps)
-    }
+    //if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
+    //  this.loadData(nextProps)
+    //}
   }
 
 /*
@@ -149,6 +155,16 @@ class MapPage extends Component {
 
   render() {
     // sole.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
+
+
+    if (!this.props.coordinates) {
+      return null
+    }
+
+    console.log(this.props.coordinates)
+    const {lat, lng} = this.props.coordinates
+    console.log('read lat lng')
+
     return (
       <section style={{ height: '100%' }}>
         <GoogleMapLoader
@@ -164,9 +180,9 @@ class MapPage extends Component {
             <GoogleMap
               ref={(map) => console.log(map)}
               defaultZoom={3}
-              center={ { lat: this.props.lat, lng: this.props.lng } }
+              center={ { lat, lng } }
               ref="map">
-              <Marker position={{lat: this.props.lat, lng: this.props.lng}} onClick={this.handleMarkerClick.bind(this)}>
+              <Marker position={{lat, lng}} onClick={this.handleMarkerClick.bind(this)}>
                 {this.renderInfoWindow()}
               </Marker>
 
@@ -183,12 +199,9 @@ class MapPage extends Component {
 
 
 MapPage.propTypes = {
-
-  lat: PropTypes.number,
-  lng: PropTypes.number,
   coordinates: PropTypes.object,
   coordinatesString: PropTypes.string,
-  newCoordinates: PropTypes.func.isRequired,
+  newCoordinatesString: PropTypes.func.isRequired,
   loadLocation: PropTypes.func.isRequired,
   currentLocationObject: PropTypes.object
 }
@@ -226,25 +239,24 @@ function mapStateToProps(state, ownProps) {
 */
 
 function mapStateToProps(state, ownProps) {
-  //const { currentLocation, coordinates } = state
-  const { coordinatesString } = ownProps.params
+  //const coordinatesStringParam  = ownProps.params.coordinatesString
   // sole.log('coordinatesString')
   // sole.log(coordinatesString)
-  const coordinatesArray = coordinatesString.split(',')
-  const lat = Number(coordinatesArray[0])
-  const lng = Number(coordinatesArray[1])
+
+  //const coordinatesArray = coordinatesStringParam.split(',')
+  //const lat = Number(coordinatesArray[0])
+  //const lng = Number(coordinatesArray[1])
 
   return {
-    coordinatesString,
+    coordinatesStringParam: ownProps.params.coordinatesString,
     coordinates: state.coordinates,
-    lat,
-    lng,
+    coordinatesString: state.coordinatesString,
     currentLocationObject: state.currentLocationObject,
     infoWindow: state.infoWindow
   }
 }
 
-export default connect(mapStateToProps, { loadLocation, newCoordinates, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { loadLocation, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*
