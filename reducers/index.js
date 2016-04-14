@@ -55,6 +55,7 @@ function coordinatesString(state = null, action) {
 
 function locationForCoordinates(state = {}, action) {
   const { type } = action
+
   if (type === ActionTypes.LOCATION_SUCCESS) {
     return merge({}, state, {[action.response.coordinatesString]: action.response.result})
   }
@@ -110,6 +111,26 @@ function infoWindow(state = true, action) {
     return true
   }
   return state
+}
+
+export function getCurrentLocation(state) {
+  var coordinatesString = state.coordinatesString
+
+  var location = state.locationForCoordinates[coordinatesString]
+  console.log(`getCurrentLocation ${location}`)
+  return (location)
+}
+
+export function getCurrentLocationObject(state) {
+  var location = getCurrentLocation(state)
+
+  if (!location) {
+    return null
+  }
+
+  var locationObject = state.entities.locations[location]
+  console.log(`getCurrentLocationObject ${locationObject}`)
+  return (locationObject)
 }
 
 const rootReducer = combineReducers({

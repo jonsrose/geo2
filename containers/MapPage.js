@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, loadLocation, showInfoWindow, hideInfoWindow } from '../actions'
+import {getCurrentLocationObject} from '../reducers'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -251,7 +252,7 @@ function mapStateToProps(state, ownProps) {
     coordinatesStringParam: ownProps.params.coordinatesString,
     coordinates: state.coordinates,
     coordinatesString: state.coordinatesString,
-    currentLocationObject: state.currentLocationObject,
+    currentLocationObject: getCurrentLocationObject(state),
     infoWindow: state.infoWindow
   }
 }

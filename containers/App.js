@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
+import {getCurrentLocation, getCurrentLocationObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -201,8 +202,8 @@ function mapStateToProps(state, ownProps) {
     errorMessage: state.errorMessage,
     coordinates: state.coordinates,
     inputValue: ownProps.location.pathname.substring(1),
-    currentLocation: state.currentLocation,
-    currentLocationObject: state.currentLocationObject,
+    currentLocation: getCurrentLocation(state),
+    currentLocationObject: getCurrentLocationObject(state),
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
