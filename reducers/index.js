@@ -63,38 +63,6 @@ function locationForCoordinates(state = {}, action) {
   return state
 }
 
-function currentLocation(state = null, action) {
-  const { type } = action
-  if (type === ActionTypes.LOCATION_SUCCESS) {
-    if (action.response) {
-      return action.response.result
-    }
-  } else if (type === ActionTypes.LOCATION_REQUEST) {
-      return null
-  } else if (type === ActionTypes.LOCATION_FAILURE) {
-      return null
-  }
-
-  return state
-}
-
-function currentLocationObject(state = null, action) {
-  const { type } = action
-  if (type === ActionTypes.LOCATION_SUCCESS) {
-    if (action.response) {
-      let locationName = action.response.result
-
-      return action.response.entities.locations[locationName]
-    }
-  } else if (type === ActionTypes.LOCATION_REQUEST) {
-      return null
-  } else if (type === ActionTypes.LOCATION_FAILURE) {
-      return null
-  }
-
-  return state
-}
-
 function sideNav(state = true, action) {
   const { type } = action
   if (type === ActionTypes.TOGGLE_SIDE_NAV) {
@@ -138,8 +106,6 @@ const rootReducer = combineReducers({
   errorMessage,
   routing,
   coordinates,
-  currentLocation,
-  currentLocationObject,
   sideNav,
   infoWindow,
   coordinatesString,
