@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
+import { newCoordinatesString, resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
@@ -53,13 +53,30 @@ class App extends Component {
     //browserHistory.push(`/locations/${currentLocation}`)
   //}
 
-  loadCoordinates(coordinatesString) {
+  navigateToMap(coordinatesString) {
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
+  navigateToCountry(coordinatesString) {
+    browserHistory.push(`/coordinates/${coordinatesString}/countryInfo`)
+  }
+
+  mapInfo() {
+    this.navigateToMap(this.props.coordinatesString)
+  }
+
+  countryInfo() {
+    this.navigateToCountry(this.props.coordinatesString)
+  }
+
   componentWillReceiveProps(nextProps) {
+
+    console.log('componentWillReceiveProps')
+
     if (nextProps.coordinatesString !== this.props.coordinatesString) {
-      this.loadCoordinates(nextProps.coordinatesString)
+      console.log('loadCoord')
+      this.navigateToMap(nextProps.coordinatesString)
+      console.log('loadLoc')
       this.props.loadLocation(nextProps.coordinatesString)
     }
 /*
@@ -68,7 +85,6 @@ class App extends Component {
     }
 */
 
-
     if (nextProps.currentLocationObject && nextProps.currentLocationObject.country) {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
@@ -76,10 +92,26 @@ class App extends Component {
         console.log('loadCountry')
       }
     }
-
-
-
   }
+
+  loadData(props) {
+    if (props.coordinatesStringParam && !props.coordinatesString || props.coordinatesStringParam != props.coordinatesString) {
+      console.log('newCoordinatesString')
+      this.props.newCoordinatesString(props.coordinatesStringParam)
+    } else {
+      console.log('no need for newCoordinatesString')
+    }
+
+    //this.props.loadLocation(props.lat, props.lng)
+  }
+
+  componentWillMount() {
+    // sole.log('containers/MapPage componentWillMount')
+    // loadData(this.props)
+    // sole.log(this.props)
+    this.loadData(this.props) /* TODO what here */
+  }
+
 
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
@@ -142,13 +174,7 @@ class App extends Component {
 
   }
 
-  mapInfo() {
-    browserHistory.push(`/coordinates/${this.props.coordinatesString}`)
-  }
 
-  countryInfo() {
-    browserHistory.push(`/coordinates/${this.props.coordinatesString}/countryInfo`)
-  }
 
   renderCountryMenuItem() {
     const { countryObject, page } = this.props
@@ -245,7 +271,8 @@ App.propTypes = {
   appBarTitle: PropTypes.string,
   toggleSideNav: PropTypes.func.isRequired,
   appBarLeft: PropTypes.number,
-  coordinatesString: PropTypes.string
+  coordinatesString: PropTypes.string,
+  coordinatesStringParam: PropTypes.string
 }
 
 function getPageFromPath(path){
@@ -274,10 +301,11 @@ function mapStateToProps(state, ownProps) {
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
     coordinatesString: state.coordinatesString,
-    page: getPageFromPath(ownProps.location.pathname)
+    page: getPageFromPath(ownProps.location.pathname),
+    coordinatesStringParam: ownProps.params.coordinatesString
   }
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation
+  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation, newCoordinatesString
 })(App)
