@@ -72,7 +72,7 @@ class App extends Component {
     if (nextProps.currentLocationObject && nextProps.currentLocationObject.country) {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
-        //this.props.loadCountry(nextProps.currentLocationObject.country)
+        this.props.loadCountry(nextProps.currentLocationObject.country)
         console.log('loadCountry')
       }
     }
