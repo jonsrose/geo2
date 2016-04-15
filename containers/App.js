@@ -142,22 +142,43 @@ class App extends Component {
 
   }
 
+  mapInfo() {
+    browserHistory.push(`/coordinates/${this.props.coordinatesString}`)
+  }
+
   countryInfo() {
     browserHistory.push(`/coordinates/${this.props.coordinatesString}/countryInfo`)
   }
 
   renderCountryMenuItem() {
-    const { countryObject } = this.props
+    const { countryObject, page } = this.props
     console.log(`countryObject ${countryObject}`)
 
     if (!countryObject) {
       return null
     }
 
+    if (page == 'country') {
+      return null /* TODO could return read only menu item with treatment */
+    }
+
     console.log('we do have a country dude')
 
     return (
       <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</MenuItem>
+    )
+  }
+
+  renderMapMenuItem() {
+    const { page } = this.props
+    if (page == 'map' || page == 'home') {
+      return null /* TODO could return read only menu item with treatment */
+    }
+
+    console.log('we do have a map dude')
+
+    return (
+      <MenuItem onTouchTap={this.mapInfo.bind(this)}>Map</MenuItem>
     )
   }
 
@@ -185,6 +206,7 @@ class App extends Component {
         <AppBar title="GEOJUMP" showMenuIconButton={false}>
         </AppBar>
         <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+        {this.renderMapMenuItem()}
         {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
@@ -227,7 +249,21 @@ App.propTypes = {
   coordinatesString: PropTypes.string
 }
 
+function getPageFromPath(path){
+  if (path.indexOf('countryInfo') > -1) {
+    return 'country'
+  }
+
+  if (path.indexOf('coordinates') > -1) {
+    return 'map'
+  }
+
+  return 'home'
+}
+
 function mapStateToProps(state, ownProps) {
+  //const page = getPageFromPath(ownProps.location.pathname)
+
   return {
     errorMessage: state.errorMessage,
     coordinates: state.coordinates,
@@ -238,7 +274,8 @@ function mapStateToProps(state, ownProps) {
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
-    coordinatesString: state.coordinatesString
+    coordinatesString: state.coordinatesString,
+    page: getPageFromPath(ownProps.location.pathname)
   }
 }
 
