@@ -21,29 +21,29 @@ router.get('/wikipedia', function(req, res) {
   //var country = 'Antarctica'
   var endpoint = 'https://en.wikipedia.org/w/api.php'
 // ?action=parse&format=json&prop=text&page=Antarctica
-  //console.log(endpoint)
+  //// sole.log(endpoint)
   // var json = getRestApi(endpoint)
 /*
   fetch(endpoint)
     .then(function(response) {
     var json = response.json()
     var text = json.parse.text
-    console.log(text)
+    // sole.log(text)
     res.send(response.json())
   })
 */
 
-  console.log(req.query)
+  // sole.log(req.query)
 
   var paramsQueryString = querystring.stringify(req.query)
 
   var url = endpoint + '?' + paramsQueryString
 
-  console.log(url)
+  // sole.log(url)
 
   request({url, json: true}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      //console.log(body)
+      //// sole.log(body)
       res.json(body)
     }
   })

@@ -96,9 +96,9 @@ class MapPage extends Component {
       return null
     }
 
-    console.log(this.props.coordinates)
+    // sole.log(this.props.coordinates)
     const {lat, lng} = this.props.coordinates
-    console.log('read lat lng')
+    // sole.log('read lat lng')
 
     return (
       <section style={{ height: '100%' }}>

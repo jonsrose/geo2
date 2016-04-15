@@ -24,21 +24,21 @@ function getNextPageUrl(response) {
 function callGoogleApi(endpoint, schema, info) {
   return fetch(endpoint)
   .then(response => {
-    console.log('Im in the first response bro')
-    console.log(response)
+    // sole.log('Im in the first response bro')
+    // sole.log(response)
     return response.json()
     .then(json => {
-      console.log('Im in the 2nd response bro')
+      // sole.log('Im in the 2nd response bro')
       return { json, response }
     })
   }
   ).then(({ json, response }) => {
-    console.log('Im in the 3rd response bro')
+    // sole.log('Im in the 3rd response bro')
     if (!response.ok) {
       return Promise.reject(json)
     }
 
-    console.log('googlygooglygoogly')
+    // sole.log('googlygooglygoogly')
     if (json.status && json.status === 'ZERO_RESULTS') {
       // sole.log('failed')
       // sole.log(json)
@@ -126,22 +126,22 @@ function callGoogleApi(endpoint, schema, info) {
 function callWikipediaApi(endpoint, schema) {
   return fetch(endpoint)
   .then(response => {
-    console.log('Im in the first response bro')
-    console.log(response)
+    // sole.log('Im in the first response bro')
+    // sole.log(response)
     return response.json()
     .then(json => {
-      console.log('Im in the 2nd response bro')
+      // sole.log('Im in the 2nd response bro')
       return { json, response }
     })
   }
   ).then(({ json, response }) => {
-    console.log('Im in the 3rd response bro')
+    // sole.log('Im in the 3rd response bro')
     if (!response.ok) {
       return Promise.reject(json)
     }
 
 
-    console.log('wikiwikiwiki')
+    // sole.log('wikiwikiwiki')
 
     let firstKey
 
@@ -159,12 +159,12 @@ function callWikipediaApi(endpoint, schema) {
     // sole.log('schema')
     // sole.log(schema)
 
-    console.log('page')
-    console.log(page)
+    // sole.log('page')
+    // sole.log(page)
     const camelizedJson = camelizeKeys(page)
     const normalized = normalize(camelizedJson, schema)
-    console.log('normalized')
-    console.log(normalized)
+    // sole.log('normalized')
+    // sole.log(normalized)
 
 
     const nextPageUrl = getNextPageUrl(response)
@@ -265,8 +265,8 @@ export default store => next => action => {
   const { schema, types } = callAPI
 
   const {info} = callAPI
-  console.log('info')
-  console.log(info)
+  // sole.log('info')
+  // sole.log(info)
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())

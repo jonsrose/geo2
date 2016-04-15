@@ -20,6 +20,13 @@ const SideNavLabel = props =>
 </div>
 
 
+class JonMenuItem extends MenuItem {
+  applyFocusState() {
+    if (this.refs.listItem) {
+      this.refs.listItem.applyFocusState(this.props.focusState)
+    }
+  }
+}
 
 const MainSection = props =>
 <div style={{
@@ -54,6 +61,7 @@ class App extends Component {
   //}
 
   navigateToMap(coordinatesString) {
+    console.log('navigateToMap')
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
@@ -71,19 +79,19 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    console.log('componentWillReceiveProps')
+    // sole.log('componentWillReceiveProps')
 
     if (nextProps.navToCoordinatesString !== this.props.navToCoordinatesString) {
-      console.log('navigateToMap')
+      // sole.log('navigateToMap')
       this.navigateToMap(nextProps.navToCoordinatesString)
     }
 
     this.loadData(nextProps)
 
     if (nextProps.coordinatesString !== this.props.coordinatesString) {
-      //console.log('loadCoord')
+      //// sole.log('loadCoord')
       //this.navigateToMap(nextProps.coordinatesString)
-      console.log('loadLoc')
+      // sole.log('loadLoc')
       this.props.loadLocation(nextProps.coordinatesString)
     }
 /*
@@ -96,24 +104,24 @@ class App extends Component {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
         this.props.loadCountry(nextProps.currentLocationObject.country)
-        console.log('loadCountry')
+        // sole.log('loadCountry')
       }
     }
   }
 
   loadData(props) {
     if (props.coordinatesStringParam && !props.coordinatesString || props.coordinatesStringParam != props.coordinatesString) {
-      console.log('newCoordinatesString')
+      // sole.log('newCoordinatesString')
       this.props.newCoordinatesString(props.coordinatesStringParam)
     } else {
-      console.log('no need for newCoordinatesString')
+      // sole.log('no need for newCoordinatesString')
     }
 
     //this.props.loadLocation(props.lat, props.lng)
   }
 
   componentWillMount() {
-    console.log('componentWillMount')
+    // sole.log('componentWillMount')
     // sole.log('containers/MapPage componentWillMount')
     // loadData(this.props)
     // sole.log(this.props)
@@ -186,21 +194,33 @@ class App extends Component {
 
 
   renderCountryMenuItem() {
+    console.log('renderCountryMenuItem')
     const { countryObject, page } = this.props
-    console.log(`countryObject ${countryObject}`)
+    // sole.log(`countryObject ${countryObject}`)
 
-    if (!countryObject) {
+    if (!countryObject || ! countryObject.title) {
+      console.log('nocountry')
       return null
     }
 
+    console.log(`country ${countryObject.title}`)
+
     if (page == 'country') {
+      // sole.log('if (page == \'country\') {')
       return null /* TODO could return read only menu item with treatment */
     }
 
-    console.log('we do have a country dude')
+    // sole.log('if (page == \'country\')  else ')
 
+    // sole.log('we do have a country dude')
+
+
+    //<MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</MenuItem>
+
+    //<RaisedButton onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</RaisedButton>
+//
     return (
-      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</MenuItem>
+      <JonMenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</JonMenuItem>
     )
   }
 
@@ -210,7 +230,7 @@ class App extends Component {
       return null /* TODO could return read only menu item with treatment */
     }
 
-    console.log('we do have a map dude')
+    // sole.log('we do have a map dude')
 
     return (
       <MenuItem onTouchTap={this.mapInfo.bind(this)}>Map</MenuItem>
@@ -232,15 +252,15 @@ class App extends Component {
 
 
   render() {
+    console.log('render start ---------------------------------------------------------------------------------------------------')
     const { children } = this.props
-
     return (
       <div>
 
       <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
-        {this.renderMapMenuItem()}
+        {/*this.renderMapMenuItem()*/}
         {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>

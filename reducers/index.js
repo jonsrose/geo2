@@ -94,7 +94,7 @@ export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
   var location = state.locationForCoordinates[coordinatesString]
-  //console.log(`getCurrentLocation ${location}`)
+  //// sole.log(`getCurrentLocation ${location}`)
   return (location)
 }
 
@@ -106,7 +106,7 @@ export function getCurrentLocationObject(state) {
   }
 
   var locationObject = state.entities.locations[location]
-  //console.log(`getCurrentLocationObject ${locationObject}`)
+  //// sole.log(`getCurrentLocationObject ${locationObject}`)
   return (locationObject)
 }
 

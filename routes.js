@@ -12,8 +12,6 @@ export default (
            component={CountryPage} />
     <Route path="/coordinates/:coordinatesString"
            component={MapPage} />
-    <Route path="/locations/:name"
-           component={MapPage} />
     <Route path="/:login/:name"
            component={RepoPage} />
     <Route path="/:login"

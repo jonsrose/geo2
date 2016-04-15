@@ -13,8 +13,8 @@ export default class List extends Component {
   }
 
   render() {
-    console.log (`/components/List.js this.props=`)
-    console.log(this.props)
+    // sole.log (`/components/List.js this.props=`)
+    // sole.log(this.props)
     const {
       isFetching, nextPageUrl, pageCount,
       items, renderItem, loadingLabel

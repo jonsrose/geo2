@@ -23,8 +23,8 @@ function loadData(props) {
 class CountryPage extends Component {
 
   createMarkup(text) {
-    console.log('createMarkup')
-    console.log(text)
+    // sole.log('createMarkup')
+    // sole.log(text)
     return {__html: text}
   }
 
@@ -37,8 +37,8 @@ class CountryPage extends Component {
   }
 
   render() {
-    console.log('rendercountry')
-    console.log(this.props.countryText)
+    // sole.log('rendercountry')
+    // sole.log(this.props.countryText)
     return (
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)} />
     )
