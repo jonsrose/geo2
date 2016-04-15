@@ -51,7 +51,7 @@ function fetchCountry(country) {
   return {
     [CALL_API]: {
       types: [ COUNTRY_REQUEST, COUNTRY_SUCCESS, COUNTRY_FAILURE ],
-      endpoint: `http://localhost:3000/api/wikipedia?action=parse&format=json&prop=text&page=${country}`,
+      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${country}`,
       schema: Schemas.COUNTRY
     }
   }

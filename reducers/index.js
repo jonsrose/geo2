@@ -85,7 +85,7 @@ export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
   var location = state.locationForCoordinates[coordinatesString]
-  console.log(`getCurrentLocation ${location}`)
+  //console.log(`getCurrentLocation ${location}`)
   return (location)
 }
 
@@ -97,8 +97,38 @@ export function getCurrentLocationObject(state) {
   }
 
   var locationObject = state.entities.locations[location]
-  console.log(`getCurrentLocationObject ${locationObject}`)
+  //console.log(`getCurrentLocationObject ${locationObject}`)
   return (locationObject)
+}
+
+export function getCountry(state) {
+  var locationObject = getCurrentLocationObject(state)
+
+  if (!locationObject) {
+    return null
+  }
+
+  return locationObject.country
+}
+
+export function getCountryObject(state) {
+  var country = getCountry(state)
+
+  if (!country || !state.entities.countries) {
+    return null
+  }
+
+  return state.entities.countries[country]
+}
+
+export function getCountryText(state) {
+  var countryObject = getCountryObject(state)
+
+  if (!countryObject) {
+    return null
+  }
+
+  return countryObject.extract
 }
 
 const rootReducer = combineReducers({

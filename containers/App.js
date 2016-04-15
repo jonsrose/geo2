@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject} from '../reducers'
+import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -62,14 +62,13 @@ class App extends Component {
       this.loadCoordinates(nextProps.coordinatesString)
       this.props.loadLocation(nextProps.coordinatesString)
     }
+    if (nextProps.country !== this.props.country) {
 
 
-/*
     if (nextProps.currentLocationObject != this.props.currentLocationObject) {
       if (nextProps.currentLocationObject.country) {
         this.props.loadCountry(nextProps.currentLocationObject.country)
       }
-    }*/
   }
 
   randomCoordinates() {
@@ -125,8 +124,6 @@ class App extends Component {
       return null
     }
 
-
-
     return (
       <SideNavLabel>
         {currentLocationObject.formattedAddress}
@@ -134,6 +131,7 @@ class App extends Component {
     )
 
   }
+
 
   handleToggle() {
     this.props.toggleSideNav()

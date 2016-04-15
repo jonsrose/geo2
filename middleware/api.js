@@ -60,7 +60,8 @@ function callGoogleApi(endpoint, schema, info) {
         if (key === 'addressComponents') {
           val.forEach(addressComponent => {
             if (addressComponent.types.indexOf('country') > -1) {
-              obj.country = addressComponent.longName
+              obj.countryName = addressComponent.longName
+              obj.country = makeSlugForString(addressComponent.longName)
             }
             if (addressComponent.types.indexOf('locality') > -1) {
               obj.locality = addressComponent.longName
@@ -120,6 +121,8 @@ function callGoogleApi(endpoint, schema, info) {
   })
 }
 
+
+
 function callWikipediaApi(endpoint, schema) {
   return fetch(endpoint)
   .then(response => {
@@ -140,16 +143,34 @@ function callWikipediaApi(endpoint, schema) {
 
     console.log('wikiwikiwiki')
 
-    let firstResultJson = json.parse
+    let firstKey
+
+    for (var property in  json.query.pages) {
+        if (json.query.pages.hasOwnProperty(property)) {
+          firstKey = property
+          break
+        }
+    }
+
+    const page = json.query.pages[firstKey]
+
+
 
     // sole.log('schema')
     // sole.log(schema)
 
-    const camelizedJson = camelizeKeys(firstResultJson)
+    console.log('page')
+    console.log(page)
+    const camelizedJson = camelizeKeys(page)
+    const normalized = normalize(camelizedJson, schema)
+    console.log('normalized')
+    console.log(normalized)
+
+
     const nextPageUrl = getNextPageUrl(response)
 
     return Object.assign({},
-      normalize(camelizedJson, schema),
+      normalized,
       { nextPageUrl }
     )
   })
