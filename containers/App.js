@@ -73,9 +73,16 @@ class App extends Component {
 
     console.log('componentWillReceiveProps')
 
+    if (nextProps.navToCoordinatesString !== this.props.navToCoordinatesString) {
+      console.log('navigateToMap')
+      this.navigateToMap(nextProps.navToCoordinatesString)
+    }
+
+    this.loadData(nextProps)
+
     if (nextProps.coordinatesString !== this.props.coordinatesString) {
-      console.log('loadCoord')
-      this.navigateToMap(nextProps.coordinatesString)
+      //console.log('loadCoord')
+      //this.navigateToMap(nextProps.coordinatesString)
       console.log('loadLoc')
       this.props.loadLocation(nextProps.coordinatesString)
     }
@@ -106,10 +113,12 @@ class App extends Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount')
     // sole.log('containers/MapPage componentWillMount')
     // loadData(this.props)
     // sole.log(this.props)
-    this.loadData(this.props) /* TODO what here */
+//    this.loadData(this.props) /* TODO what here */
+    this.loadData(this.props)
   }
 
 
@@ -302,7 +311,8 @@ function mapStateToProps(state, ownProps) {
     appBarLeft: state.sideNav? 256 : 0,
     coordinatesString: state.coordinatesString,
     page: getPageFromPath(ownProps.location.pathname),
-    coordinatesStringParam: ownProps.params.coordinatesString
+    coordinatesStringParam: ownProps.params.coordinatesString,
+    navToCoordinatesString: state.navToCoordinatesString
   }
 }
 

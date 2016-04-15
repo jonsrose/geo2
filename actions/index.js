@@ -261,7 +261,9 @@ export function randomCoordinates() {
   // sole.log('/actions/index randomCoordinates')
   let lat = getRandomInRange(-90, 90, 3)
   let lng = getRandomInRange(-180, 180, 3)
-  return newCoordinates(lat,lng)
+  let coordinatesString = `${lat},${lng}`
+
+  return navToCoordinatesString(coordinatesString)
 }
 
 function getCoordinatesFromCoordinatesString(coordinatesString) {
@@ -274,6 +276,15 @@ function getCoordinatesFromCoordinatesString(coordinatesString) {
 export function newCoordinatesString(coordinatesString) {
   const {lat, lng} = getCoordinatesFromCoordinatesString(coordinatesString)
   return newCoordinates(lat,lng)
+}
+
+export const NAV_TO_COORDINATES = 'NAV_TO_COORDINATES'
+
+export function navToCoordinatesString(coordinatesString) {
+  return {
+    type: NAV_TO_COORDINATES,
+    coordinatesString
+  }
 }
 
 export function newCoordinates(lat, lng) {

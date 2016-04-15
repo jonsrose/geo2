@@ -53,6 +53,15 @@ function coordinatesString(state = null, action) {
   return state
 }
 
+function navToCoordinatesString(state = null, action) {
+  const { type, coordinatesString } = action
+  if (type === ActionTypes.NAV_TO_COORDINATES) {
+    return coordinatesString
+  }
+
+  return state
+}
+
 function locationForCoordinates(state = {}, action) {
   const { type } = action
 
@@ -139,7 +148,8 @@ const rootReducer = combineReducers({
   sideNav,
   infoWindow,
   coordinatesString,
-  locationForCoordinates
+  locationForCoordinates,
+  navToCoordinatesString
 })
 
 
