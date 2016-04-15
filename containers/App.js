@@ -62,13 +62,23 @@ class App extends Component {
       this.loadCoordinates(nextProps.coordinatesString)
       this.props.loadLocation(nextProps.coordinatesString)
     }
+/*
     if (nextProps.country !== this.props.country) {
+      this.props.loadCountry(nextProps.country)
+    }
+*/
 
 
-    if (nextProps.currentLocationObject != this.props.currentLocationObject) {
-      if (nextProps.currentLocationObject.country) {
-        this.props.loadCountry(nextProps.currentLocationObject.country)
+    if (nextProps.currentLocationObject && nextProps.currentLocationObject.country) {
+      if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
+        || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
+        //this.props.loadCountry(nextProps.currentLocationObject.country)
+        console.log('loadCountry')
       }
+    }
+
+
+
   }
 
   randomCoordinates() {
@@ -132,6 +142,24 @@ class App extends Component {
 
   }
 
+  countryInfo() {
+    browserHistory.push(`/coordinates/${this.props.coordinatesString}/countryInfo`)
+  }
+
+  renderCountryMenuItem() {
+    const { country } = this.props
+    console.log(`country ${country}`)
+
+    if (!country) {
+      return null
+    }
+
+    console.log('we do have a country dude')
+
+    return (
+      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${country} country info`}</MenuItem>
+    )
+  }
 
   handleToggle() {
     this.props.toggleSideNav()
@@ -145,6 +173,8 @@ class App extends Component {
     )
   }
 
+
+
   render() {
     const { children } = this.props
 
@@ -155,6 +185,7 @@ class App extends Component {
         <AppBar title="GEOJUMP" showMenuIconButton={false}>
         </AppBar>
         <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
+        {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
           {children}
@@ -186,6 +217,7 @@ App.propTypes = {
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
+  country: PropTypes.string,
   coordinates: PropTypes.object,
   // Injected by React Router
   children: PropTypes.node,
@@ -202,6 +234,7 @@ function mapStateToProps(state, ownProps) {
     inputValue: ownProps.location.pathname.substring(1),
     currentLocation: getCurrentLocation(state),
     currentLocationObject: getCurrentLocationObject(state),
+    countryObject: getCountryObject(state),
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
