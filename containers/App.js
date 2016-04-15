@@ -6,7 +6,7 @@ import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '..
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
-// import RaisedButton from 'material-ui/lib/raised-button'
+import RaisedButton from 'material-ui/lib/raised-button'
 import Paper from 'material-ui/lib/paper'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
@@ -203,9 +203,8 @@ class App extends Component {
       <div>
 
       <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
-        <AppBar title="GEOJUMP" showMenuIconButton={false}>
+        <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
-        <MenuItem onTouchTap={this.randomCoordinates.bind(this)}>Get Random Coordinates</MenuItem>
         {this.renderMapMenuItem()}
         {this.renderCountryMenuItem()}
         </LeftNav>
