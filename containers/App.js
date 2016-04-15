@@ -147,17 +147,17 @@ class App extends Component {
   }
 
   renderCountryMenuItem() {
-    const { country } = this.props
-    console.log(`country ${country}`)
+    const { countryObject } = this.props
+    console.log(`countryObject ${countryObject}`)
 
-    if (!country) {
+    if (!countryObject) {
       return null
     }
 
     console.log('we do have a country dude')
 
     return (
-      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${country} country info`}</MenuItem>
+      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</MenuItem>
     )
   }
 
@@ -217,7 +217,7 @@ App.propTypes = {
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
-  country: PropTypes.string,
+  countryObject: PropTypes.object,
   coordinates: PropTypes.object,
   // Injected by React Router
   children: PropTypes.node,
