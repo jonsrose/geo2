@@ -259,7 +259,7 @@ class App extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
       <div>
       <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
-        <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+        <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
         {this.renderMapMenuItem()}
         {this.renderCountryMenuItem()}
