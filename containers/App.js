@@ -4,10 +4,14 @@ import { browserHistory } from 'react-router'
 import { newCoordinatesString, resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
-import MenuItem from 'material-ui/lib/menus/menu-item'
+import MenuItem from 'material-ui/lib/menu/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import Paper from 'material-ui/lib/paper'
+
+import {deepOrange500} from 'material-ui/lib/styles/colors'
+import getMuiTheme from 'material-ui/lib/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/lib/MuiThemeProvider'
 
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
 // todo: fix mobile, maybe use appleftnav? download source of material ui
@@ -18,15 +22,6 @@ const SideNavLabel = props =>
 >
   {props.children}
 </div>
-
-
-class JonMenuItem extends MenuItem {
-  applyFocusState() {
-    if (this.refs.listItem) {
-      this.refs.listItem.applyFocusState(this.props.focusState)
-    }
-  }
-}
 
 const MainSection = props =>
 <div style={{
@@ -39,6 +34,12 @@ const MainSection = props =>
 >
   {props.children}
 </div>
+
+const muiTheme = getMuiTheme({
+  palette: {
+    accent1Color: deepOrange500
+  }
+})
 
 class App extends Component {
   constructor(props) {
@@ -198,17 +199,17 @@ class App extends Component {
     const { countryObject, page } = this.props
     // sole.log(`countryObject ${countryObject}`)
 
+    if (page == 'country' || page == 'home') {
+      // sole.log('if (page == \'country\') {')
+      return null
+    }
+
     if (!countryObject || ! countryObject.title) {
-      console.log('nocountry')
+      //console.log('nocountry')
       return null
     }
 
     console.log(`country ${countryObject.title}`)
-
-    if (page == 'country') {
-      // sole.log('if (page == \'country\') {')
-      return null /* TODO could return read only menu item with treatment */
-    }
 
     // sole.log('if (page == \'country\')  else ')
 
@@ -220,7 +221,7 @@ class App extends Component {
     //<RaisedButton onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</RaisedButton>
 //
     return (
-      <JonMenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</JonMenuItem>
+      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`country info`}</MenuItem>
     )
   }
 
@@ -255,18 +256,20 @@ class App extends Component {
     console.log('render start ---------------------------------------------------------------------------------------------------')
     const { children } = this.props
     return (
+      <MuiThemeProvider muiTheme={muiTheme}>
       <div>
-
       <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
-        {/*this.renderMapMenuItem()*/}
+        {this.renderMapMenuItem()}
         {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
           {children}
         </MainSection>
-      </div>
+        </div>
+      </MuiThemeProvider>
+
     )
   }
 }

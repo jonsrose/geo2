@@ -9,7 +9,7 @@ var port = 3000
 var router = express.Router();
 var querystring = require('querystring')
 
-require('es6-promise').polyfill();
+// require('es6-promise').polyfill();
 // var fetch = require ('isomorphic-fetch')
 // var fetch = require('node-fetch');
 
