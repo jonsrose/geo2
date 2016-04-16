@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {getCountryObject} from '../reducers'
+import Paper from 'material-ui/lib/paper'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -40,7 +41,10 @@ class CountryPage extends Component {
     // sole.log('rendercountry')
     // sole.log(this.props.countryText)
     return (
+      <Paper style={{padding:20, margin:30, zDepth:2}}>
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)} />
+      </Paper>
+
     )
   }
 }

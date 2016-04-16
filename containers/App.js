@@ -29,8 +29,10 @@ const MainSection = props =>
     top: 0,
     left: props.sideNavWidth + 'px',
     right: 0,
-    bottom: 0
+    bottom: 0,
+    backgroundColor:'rgb(0, 188, 212)'
   }}
+
 >
   {props.children}
 </div>
