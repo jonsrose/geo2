@@ -1,22 +1,8 @@
-import { Schema, arrayOf, normalize } from 'normalizr'
+import { Schema, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 
-// Extracts the next page URL from Github API response.
-function getNextPageUrl(response) {
-  // sole.log('middleware/api getNextPageUrl')
-  const link = response.headers.get('link')
-  if (!link) {
-    return null
-  }
 
-  const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1)
-  if (!nextLink) {
-    return null
-  }
-
-  return nextLink.split(';')[0].slice(1, -1)
-}
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -53,7 +39,6 @@ function callGoogleApi(endpoint, schema, info) {
     // sole.log(schema)
 
     const camelizedJson = camelizeKeys(firstResultJson)
-    const nextPageUrl = getNextPageUrl(response)
 
     var options = {
       assignEntity: function (obj, key, val) {
@@ -116,78 +101,9 @@ function callGoogleApi(endpoint, schema, info) {
 
     return Object.assign({},
       normalize(camelizedJson, schema, options),
-      { coordinatesString, nextPageUrl }
+      { coordinatesString }
     )
   })
-}
-
-
-
-function callWikipediaApi(endpoint, schema) {
-  return fetch(endpoint)
-  .then(response => {
-    // sole.log('Im in the first response bro')
-    // sole.log(response)
-    return response.json()
-    .then(json => {
-      // sole.log('Im in the 2nd response bro')
-      return { json, response }
-    })
-  }
-  ).then(({ json, response }) => {
-    // sole.log('Im in the 3rd response bro')
-    if (!response.ok) {
-      return Promise.reject(json)
-    }
-
-
-    // sole.log('wikiwikiwiki')
-
-    let firstKey
-
-    for (var property in  json.query.pages) {
-        if (json.query.pages.hasOwnProperty(property)) {
-          firstKey = property
-          break
-        }
-    }
-
-    const page = json.query.pages[firstKey]
-
-
-
-    // sole.log('schema')
-    // sole.log(schema)
-
-    // sole.log('page')
-    // sole.log(page)
-    const camelizedJson = camelizeKeys(page)
-    const normalized = normalize(camelizedJson, schema)
-    // sole.log('normalized')
-    // sole.log(normalized)
-
-
-    const nextPageUrl = getNextPageUrl(response)
-
-    return Object.assign({},
-      normalized,
-      { nextPageUrl }
-    )
-  })
-}
-
-
-
-
-function callApi(endpoint, schema, info) {
-    // sole.log(`middleware/api callApi endpoint: ${endpoint} schema:`)
-    // sole.log(schema)
-
-    if (endpoint.indexOf('wikipedia') > -1) {
-      return callWikipediaApi(endpoint, schema)
-    } else {
-      return callGoogleApi(endpoint, schema, info)
-    }
 }
 
 // We use this Normalizr schemas to transform API responses from a nested form
@@ -198,24 +114,8 @@ function callApi(endpoint, schema, info) {
 
 // Read more about Normalizr: https://github.com/gaearon/normalizr
 
-const userSchema = new Schema('users', {
-  idAttribute: 'login'
-})
-
-const repoSchema = new Schema('repos', {
-  idAttribute: 'fullName'
-})
-
-repoSchema.define({
-  owner: userSchema
-})
-
 function makeSlugForLocationSchema(locationSchema) {
   return makeSlugForString(locationSchema.formattedAddress)
-}
-
-function makeSlugForCountrySchema(countrySchema) {
-  return makeSlugForString(countrySchema.title)
 }
 
 function makeSlugForString(formattedAddress) {
@@ -226,9 +126,6 @@ const locationSchema = new Schema('locations', {
   idAttribute: makeSlugForLocationSchema
 })
 
-const countrySchema = new Schema('countries', {
-  idAttribute: makeSlugForCountrySchema
-})
 
 /*
 resultsSchema.define({
@@ -241,22 +138,17 @@ addressSchema.define({
 });
 */
 // Schemas for Github API responses.
-export const Schemas = {
-  USER: userSchema,
-  USER_ARRAY: arrayOf(userSchema),
-  REPO: repoSchema,
-  REPO_ARRAY: arrayOf(repoSchema),
-  LOCATION: locationSchema,
-  COUNTRY: countrySchema
+export const GoogleSchemas = {
+  LOCATION: locationSchema
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
-export const CALL_API = Symbol('Call API')
+export const CALL_GOOGLE_API = Symbol('Call Google API')
 
-// A Redux middleware that interprets actions with CALL_API info specified.
+// A Redux middleware that interprets actions with CALL_GOOGLE_API info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
-  const callAPI = action[CALL_API]
+  const callAPI = action[CALL_GOOGLE_API]
   if (typeof callAPI === 'undefined') {
     return next(action)
   }
@@ -287,14 +179,14 @@ export default store => next => action => {
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)
-    delete finalAction[CALL_API]
+    delete finalAction[CALL_GOOGLE_API]
     return finalAction
   }
 
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(endpoint, schema, info).then(
+  return callGoogleApi(endpoint, schema, info).then(
     response => next(actionWith({
       response,
       type: successType

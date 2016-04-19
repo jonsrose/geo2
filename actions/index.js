@@ -1,5 +1,5 @@
-import { CALL_API, Schemas } from '../middleware/api'
-
+import { GOOGLE_CALL_API, GoogleSchemas } from '../middleware/googleApi'
+import { WIKIPEDIA_CALL_API, WikipediaSchemas } from '../middleware/wikipediaApi'
 
 //https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNwz2AmIdACEiuR5aOObQZarSwZCVVJg
 export const GOOGLE_API_SERVER_KEY='AIzaSyDNwz2AmIdACEiuR5aOObQZarSwZCVVJ6g'
@@ -13,10 +13,10 @@ export const LOCATION_FAILURE = 'LOCATION_FAILURE'
 function fetchLocation(coordinatesString) {
   // sole.log(`/actions/index fetchLocation ${lat}, ${lng}`)
   return {
-    [CALL_API]: {
+    [GOOGLE_CALL_API]: {
       types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
       endpoint: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinatesString}&key=${GOOGLE_API_SERVER_KEY}`,
-      schema: Schemas.LOCATION,
+      schema: GoogleSchemas.LOCATION,
       info: {coordinatesString}
     }
   }
@@ -49,10 +49,10 @@ export const COUNTRY_FAILURE = 'COUNTRY_FAILURE'
 function fetchCountry(country) {
   // sole.log(`/actions/index fetchCountry ${country}`)
   return {
-    [CALL_API]: {
+    [CALL_WIKIPEDIA_API]: {
       types: [ COUNTRY_REQUEST, COUNTRY_SUCCESS, COUNTRY_FAILURE ],
       endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${country}`,
-      schema: Schemas.COUNTRY
+      schema: WikipediaSchemas.COUNTRY
     }
   }
 }
