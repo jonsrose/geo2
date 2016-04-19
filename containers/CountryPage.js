@@ -57,7 +57,7 @@ CountryPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    countryText: getCountryObject(state).extract
+    countryText: getCountryObject(state) ? getCountryObject(state).extract : null
   }
 }
 
