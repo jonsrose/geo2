@@ -10,17 +10,19 @@ import LocalityPage from './containers/LocalityPage'
 
 export default (
   <Route path="/" component={App}>
-    <Route path="/coordinates/:coordinatesString/localityInfo"
-           component={LocalityPage} />
-    <Route path="/coordinates/:coordinatesString/areaLevel1Info"
-           component={AreaLevel1Page} />
-    <Route path="/coordinates/:coordinatesString/countryInfo"
-           component={CountryPage} />
     <Route path="/coordinates/:coordinatesString"
-           component={MapPage} />
-    <Route path="/:login/:name"
-           component={RepoPage} />
-    <Route path="/:login"
-           component={UserPage} />
+           component={MapPage}>
+      <Route path="/coordinates/:coordinatesString/localityInfo"
+             component={LocalityPage} />
+      <Route path="/coordinates/:coordinatesString/areaLevel1Info"
+             component={AreaLevel1Page} />
+      <Route path="/coordinates/:coordinatesString/countryInfo"
+             component={CountryPage} />
+
+      <Route path="/:login/:name"
+             component={RepoPage} />
+      <Route path="/:login"
+             component={UserPage} />
+    </Route>
   </Route>
 )

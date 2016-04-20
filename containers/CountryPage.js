@@ -41,7 +41,7 @@ class CountryPage extends Component {
     // sole.log('rendercountry')
     // sole.log(this.props.countryText)
     return (
-      <Paper style={{padding:20, margin:30, zDepth:2}}>
+      <Paper style={{position: 'absolute', left:0, top:0, width:400, bottom: 0, overflow:'auto', padding:20, margin:30}}>
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)} />
       </Paper>
 
