@@ -161,6 +161,35 @@ export function getAreaLevel1Text(state) {
   return areaLevel1Object.extract
 }
 
+export function getLocality(state) {
+  var locationObject = getCurrentLocationObject(state)
+
+  if (!locationObject) {
+    return null
+  }
+
+  return locationObject.locality
+}
+
+export function getLocalityObject(state) {
+  var locality = getLocality(state)
+
+  if (!locality || !state.entities.localities) {
+    return null
+  }
+
+  return state.entities.localities[locality]
+}
+
+export function getLocalityText(state) {
+  var localityObject = getLocalityObject(state)
+
+  if (!localityObject) {
+    return null
+  }
+
+  return localityObject.extract
+}
 
 const rootReducer = combineReducers({
   entities,

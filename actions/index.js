@@ -68,6 +68,27 @@ export function loadAreaLevel1(areaLevel1) {
   }
 }
 
+export const LOCALITY_REQUEST = 'LOCALITY_REQUEST'
+export const LOCALITY_SUCCESS = 'LOCALITY_SUCCESS'
+export const LOCALITY_FAILURE = 'LOCALITY_FAILURE'
+
+function fetchLocality(locality) {
+  // sole.log(`/actions/index fetchLocality ${locality}`)
+  return {
+    [CALL_WIKIPEDIA_API]: {
+      types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
+      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${locality}`,
+      schema: WikipediaSchemas.LOCALITY
+    }
+  }
+}
+
+export function loadLocality(locality) {
+  return (dispatch) => {
+    return dispatch(fetchLocality(locality))
+  }
+}
+
 
 export const WIKI_LOCATION_REQUEST = 'WIKI_LOCATION_REQUEST'
 export const WIKI_LOCATION_SUCCESS = 'WIKI_LOCATION_SUCCESS'

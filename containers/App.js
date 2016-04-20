@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1 } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object} from '../reducers'
+import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions'
+import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menu/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -47,7 +47,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    this.handleDismissClick = this.handleDismissClick.bind(this)
+    this.handleDismissClick =
+     this.handleDismissClick.bind(this)
   }
 
   handleDismissClick(e) {
@@ -75,6 +76,10 @@ class App extends Component {
     browserHistory.push(`/coordinates/${coordinatesString}/areaLevel1Info`)
   }
 
+  navigateToLocality(coordinatesString) {
+    browserHistory.push(`/coordinates/${coordinatesString}/localityInfo`)
+  }
+
   mapInfo() {
     this.navigateToMap(this.props.coordinatesString)
   }
@@ -85,6 +90,10 @@ class App extends Component {
 
   areaLevel1Info() {
     this.navigateToAreaLevel1(this.props.coordinatesString)
+  }
+
+  localityInfo() {
+    this.navigateToLocality(this.props.coordinatesString)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -126,6 +135,15 @@ class App extends Component {
         // sole.log('loadCountry')
       }
     }
+
+    if (nextProps.currentLocationObject && nextProps.currentLocationObject.locality) {
+      if (!this.props.currentLocationObject || !this.props.currentLocationObject.locality
+        || this.props.currentLocationObject.locality != nextProps.currentLocationObject.locality) {
+        this.props.loadLocality(nextProps.currentLocationObject.locality)
+        // sole.log('loadCountry')
+      }
+    }
+
   }
 
   loadData(props) {
@@ -256,6 +274,28 @@ class App extends Component {
     )
   }
 
+  renderLocalityMenuItem() {
+    console.log('renderLocalityMenuItem')
+    const { localityObject, page } = this.props
+    // sole.log(`localityObject ${localityObject}`)
+
+    if (page == 'locality' || page == 'home') {
+      // sole.log('if (page == \'locality\') ')
+      return null
+    }
+
+    if (!localityObject || ! localityObject.title) {
+      //console.log('nolocality')
+      return null
+    }
+
+    console.log(`locality ${localityObject.title}`)
+
+    return (
+      <MenuItem onTouchTap={this.localityInfo.bind(this)}>More about {localityObject.title}</MenuItem>
+    )
+  }
+
   renderMapMenuItem() {
     const { page } = this.props
     if (page == 'map' || page == 'home') {
@@ -294,6 +334,7 @@ class App extends Component {
         </AppBar>
         {this.renderMapMenuItem()}
         {this.renderAreaLevel1MenuItem()}
+        {this.renderLocalityMenuItem()}
         {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
@@ -340,7 +381,12 @@ App.propTypes = {
 function getPageFromPath(path){
   if (path.indexOf('countryInfo') > -1) {
     return 'country'
+  } else if (path.indexOf('areaLevel1Info') > -1) {
+    return 'areaLevel1'
+  } else if (path.indexOf('locality') > -1) {
+    return 'locality'
   }
+
 
   if (path.indexOf('coordinates') > -1) {
     return 'map'
@@ -359,6 +405,7 @@ function mapStateToProps(state, ownProps) {
     currentLocationObject: getCurrentLocationObject(state),
     countryObject: getCountryObject(state),
     areaLevel1Object: getAreaLevel1Object(state),
+    localityObject: getLocalityObject(state),
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
@@ -370,5 +417,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadWikiLocation, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadWikiLocation, newCoordinatesString
 })(App)

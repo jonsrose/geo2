@@ -95,6 +95,9 @@ const areaLevel1Schema = new Schema('areaLevel1s', {
   idAttribute: 'title'
 })
 
+const localitySchema = new Schema('localities', {
+  idAttribute: 'title'
+})
 
 const wikiLocationSchema = new Schema('wikiLocations', {
   idAttribute: makeSlugForWikipediaSchema
@@ -104,6 +107,7 @@ const wikiLocationSchema = new Schema('wikiLocations', {
 export const WikipediaSchemas = {
   COUNTRY: countrySchema,
   AREA_LEVEL_1: areaLevel1Schema,
+  LOCALITY: localitySchema,
   WIKI_LOCATION_ARRAY: arrayOf(wikiLocationSchema)
 }
 

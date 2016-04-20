@@ -114,7 +114,7 @@ class MapPage extends Component {
           googleMapElement={
             <GoogleMap
               ref={(map) => console.log(map)}
-              defaultZoom={3}
+              defaultZoom={8}
               center={ { lat, lng } }
               ref="map">
               <Marker position={{lat, lng}} onClick={this.handleMarkerClick.bind(this)}>

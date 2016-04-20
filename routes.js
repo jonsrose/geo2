@@ -6,9 +6,12 @@ import RepoPage from './containers/RepoPage'
 import MapPage from './containers/MapPage'
 import CountryPage from './containers/CountryPage'
 import AreaLevel1Page from './containers/AreaLevel1Page'
+import LocalityPage from './containers/LocalityPage'
 
 export default (
   <Route path="/" component={App}>
+    <Route path="/coordinates/:coordinatesString/localityInfo"
+           component={LocalityPage} />
     <Route path="/coordinates/:coordinatesString/areaLevel1Info"
            component={AreaLevel1Page} />
     <Route path="/coordinates/:coordinatesString/countryInfo"
