@@ -70,9 +70,6 @@ class MapPage extends Component {
       </div>
     )
 
-
-
-
   }
 
   renderInfoWindow(){
