@@ -105,7 +105,7 @@ class App extends Component {
     if (nextProps.currentLocationObject && nextProps.currentLocationObject.country) {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
-        this.props.loadCountry(nextProps.currentLocationObject.country)
+        this.props.loadCountry(nextProps.currentLocationObject.countryName)
         // sole.log('loadCountry')
       }
     }
@@ -222,7 +222,7 @@ class App extends Component {
     //<RaisedButton onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</RaisedButton>
 //
     return (
-      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{'country info'}</MenuItem>
+      <MenuItem onTouchTap={this.countryInfo.bind(this)}>More about {countryObject.title}</MenuItem>
     )
   }
 

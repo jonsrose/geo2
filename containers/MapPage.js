@@ -57,7 +57,7 @@ class MapPage extends Component {
       return this.renderCoordinates(coordinates)
     }
 
-    const {country, locality, areaLevel1, areaLevel2, areaLevel3} = currentLocationObject
+    const {countryName, locality, areaLevel1, areaLevel2, areaLevel3} = currentLocationObject
 
     return (
       <div>
@@ -65,7 +65,7 @@ class MapPage extends Component {
         {areaLevel1 && <div>{areaLevel1}</div>}
         {areaLevel2 && <div>{areaLevel2}</div>}
         {areaLevel3 && <div>{areaLevel3}</div>}
-        {country && <div>{country}</div>}
+        {countryName && <div>{countryName}</div>}
         {this.renderCoordinates(coordinates)}
       </div>
     )
