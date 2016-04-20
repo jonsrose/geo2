@@ -47,6 +47,28 @@ export function loadCountry(country) {
   }
 }
 
+export const AREA_LEVEL_1_REQUEST = 'AREA_LEVEL_1_REQUEST'
+export const AREA_LEVEL_1_SUCCESS = 'AREA_LEVEL_1_SUCCESS'
+export const AREA_LEVEL_1_FAILURE = 'AREA_LEVEL_1_FAILURE'
+
+function fetchAreaLevel1(areaLevel1) {
+  // sole.log(`/actions/index fetchAreaLevel1 ${areaLevel1}`)
+  return {
+    [CALL_WIKIPEDIA_API]: {
+      types: [ AREA_LEVEL_1_REQUEST, AREA_LEVEL_1_SUCCESS, AREA_LEVEL_1_FAILURE ],
+      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${areaLevel1}`,
+      schema: WikipediaSchemas.AREA_LEVEL_1
+    }
+  }
+}
+
+export function loadAreaLevel1(areaLevel1) {
+  return (dispatch) => {
+    return dispatch(fetchAreaLevel1(areaLevel1))
+  }
+}
+
+
 export const WIKI_LOCATION_REQUEST = 'WIKI_LOCATION_REQUEST'
 export const WIKI_LOCATION_SUCCESS = 'WIKI_LOCATION_SUCCESS'
 export const WIKI_LOCATION_FAILURE = 'WIKI_LOCATION_FAILURE'

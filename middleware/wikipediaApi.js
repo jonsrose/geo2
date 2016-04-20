@@ -91,6 +91,11 @@ const countrySchema = new Schema('countries', {
   idAttribute: makeSlugForWikipediaSchema
 })
 
+const areaLevel1Schema = new Schema('areaLevel1s', {
+  idAttribute: 'title'
+})
+
+
 const wikiLocationSchema = new Schema('wikiLocations', {
   idAttribute: makeSlugForWikipediaSchema
 })
@@ -98,6 +103,7 @@ const wikiLocationSchema = new Schema('wikiLocations', {
 // Schemas for Github API responses.
 export const WikipediaSchemas = {
   COUNTRY: countrySchema,
+  AREA_LEVEL_1: areaLevel1Schema,
   WIKI_LOCATION_ARRAY: arrayOf(wikiLocationSchema)
 }
 

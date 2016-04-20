@@ -131,6 +131,37 @@ export function getCountryText(state) {
   return countryObject.extract
 }
 
+export function getAreaLevel1(state) {
+  var locationObject = getCurrentLocationObject(state)
+
+  if (!locationObject) {
+    return null
+  }
+
+  return locationObject.areaLevel1
+}
+
+export function getAreaLevel1Object(state) {
+  var areaLevel1 = getAreaLevel1(state)
+
+  if (!areaLevel1 || !state.entities.areaLevel1s) {
+    return null
+  }
+
+  return state.entities.areaLevel1s[areaLevel1]
+}
+
+export function getAreaLevel1Text(state) {
+  var areaLevel1Object = getAreaLevel1Object(state)
+
+  if (!areaLevel1Object) {
+    return null
+  }
+
+  return areaLevel1Object.extract
+}
+
+
 const rootReducer = combineReducers({
   entities,
   routing,

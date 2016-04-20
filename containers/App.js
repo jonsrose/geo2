@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
+import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1 } from '../actions'
+import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menu/menu-item'
 import AppBar from 'material-ui/lib/app-bar'
@@ -71,12 +71,20 @@ class App extends Component {
     browserHistory.push(`/coordinates/${coordinatesString}/countryInfo`)
   }
 
+  navigateToAreaLevel1(coordinatesString) {
+    browserHistory.push(`/coordinates/${coordinatesString}/areaLevel1Info`)
+  }
+
   mapInfo() {
     this.navigateToMap(this.props.coordinatesString)
   }
 
   countryInfo() {
     this.navigateToCountry(this.props.coordinatesString)
+  }
+
+  areaLevel1Info() {
+    this.navigateToAreaLevel1(this.props.coordinatesString)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -107,6 +115,14 @@ class App extends Component {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
         this.props.loadCountry(nextProps.currentLocationObject.countryName)
+        // sole.log('loadCountry')
+      }
+    }
+
+    if (nextProps.currentLocationObject && nextProps.currentLocationObject.areaLevel1) {
+      if (!this.props.currentLocationObject || !this.props.currentLocationObject.areaLevel1
+        || this.props.currentLocationObject.areaLevel1 != nextProps.currentLocationObject.areaLevel1) {
+        this.props.loadAreaLevel1(nextProps.currentLocationObject.areaLevel1)
         // sole.log('loadCountry')
       }
     }
@@ -202,7 +218,7 @@ class App extends Component {
     // sole.log(`countryObject ${countryObject}`)
 
     if (page == 'country' || page == 'home') {
-      // sole.log('if (page == \'country\') {')
+      // sole.log('if (page == \'country\') ')
       return null
     }
 
@@ -213,17 +229,30 @@ class App extends Component {
 
     console.log(`country ${countryObject.title}`)
 
-    // sole.log('if (page == \'country\')  else ')
-
-    // sole.log('we do have a country dude')
-
-
-    //<MenuItem onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</MenuItem>
-
-    //<RaisedButton onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</RaisedButton>
-//
     return (
       <MenuItem onTouchTap={this.countryInfo.bind(this)}>More about {countryObject.title}</MenuItem>
+    )
+  }
+
+  renderAreaLevel1MenuItem() {
+    console.log('renderAreaLevel1MenuItem')
+    const { areaLevel1Object, page } = this.props
+    // sole.log(`areaLevel1Object ${areaLevel1Object}`)
+
+    if (page == 'areaLevel1' || page == 'home') {
+      // sole.log('if (page == \'areaLevel1\') ')
+      return null
+    }
+
+    if (!areaLevel1Object || ! areaLevel1Object.title) {
+      //console.log('noareaLevel1')
+      return null
+    }
+
+    console.log(`areaLevel1 ${areaLevel1Object.title}`)
+
+    return (
+      <MenuItem onTouchTap={this.areaLevel1Info.bind(this)}>More about {areaLevel1Object.title}</MenuItem>
     )
   }
 
@@ -264,6 +293,7 @@ class App extends Component {
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
         {this.renderMapMenuItem()}
+        {this.renderAreaLevel1MenuItem()}
         {this.renderCountryMenuItem()}
         </LeftNav>
         <MainSection sideNavWidth={400}>
@@ -328,6 +358,7 @@ function mapStateToProps(state, ownProps) {
     currentLocation: getCurrentLocation(state),
     currentLocationObject: getCurrentLocationObject(state),
     countryObject: getCountryObject(state),
+    areaLevel1Object: getAreaLevel1Object(state),
     appBarTitle: state.appBarTitle,
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
@@ -339,5 +370,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadWikiLocation, newCoordinatesString
 })(App)
