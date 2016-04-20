@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
+import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menu/menu-item'
@@ -95,6 +95,7 @@ class App extends Component {
       //this.navigateToMap(nextProps.coordinatesString)
       // sole.log('loadLoc')
       this.props.loadLocation(nextProps.coordinatesString)
+      this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 /*
     if (nextProps.country !== this.props.country) {
@@ -338,5 +339,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadLocation, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, newCoordinatesString
 })(App)

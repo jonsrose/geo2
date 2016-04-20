@@ -15,25 +15,6 @@ function entities(state = { users: {}, repos: {} }, action) {
   return state
 }
 
-// Updates error message to notify about the failed fetches.
-function errorMessage(state = null, action) {
-  // sole.log('/reducers/index.js errorMessage: ')
-  // sole.log(state)
-  // sole.log(action)
-  // const { type, error } = action
-
-  return null
-
-  /*
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null
-  } else if (error) {
-    return action.error
-  }
-
-  return state
-  */
-}
 
 function coordinates(state = null, action) {
   const { type } = action
@@ -66,6 +47,16 @@ function locationForCoordinates(state = {}, action) {
   const { type } = action
 
   if (type === ActionTypes.LOCATION_SUCCESS) {
+    return merge({}, state, {[action.response.coordinatesString]: action.response.result})
+  }
+
+  return state
+}
+
+function wikiLocationsForCoordinates(state = {}, action) {
+  const { type } = action
+
+  if (type === ActionTypes.WIKI_LOCATION_SUCCESS) {
     return merge({}, state, {[action.response.coordinatesString]: action.response.result})
   }
 
@@ -142,13 +133,13 @@ export function getCountryText(state) {
 
 const rootReducer = combineReducers({
   entities,
-  errorMessage,
   routing,
   coordinates,
   sideNav,
   infoWindow,
   coordinatesString,
   locationForCoordinates,
+  wikiLocationsForCoordinates,
   navToCoordinatesString
 })
 

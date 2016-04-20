@@ -53,18 +53,20 @@ export const WIKI_LOCATION_FAILURE = 'WIKI_LOCATION_FAILURE'
 
 function fetchWikiLocation(lat,lng) {
   // sole.log(`/actions/index fetchWikiLocation ${wikiLocation}`)
+  const coordinatesString =  `${lat},${lng}`
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE ],
       endpoint: `http://localhost:3000/api/wikipedia?action=query&format=json&list=geosearch&gsradius=10000&gscoord=${lat}|${lng}`,
-      schema: WikipediaSchemas.WIKI_LOCATION
+      schema: WikipediaSchemas.WIKI_LOCATION_ARRAY,
+      info: {coordinatesString}
     }
   }
 }
 
-export function loadWikiLocation(wikiLocation) {
+export function loadWikiLocation(lat,lng) {
   return (dispatch) => {
-    return dispatch(fetchWikiLocation(wikiLocation))
+    return dispatch(fetchWikiLocation(lat,lng))
   }
 }
 

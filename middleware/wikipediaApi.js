@@ -1,11 +1,11 @@
-import { Schema, normalize } from 'normalizr'
+import { Schema, normalize, arrayOf } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was
 
-function callWikipediaApi(endpoint, schema) {
+function callWikipediaApi(endpoint, schema, info) {
   return fetch(endpoint)
   .then(response => {
     // sole.log('Im in the first response bro')
@@ -25,33 +25,48 @@ function callWikipediaApi(endpoint, schema) {
 
     // sole.log('wikiwikiwiki')
 
-    let firstKey
+    let camelizedJson = null
 
-    for (var property in  json.query.pages) {
-        if (json.query.pages.hasOwnProperty(property)) {
-          firstKey = property
-          break
-        }
+    if (endpoint.indexOf('geosearch') > -1) {
+      if (json.query.geosearch.length == 0) {
+        return Promise.reject(json)
+      }
+
+      camelizedJson = camelizeKeys(json.query.geosearch)
+
+      const coordinatesString = info.coordinatesString
+
+      console.log(`coordinatesString ${coordinatesString}`)
+
+      return Object.assign({},
+        normalize(camelizedJson, schema),
+        { coordinatesString }
+      )
+
+    } else {
+      let firstKey
+
+      for (var property in  json.query.pages) {
+          if (json.query.pages.hasOwnProperty(property)) {
+            firstKey = property
+            break
+          }
+      }
+
+      const page = json.query.pages[firstKey]
+
+      camelizedJson = camelizeKeys(page)
+
+      const normalized = normalize(camelizedJson, schema)
+      // sole.log('normalized')
+      // sole.log(normalized)
+
+
+      return Object.assign({},
+        normalized
+      )
     }
 
-    const page = json.query.pages[firstKey]
-
-
-
-    // sole.log('schema')
-    // sole.log(schema)
-
-    // sole.log('page')
-    // sole.log(page)
-    const camelizedJson = camelizeKeys(page)
-    const normalized = normalize(camelizedJson, schema)
-    // sole.log('normalized')
-    // sole.log(normalized)
-
-
-    return Object.assign({},
-      normalized
-    )
   })
 }
 
@@ -64,8 +79,8 @@ function callWikipediaApi(endpoint, schema) {
 // Read more about Normalizr: https://github.com/gaearon/normalizr
 
 
-function makeSlugForCountrySchema(countrySchema) {
-  return makeSlugForString(countrySchema.title)
+function makeSlugForWikipediaSchema(wikipediaSchema) {
+  return makeSlugForString(wikipediaSchema.title)
 }
 
 function makeSlugForString(formattedAddress) {
@@ -73,15 +88,17 @@ function makeSlugForString(formattedAddress) {
 }
 
 const countrySchema = new Schema('countries', {
-  idAttribute: makeSlugForCountrySchema
+  idAttribute: makeSlugForWikipediaSchema
 })
 
-const wikiLocationSchema = new Schema('wikiLocations')
+const wikiLocationSchema = new Schema('wikiLocations', {
+  idAttribute: makeSlugForWikipediaSchema
+})
 
 // Schemas for Github API responses.
 export const WikipediaSchemas = {
   COUNTRY: countrySchema,
-  WIKI_LOCATION: wikiLocationSchema
+  WIKI_LOCATION_ARRAY: arrayOf(wikiLocationSchema)
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
@@ -97,6 +114,11 @@ export default store => next => action => {
 
   let { endpoint } = callApi
   const { schema, types } = callApi
+
+  let info
+  if (callApi.info) {
+    info = callApi.info
+  }
 
   // sole.log('info')
   // sole.log(info)
@@ -124,17 +146,17 @@ export default store => next => action => {
     return finalAction
   }
 
-  const [ requestType, successType, failureType ] = types
+  const [ requestType, successType/*, failureType */] = types
   next(actionWith({ type: requestType }))
 
-  return callWikipediaApi(endpoint, schema).then(
+  return callWikipediaApi(endpoint, schema, info).then(
     response => next(actionWith({
       response,
       type: successType
-    })),
+    }))/*
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))
+    }))*/
   )
 }
