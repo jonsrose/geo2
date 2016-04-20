@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
+import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import MenuItem from 'material-ui/lib/menu/menu-item'
@@ -51,7 +51,6 @@ class App extends Component {
   }
 
   handleDismissClick(e) {
-    this.props.resetErrorMessage()
     e.preventDefault()
   }
 
@@ -223,7 +222,7 @@ class App extends Component {
     //<RaisedButton onTouchTap={this.countryInfo.bind(this)}>{`${countryObject.title} country info`}</RaisedButton>
 //
     return (
-      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{`country info`}</MenuItem>
+      <MenuItem onTouchTap={this.countryInfo.bind(this)}>{'country info'}</MenuItem>
     )
   }
 
@@ -292,8 +291,6 @@ class App extends Component {
 
 App.propTypes = {
   // Injected by React Redux
-  errorMessage: PropTypes.string,
-  resetErrorMessage: PropTypes.func.isRequired,
   randomCoordinates: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
@@ -325,7 +322,6 @@ function mapStateToProps(state, ownProps) {
   //const page = getPageFromPath(ownProps.location.pathname)
 
   return {
-    errorMessage: state.errorMessage,
     coordinates: state.coordinates,
     inputValue: ownProps.location.pathname.substring(1),
     currentLocation: getCurrentLocation(state),
@@ -342,5 +338,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage, randomCoordinates, toggleSideNav, loadCountry, loadLocation, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadLocation, newCoordinatesString
 })(App)
