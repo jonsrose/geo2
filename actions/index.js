@@ -8,10 +8,7 @@ export const LOCATION_REQUEST = 'LOCATION_REQUEST'
 export const LOCATION_SUCCESS = 'LOCATION_SUCCESS'
 export const LOCATION_FAILURE = 'LOCATION_FAILURE'
 
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchLocation(coordinatesString) {
-  // sole.log(`/actions/index fetchLocation ${lat}, ${lng}`)
   return {
     [CALL_GOOGLE_API]: {
       types: [ LOCATION_REQUEST, LOCATION_SUCCESS, LOCATION_FAILURE ],
@@ -22,25 +19,9 @@ function fetchLocation(coordinatesString) {
   }
 }
 
-
-//?action=query&format=json&list=geosearch&gsradius=10000&gscoord=37.786971|-122.399677
-
-
-
-// Fetches a single location from Github API unless it is cached.
-// Relies on Redux Thunk middleware.
 export function loadLocation(coordinatesString) {
-  // sole.log(`/actions/index loadLocation ${lat}, ${lng}`)
-  //return (dispatch, getState) => {
-  return (dispatch) => {
-    /*
-    const location = getState().entities.locations[login]
-    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
-      // sole.log(`actions/index about to return null`)
-      react-routern null
-    }
-    */
 
+  return (dispatch) => {
     return dispatch(fetchLocation(coordinatesString))
   }
 }
@@ -49,8 +30,6 @@ export const COUNTRY_REQUEST = 'COUNTRY_REQUEST'
 export const COUNTRY_SUCCESS = 'COUNTRY_SUCCESS'
 export const COUNTRY_FAILURE = 'COUNTRY_FAILURE'
 
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchCountry(country) {
   // sole.log(`/actions/index fetchCountry ${country}`)
   return {
@@ -62,21 +41,30 @@ function fetchCountry(country) {
   }
 }
 
-// Fetches a single location from Github API unless it is cached.
-// Relies on Redux Thunk middleware.
 export function loadCountry(country) {
-  // sole.log(`/actions/index loadCountry ${country}`)
-  //return (dispatch, getState) => {
   return (dispatch) => {
-    /*
-    const location = getState().entities.locations[login]
-    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
-      // sole.log(`actions/index about to return null`)
-      react-routern null
-    }
-    */
-
     return dispatch(fetchCountry(country))
+  }
+}
+
+export const WIKI_LOCATION_REQUEST = 'WIKI_LOCATION_REQUEST'
+export const WIKI_LOCATION_SUCCESS = 'WIKI_LOCATION_SUCCESS'
+export const WIKI_LOCATION_FAILURE = 'WIKI_LOCATION_FAILURE'
+
+function fetchWikiLocation(lat,lng) {
+  // sole.log(`/actions/index fetchWikiLocation ${wikiLocation}`)
+  return {
+    [CALL_WIKIPEDIA_API]: {
+      types: [ WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE ],
+      endpoint: `http://localhost:3000/api/wikipedia?action=query&format=json&list=geosearch&gsradius=10000&gscoord=${lat}|${lng}`,
+      schema: WikipediaSchemas.WIKI_LOCATION
+    }
+  }
+}
+
+export function loadWikiLocation(wikiLocation) {
+  return (dispatch) => {
+    return dispatch(fetchWikiLocation(wikiLocation))
   }
 }
 
@@ -84,31 +72,8 @@ export function loadCountry(country) {
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
-    // .toFixed() returns string, so ' * 1' is a trick to convert to number
 }
 
-
-// Fetches a single location from Github API unless it is cached.
-// Relies on Redux Thunk middleware.
-export function loadRandomLocation() {
-
-  // let lat = getRandomInRange(-90, 90, 3)
-  // let lng = getRandomInRange(-180, 180, 3)
-  let lat = 72.24
-  let lng = 86.337
-  // sole.log(`/actions/index loadLocation ${lat}, ${lng}`)
-  return (dispatch) => {
-    /*
-    const location = getState().entities.locations[login]
-    if (location && requiredFields.every(key => location.hasOwnProperty(key))) {
-      // sole.log(`actions/index about to return null`)
-      react-routern null
-    }
-    */
-
-    return dispatch(fetchLocation(lat,lng))
-  }
-}
 
 export const NEW_COORDINATES = 'NEW_COORDINATES'
 

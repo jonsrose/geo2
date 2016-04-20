@@ -76,9 +76,12 @@ const countrySchema = new Schema('countries', {
   idAttribute: makeSlugForCountrySchema
 })
 
+const wikiLocationSchema = new Schema('wikiLocations')
+
 // Schemas for Github API responses.
 export const WikipediaSchemas = {
-  COUNTRY: countrySchema
+  COUNTRY: countrySchema,
+  WIKI_LOCATION: wikiLocationSchema
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
