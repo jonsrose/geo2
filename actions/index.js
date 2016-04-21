@@ -123,9 +123,14 @@ function getRandomInRange(from, to, fixed) {
 export const NEW_COORDINATES = 'NEW_COORDINATES'
 
 export function randomCoordinates() {
-  // sole.log('/actions/index randomCoordinates')
-  let lat = getRandomInRange(-90, 90, 3)
-  let lng = getRandomInRange(-180, 180, 3)
+  // http://stackoverflow.com/questions/34359902/better-way-to-pick-random-point-on-earth
+
+  let lng = (Math.PI - 2 * Math.PI * getRandomInRange(0, 1000000, 0) / 1000000) * 180 / Math.PI
+  let lat = (Math.PI / 2 - Math.acos(2 * getRandomInRange(0, 1000000, 0) / 1000000 - 1)) * 180 / Math.PI
+
+  console.log(`lng: ${lng}`)
+  console.log(`lat: ${lat}`)
+
   let coordinatesString = `${lat},${lng}`
 
   return navToCoordinatesString(coordinatesString)
