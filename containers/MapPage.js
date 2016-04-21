@@ -121,7 +121,6 @@ class MapPage extends Component {
             </GoogleMap>
           }
         />
-        {this.props.children}
       </section>
     )
   }
