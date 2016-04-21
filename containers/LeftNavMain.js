@@ -21,15 +21,15 @@ class LeftNavMain extends Component {
   }
 
   navigateToCountry(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/countryInfo`)
+    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/countryInfo`)
   }
 
   navigateToAreaLevel1(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/areaLevel1Info`)
+    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/areaLevel1Info`)
   }
 
   navigateToLocality(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/localityInfo`)
+    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/localityInfo`)
   }
 
   mapInfo() {

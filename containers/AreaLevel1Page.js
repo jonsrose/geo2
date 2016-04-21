@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {getAreaLevel1Object} from '../reducers'
-import Paper from 'material-ui/lib/paper'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -41,9 +40,7 @@ class AreaLevel1Page extends Component {
     // sole.log('renderareaLevel1')
     // sole.log(this.props.areaLevel1Text)
     return (
-      <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0, overflow:'auto', padding:10}}>
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.areaLevel1Text)} />
-      </Paper>
     )
   }
 }

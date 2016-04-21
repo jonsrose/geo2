@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {getCountryObject} from '../reducers'
 import Paper from 'material-ui/lib/paper'
 import FlatButton from 'material-ui/lib/flat-button'
 import { browserHistory } from 'react-router'
@@ -49,14 +48,14 @@ class PlaceDetail extends Component {
   }
 
   render() {
-    // sole.log('rendercountry')
+    console.log('renderplaceDetail')
     // sole.log(this.props.countryText)
     return (
       <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0}}>
         <div style={{position: 'absolute', left: 0, top:0, height:44}}>
           <FlatButton label="Back to map" primary={true} onTouchTap={this.mapInfo.bind(this)} />
         </div>
-        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}} dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)}>
+        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}}>
           {this.props.children}
         </div>
       </Paper>
@@ -64,7 +63,14 @@ class PlaceDetail extends Component {
   }
 }
 
+PlaceDetail.propTypes = {
+  coordinatesString: PropTypes.string
+}
 
+function mapStateToProps(state) {
+  return {
+    coordinatesString: state.coordinatesString
+  }
+}
 
-
-export default connect(mapStateToProps, null)(CountryPage)
+export default connect(mapStateToProps, null)(PlaceDetail)

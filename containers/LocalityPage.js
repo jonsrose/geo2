@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {getLocalityObject} from '../reducers'
-import Paper from 'material-ui/lib/paper'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -34,13 +33,10 @@ class LocalityPage extends Component {
   }
 
   render() {
-    // sole.log('renderlocality')
+    console.log('renderlocality')
     // sole.log(this.props.localityText)
     return (
-      <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0, overflow:'auto', padding:10}}>
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
-      </Paper>
-
     )
   }
 }
