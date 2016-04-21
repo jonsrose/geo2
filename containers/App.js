@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
-import LeftNavMain from './LeftNavMain'
 import Paper from 'material-ui/lib/paper'
 
 import {deepOrange500} from 'material-ui/lib/styles/colors'
@@ -166,19 +165,17 @@ class App extends Component {
     )
   }
 
-
-
   render() {
     console.log('render start ---------------------------------------------------------------------------------------------------')
-    const { children } = this.props
+    const { leftChildren, rightChildren } = this.props
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
-            <LeftNavMain page={this.props.page} />
+            {leftChildren}
           </LeftNav>
           <MainSection sideNavWidth={400}>
-            {children}
+            {rightChildren}
           </MainSection>
         </div>
       </MuiThemeProvider>
@@ -225,13 +222,14 @@ App.propTypes = {
   countryObject: PropTypes.object,
   coordinates: PropTypes.object,
   // Injected by React Router
-  children: PropTypes.node,
   appBarTitle: PropTypes.string,
   toggleSideNav: PropTypes.func.isRequired,
   appBarLeft: PropTypes.number,
   coordinatesString: PropTypes.string,
   coordinatesStringParam: PropTypes.string,
-  page: PropTypes.string
+  page: PropTypes.string,
+  leftChildren: PropTypes.node,
+  rightChildren: PropTypes.node
 }
 
 

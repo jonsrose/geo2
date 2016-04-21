@@ -23,7 +23,7 @@ function loadData(props) {
 
 
 
-class CountryPage extends Component {
+class PlaceDetail extends Component {
   navigateToMap(coordinatesString) {
     console.log('navigateToMap')
     browserHistory.push(`/coordinates/${coordinatesString}`)
@@ -56,21 +56,15 @@ class CountryPage extends Component {
         <div style={{position: 'absolute', left: 0, top:0, height:44}}>
           <FlatButton label="Back to map" primary={true} onTouchTap={this.mapInfo.bind(this)} />
         </div>
-        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}} dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)} />
+        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}} dangerouslySetInnerHTML={this.createMarkup(this.props.countryText)}>
+          {this.props.children}
+        </div>
       </Paper>
     )
   }
 }
 
 
-CountryPage.propTypes = {
-  countryObject: PropTypes.object
-}
 
-function mapStateToProps(state) {
-  return {
-    countryText: getCountryObject(state) ? getCountryObject(state).extract : null
-  }
-}
 
 export default connect(mapStateToProps, null)(CountryPage)

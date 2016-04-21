@@ -37,15 +37,13 @@ class LocalityPage extends Component {
     // sole.log('renderlocality')
     // sole.log(this.props.localityText)
     return (
-      <Paper style={{position: 'absolute', left:0, top:0, width:400, bottom: 0, overflow:'auto', padding:20, margin:30}}>
+      <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0, overflow:'auto', padding:10}}>
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
       </Paper>
 
     )
   }
 }
-
-
 
 LocalityPage.propTypes = {
   localityObject: PropTypes.object

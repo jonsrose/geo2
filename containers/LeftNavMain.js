@@ -196,14 +196,31 @@ LeftNavMain.propTypes = {
   coordinatesString: PropTypes.string
 }
 
-function mapStateToProps(state) {
+function getPageFromPath(path){
+  if (path.indexOf('countryInfo') > -1) {
+    return 'country'
+  } else if (path.indexOf('areaLevel1Info') > -1) {
+    return 'areaLevel1'
+  } else if (path.indexOf('locality') > -1) {
+    return 'locality'
+  }
+
+  if (path.indexOf('coordinates') > -1) {
+    return 'map'
+  }
+
+  return 'home'
+}
+
+function mapStateToProps(state, ownProps) {
   //const page = getPageFromPath(ownProps.location.pathname)
 
   return {
     countryObject: getCountryObject(state),
     areaLevel1Object: getAreaLevel1Object(state),
     localityObject: getLocalityObject(state),
-    coordinatesString: state.coordinatesString
+    coordinatesString: state.coordinatesString,
+    page: getPageFromPath(ownProps.location.pathname)
   }
 }
 
