@@ -156,17 +156,17 @@ export default store => next => action => {
     return finalAction
   }
 
-  const [ requestType, successType/*, failureType */] = types
+  const [ requestType, successType, failureType] = types
   next(actionWith({ type: requestType }))
 
   return callWikipediaApi(endpoint, schema, info).then(
     response => next(actionWith({
       response,
       type: successType
-    }))/*
+    })),
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))*/
+    }))
   )
 }

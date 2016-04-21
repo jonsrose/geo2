@@ -4,9 +4,7 @@ import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
-import MenuItem from 'material-ui/lib/menu/menu-item'
-import AppBar from 'material-ui/lib/app-bar'
-import RaisedButton from 'material-ui/lib/raised-button'
+import LeftNavMain from './LeftNavMain'
 import Paper from 'material-ui/lib/paper'
 
 import {deepOrange500} from 'material-ui/lib/styles/colors'
@@ -17,11 +15,7 @@ import MuiThemeProvider from 'material-ui/lib/MuiThemeProvider'
 // todo: fix mobile, maybe use appleftnav? download source of material ui
 // todo: link up panoramio
 
-const SideNavLabel = props =>
-<div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
->
-  {props.children}
-</div>
+
 
 const MainSection = props =>
 <div style={{
@@ -68,33 +62,7 @@ class App extends Component {
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
-  navigateToCountry(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/countryInfo`)
-  }
 
-  navigateToAreaLevel1(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/areaLevel1Info`)
-  }
-
-  navigateToLocality(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/localityInfo`)
-  }
-
-  mapInfo() {
-    this.navigateToMap(this.props.coordinatesString)
-  }
-
-  countryInfo() {
-    this.navigateToCountry(this.props.coordinatesString)
-  }
-
-  areaLevel1Info() {
-    this.navigateToAreaLevel1(this.props.coordinatesString)
-  }
-
-  localityInfo() {
-    this.navigateToLocality(this.props.coordinatesString)
-  }
 
   componentWillReceiveProps(nextProps) {
 
@@ -167,11 +135,7 @@ class App extends Component {
   }
 
 
-  randomCoordinates() {
-    //this.setState(this.getLatLngFromRandom());
-    this.props.randomCoordinates()
-    // sole.log('randomCoordinates')
-  }
+
 
   getTitle() {
     let title
@@ -188,125 +152,6 @@ class App extends Component {
     }
 
     return title
-  }
-
-  renderCoordinates() {
-      // sole.log('renderCoordinates')
-      const { coordinates } = this.props
-
-      if (!coordinates) {
-        return null
-      }
-
-      const { lat, lng } = coordinates
-      if (!lat || !lng) {
-        return null
-      }
-
-      return (
-        <SideNavLabel>
-          latitude, longitude: {lat}, {lng}
-        </SideNavLabel>
-      )
-  }
-
-  renderCurrentLocation() {
-    // sole.log('renderCurrentLocation this.props')
-    // sole.log(this.props)
-    const { currentLocationObject } = this.props
-    // sole.log(currentLocationObject)
-
-    if (!currentLocationObject) {
-      return null
-    }
-
-    return (
-      <SideNavLabel>
-        {currentLocationObject.formattedAddress}
-      </SideNavLabel>
-    )
-
-  }
-
-
-
-  renderCountryMenuItem() {
-    console.log('renderCountryMenuItem')
-    const { countryObject, page } = this.props
-    // sole.log(`countryObject ${countryObject}`)
-
-    if (page == 'country' || page == 'home') {
-      // sole.log('if (page == \'country\') ')
-      return null
-    }
-
-    if (!countryObject || ! countryObject.title) {
-      //console.log('nocountry')
-      return null
-    }
-
-    console.log(`country ${countryObject.title}`)
-
-    return (
-      <MenuItem onTouchTap={this.countryInfo.bind(this)}>More about {countryObject.title}</MenuItem>
-    )
-  }
-
-  renderAreaLevel1MenuItem() {
-    console.log('renderAreaLevel1MenuItem')
-    const { areaLevel1Object, page } = this.props
-    // sole.log(`areaLevel1Object ${areaLevel1Object}`)
-
-    if (page == 'areaLevel1' || page == 'home') {
-      // sole.log('if (page == \'areaLevel1\') ')
-      return null
-    }
-
-    if (!areaLevel1Object || ! areaLevel1Object.title) {
-      //console.log('noareaLevel1')
-      return null
-    }
-
-    console.log(`areaLevel1 ${areaLevel1Object.title}`)
-
-    return (
-      <MenuItem onTouchTap={this.areaLevel1Info.bind(this)}>More about {areaLevel1Object.title}</MenuItem>
-    )
-  }
-
-  renderLocalityMenuItem() {
-    console.log('renderLocalityMenuItem')
-    const { localityObject, page } = this.props
-    // sole.log(`localityObject ${localityObject}`)
-
-    if (page == 'locality' || page == 'home') {
-      // sole.log('if (page == \'locality\') ')
-      return null
-    }
-
-    if (!localityObject || ! localityObject.title) {
-      //console.log('nolocality')
-      return null
-    }
-
-    console.log(`locality ${localityObject.title}`)
-
-    return (
-      <MenuItem onTouchTap={this.localityInfo.bind(this)}>More about {localityObject.title}</MenuItem>
-    )
-  }
-
-  renderMapMenuItem() {
-    const { page } = this.props
-    if (page == 'map' || page == 'home') {
-      return null /* TODO could return read only menu item with treatment */
-    }
-
-    // sole.log('we do have a map dude')
-
-    return (
-      <MenuItem onTouchTap={this.mapInfo.bind(this)}>Map</MenuItem>
-    )
   }
 
   handleToggle() {
@@ -328,21 +173,15 @@ class App extends Component {
     const { children } = this.props
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-      <div>
-      <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
-        <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
-        </AppBar>
-        {this.renderMapMenuItem()}
-        {this.renderAreaLevel1MenuItem()}
-        {this.renderLocalityMenuItem()}
-        {this.renderCountryMenuItem()}
-        </LeftNav>
-        <MainSection sideNavWidth={400}>
-          {children}
-        </MainSection>
+        <div>
+          <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
+            <LeftNavMain page={this.props.page} />
+          </LeftNav>
+          <MainSection sideNavWidth={400}>
+            {children}
+          </MainSection>
         </div>
       </MuiThemeProvider>
-
     )
   }
 }
@@ -361,6 +200,22 @@ class App extends Component {
 </LeftNav>
 */
 
+function getPageFromPath(path){
+  if (path.indexOf('countryInfo') > -1) {
+    return 'country'
+  } else if (path.indexOf('areaLevel1Info') > -1) {
+    return 'areaLevel1'
+  } else if (path.indexOf('locality') > -1) {
+    return 'locality'
+  }
+
+  if (path.indexOf('coordinates') > -1) {
+    return 'map'
+  }
+
+  return 'home'
+}
+
 App.propTypes = {
   // Injected by React Redux
   randomCoordinates: PropTypes.func.isRequired,
@@ -375,25 +230,11 @@ App.propTypes = {
   toggleSideNav: PropTypes.func.isRequired,
   appBarLeft: PropTypes.number,
   coordinatesString: PropTypes.string,
-  coordinatesStringParam: PropTypes.string
+  coordinatesStringParam: PropTypes.string,
+  page: PropTypes.string
 }
 
-function getPageFromPath(path){
-  if (path.indexOf('countryInfo') > -1) {
-    return 'country'
-  } else if (path.indexOf('areaLevel1Info') > -1) {
-    return 'areaLevel1'
-  } else if (path.indexOf('locality') > -1) {
-    return 'locality'
-  }
 
-
-  if (path.indexOf('coordinates') > -1) {
-    return 'map'
-  }
-
-  return 'home'
-}
 
 function mapStateToProps(state, ownProps) {
   //const page = getPageFromPath(ownProps.location.pathname)
@@ -410,9 +251,9 @@ function mapStateToProps(state, ownProps) {
     sideNav: state.sideNav,
     appBarLeft: state.sideNav? 256 : 0,
     coordinatesString: state.coordinatesString,
-    page: getPageFromPath(ownProps.location.pathname),
     coordinatesStringParam: ownProps.params.coordinatesString,
-    navToCoordinatesString: state.navToCoordinatesString
+    navToCoordinatesString: state.navToCoordinatesString,
+    page: getPageFromPath(ownProps.location.pathname)
   }
 }
 
