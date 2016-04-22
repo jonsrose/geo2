@@ -8,6 +8,8 @@ export const LOCATION_REQUEST = 'LOCATION_REQUEST'
 export const LOCATION_SUCCESS = 'LOCATION_SUCCESS'
 export const LOCATION_FAILURE = 'LOCATION_FAILURE'
 
+//todo https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=al wahat libya&utf8=&format=json&srwhat=text
+
 function fetchLocation(coordinatesString) {
   return {
     [CALL_GOOGLE_API]: {

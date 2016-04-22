@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, loadLocation, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject} from '../reducers'
+import { satelliteMap } from '../components/GoogleMapsHelper'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -113,7 +114,9 @@ class MapPage extends Component {
               ref={(map) => console.log(map)}
               defaultZoom={8}
               center={ { lat, lng } }
-              ref="map">
+              ref="map"
+              mapTypeId = {satelliteMap}
+              >
               <Marker position={{lat, lng}} onClick={this.handleMarkerClick.bind(this)}>
                 {this.renderInfoWindow()}
               </Marker>
