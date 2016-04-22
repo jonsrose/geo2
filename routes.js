@@ -15,7 +15,7 @@ export default (
          components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
     <Route path="/coordinates/:coordinatesString/placeDetail"
          components={{leftChildren: PlaceDetail, rightChildren: MapPage}}>
-      <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo"
+      <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:locality"
           component={LocalityPage}/>
       <Route path="/coordinates/:coordinatesString/placeDetail/areaLevel1Info"
          component={AreaLevel1Page}/>

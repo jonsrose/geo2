@@ -4,7 +4,7 @@ import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
 // Updates an entity cache in response to any action with response.entities.
-function entities(state = { users: {}, repos: {} }, action) {
+function entities(state = { }, action) {
   // sole.log('/reducers/index.js entities() state: action: ')
   // sole.log(state)
   // sole.log(action)
@@ -43,6 +43,16 @@ function navToCoordinatesString(state = null, action) {
   return state
 }
 
+function navTolocality(state = '', action) {
+  const { type } = action
+
+  if (type === ActionTypes.LOCALITY_SUCCESS) {
+    return action.response.result
+  }
+
+  return state
+}
+
 function locationForCoordinates(state = {}, action) {
   const { type } = action
 
@@ -62,6 +72,17 @@ function wikiLocationsForCoordinates(state = {}, action) {
 
   return state
 }
+
+function locality(state = '', action) {
+  const { type } = action
+
+  if (type === ActionTypes.LOCALITY_SUCCESS) {
+    return action.response.result
+  }
+
+  return state
+}
+
 
 function sideNav(state = true, action) {
   const { type } = action
@@ -172,7 +193,7 @@ export function getLocality(state) {
 }
 
 export function getLocalityObject(state) {
-  var locality = getLocality(state)
+  var locality = state.locality
 
   if (!locality || !state.entities.localities) {
     return null
@@ -191,6 +212,19 @@ export function getLocalityText(state) {
   return localityObject.extract
 }
 
+export function getWikiLocations(state) {
+  var coordinatesString = state.coordinatesString
+
+  if (!state.entities.wikiLocationCoordinates || ! state.entities.wikiLocationCoordinates[coordinatesString]) {
+    return null
+  }
+
+  const wikiLocationKeys = state.entities.wikiLocationCoordinates[coordinatesString].wikiLocations
+
+  return wikiLocationKeys.map( wikiLocationKey => state.entities.wikiLocations[wikiLocationKey])
+
+}
+
 const rootReducer = combineReducers({
   entities,
   routing,
@@ -200,7 +234,9 @@ const rootReducer = combineReducers({
   coordinatesString,
   locationForCoordinates,
   wikiLocationsForCoordinates,
-  navToCoordinatesString
+  navToCoordinatesString,
+  locality,
+  navTolocality
 })
 
 

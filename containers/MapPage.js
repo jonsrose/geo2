@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
-import { loadLocation } from '../actions/googleActions'
-import {getCurrentLocationObject} from '../reducers'
+import {getCurrentLocationObject, getWikiLocations} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
+import { loadLocality } from '../actions/wikipediaActions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -31,6 +31,10 @@ class MapPage extends Component {
 
   handleMarkerClick() {
     this.props.showInfoWindow()
+  }
+
+  handleWikiLocationMarkerClick(title) {
+    this.props.loadLocality(title)
   }
 
   handleCloseInfoWindow() {
@@ -99,6 +103,8 @@ class MapPage extends Component {
     const {lat, lng} = this.props.coordinates
     // sole.log('read lat lng')
 
+    const markerTitle = `lat: ${lat}, lng: ${lng}`
+
     return (
       <section style={{ height: '100%' }}>
         <GoogleMapLoader
@@ -118,10 +124,17 @@ class MapPage extends Component {
               ref="map"
               mapTypeId = {satelliteMap}
               >
-              <Marker position={{lat, lng}} onClick={this.handleMarkerClick.bind(this)}>
-                {this.renderInfoWindow()}
-              </Marker>
-
+              {!this.props.wikiLocations && <Marker position={{lat, lng}} title={markerTitle}>
+              </Marker>}
+              {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
+                return (
+                  <Marker key={index}
+                    position={{lat: wikiLocation.lat, lng: wikiLocation.lon}}
+                    onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title)}
+                    title={wikiLocation.title}
+                  />
+                )
+              })}
             </GoogleMap>
           }
         />
@@ -187,11 +200,12 @@ function mapStateToProps(state, ownProps) {
     coordinates: state.coordinates,
     coordinatesString: state.coordinatesString,
     currentLocationObject: getCurrentLocationObject(state),
-    infoWindow: state.infoWindow
+    infoWindow: state.infoWindow,
+    wikiLocations: getWikiLocations(state)
   }
 }
 
-export default connect(mapStateToProps, { loadLocation, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { loadLocality, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*

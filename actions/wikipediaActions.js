@@ -59,7 +59,7 @@ function fetchWikiLocation(lat,lng) {
     [CALL_WIKIPEDIA_API]: {
       types: [ WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE ],
       endpoint: `http://localhost:3000/api/wikipedia?action=query&format=json&list=geosearch&gsradius=10000&gscoord=${lat}|${lng}`,
-      schema: WikipediaSchemas.WIKI_LOCATION_ARRAY,
+      schema: WikipediaSchemas.WIKI_LOCATION_COORDINATES,
       info: {coordinatesString}
     }
   }

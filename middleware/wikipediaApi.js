@@ -5,6 +5,28 @@ import 'isomorphic-fetch'
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was
 
+//const wikiLocationSchema = new Schema('wikiLocations', {
+//  idAttribute: 'title'
+//})
+
+const wikiLocationSchema = new Schema('wikiLocations', { idAttribute: 'title' })
+const wikiLocationCoordinatesSchema = new Schema('wikiLocationCoordinates', { idAttribute: 'coordinatesString' })
+
+
+wikiLocationCoordinatesSchema.define({
+  wikiLocations: arrayOf(wikiLocationSchema)
+})
+
+const localitySchema = new Schema('localities', {
+  idAttribute: 'title'
+})
+
+// Schemas for Github API responses.
+export const WikipediaSchemas = {
+  WIKI_LOCATION_COORDINATES: wikiLocationCoordinatesSchema,
+  LOCALITY: localitySchema
+}
+
 function callWikipediaApi(endpoint, schema, info) {
   return fetch(endpoint)
   .then(response => {
@@ -22,27 +44,28 @@ function callWikipediaApi(endpoint, schema, info) {
       return Promise.reject(json)
     }
 
-
-    // sole.log('wikiwikiwiki')
-
-    let camelizedJson = null
-
     if (endpoint.indexOf('geosearch') > -1) {
+
+
+      // sole.log('wikiwikiwiki')
+
+      let camelizedJson = null
+
       if (json.query.geosearch.length == 0) {
         return Promise.reject(json)
       }
 
       camelizedJson = camelizeKeys(json.query.geosearch)
 
-      const coordinatesString = info.coordinatesString
+      const coordinatesObject= {}
+      coordinatesObject.coordinatesString = info.coordinatesString
+      coordinatesObject.wikiLocations = camelizedJson
 
-      console.log(`coordinatesString ${coordinatesString}`)
+      //console.log(`coordinatesString ${coordinatesString}`)
 
       return Object.assign({},
-        normalize(camelizedJson, schema),
-        { coordinatesString }
+        normalize(coordinatesObject, schema)
       )
-
     } else {
       let firstKey
 
@@ -55,12 +78,9 @@ function callWikipediaApi(endpoint, schema, info) {
 
       const page = json.query.pages[firstKey]
 
-      camelizedJson = camelizeKeys(page)
+      const camelizedJson = camelizeKeys(page)
 
       const normalized = normalize(camelizedJson, schema)
-      // sole.log('normalized')
-      // sole.log(normalized)
-
 
       return Object.assign({},
         normalized
@@ -79,37 +99,7 @@ function callWikipediaApi(endpoint, schema, info) {
 // Read more about Normalizr: https://github.com/gaearon/normalizr
 
 
-function makeSlugForWikipediaSchema(wikipediaSchema) {
-  return makeSlugForString(wikipediaSchema.title)
-}
 
-function makeSlugForString(formattedAddress) {
-  return formattedAddress.toLowerCase().replace(/\,/g, '').replace(/ /g, '-')
-}
-
-const countrySchema = new Schema('countries', {
-  idAttribute: makeSlugForWikipediaSchema
-})
-
-const areaLevel1Schema = new Schema('areaLevel1s', {
-  idAttribute: 'title'
-})
-
-const localitySchema = new Schema('localities', {
-  idAttribute: 'title'
-})
-
-const wikiLocationSchema = new Schema('wikiLocations', {
-  idAttribute: makeSlugForWikipediaSchema
-})
-
-// Schemas for Github API responses.
-export const WikipediaSchemas = {
-  COUNTRY: countrySchema,
-  AREA_LEVEL_1: areaLevel1Schema,
-  LOCALITY: localitySchema,
-  WIKI_LOCATION_ARRAY: arrayOf(wikiLocationSchema)
-}
 
 // Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_WIKIPEDIA_API = Symbol('Call Wikipedia API')

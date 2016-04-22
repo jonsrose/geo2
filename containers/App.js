@@ -78,15 +78,24 @@ class App extends Component {
       //// sole.log('loadCoord')
       //this.navigateToMap(nextProps.coordinatesString)
       // sole.log('loadLoc')
-      this.props.loadLocation(nextProps.coordinatesString)
+      //this.props.loadLocation(nextProps.coordinatesString)
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
+
+    if (nextProps.locality !== this.props.locality) {
+      //// sole.log('loadCoord')
+      //this.navigateToMap(nextProps.coordinatesString)
+      // sole.log('loadLoc')
+      //this.props.loadLocation(nextProps.coordinatesString)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.locality}`)
+    }
+
 /*
     if (nextProps.country !== this.props.country) {
       this.props.loadCountry(nextProps.country)
     }
 */
-
+/*
     if (nextProps.currentLocationObject && nextProps.currentLocationObject.country) {
       if (!this.props.currentLocationObject || !this.props.currentLocationObject.country
         || this.props.currentLocationObject.country != nextProps.currentLocationObject.country) {
@@ -110,7 +119,7 @@ class App extends Component {
         // sole.log('loadCountry')
       }
     }
-
+*/
   }
 
   loadData(props) {
@@ -229,7 +238,8 @@ App.propTypes = {
   coordinatesStringParam: PropTypes.string,
   page: PropTypes.string,
   leftChildren: PropTypes.node,
-  rightChildren: PropTypes.node
+  rightChildren: PropTypes.node,
+  locality: PropTypes.string
 }
 
 
@@ -251,7 +261,8 @@ function mapStateToProps(state, ownProps) {
     coordinatesString: state.coordinatesString,
     coordinatesStringParam: ownProps.params.coordinatesString,
     navToCoordinatesString: state.navToCoordinatesString,
-    page: getPageFromPath(ownProps.location.pathname)
+    page: getPageFromPath(ownProps.location.pathname),
+    locality: state.locality
   }
 }
 
