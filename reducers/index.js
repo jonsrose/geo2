@@ -44,10 +44,10 @@ function navToCoordinatesString(state = null, action) {
 }
 
 function navTolocality(state = '', action) {
-  const { type } = action
+  const { type, locality } = action
 
-  if (type === ActionTypes.LOCALITY_SUCCESS) {
-    return action.response.result
+  if (type === ActionTypes.NAV_TO_LOCALITY) {
+    return locality
   }
 
   return state

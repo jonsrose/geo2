@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-map
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
-import { loadLocality } from '../actions/wikipediaActions'
+import { navTolocality } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -34,7 +34,7 @@ class MapPage extends Component {
   }
 
   handleWikiLocationMarkerClick(title) {
-    this.props.loadLocality(title)
+    this.props.navTolocality(title)
   }
 
   handleCloseInfoWindow() {
@@ -205,7 +205,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { loadLocality, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { navTolocality, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*

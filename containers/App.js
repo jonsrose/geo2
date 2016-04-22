@@ -67,14 +67,14 @@ class App extends Component {
 
     // sole.log('componentWillReceiveProps')
 
-    if (nextProps.navToCoordinatesString !== this.props.navToCoordinatesString) {
+    if (nextProps.navToCoordinatesString && nextProps.navToCoordinatesString !== this.props.navToCoordinatesString) {
       // sole.log('navigateToMap')
       this.navigateToMap(nextProps.navToCoordinatesString)
     }
 
     this.loadData(nextProps)
 
-    if (nextProps.coordinatesString !== this.props.coordinatesString) {
+    if (nextProps.coordinatesString && nextProps.coordinatesString !== this.props.coordinatesString) {
       //// sole.log('loadCoord')
       //this.navigateToMap(nextProps.coordinatesString)
       // sole.log('loadLoc')
@@ -82,12 +82,20 @@ class App extends Component {
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 
-    if (nextProps.locality !== this.props.locality) {
+    if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
       //// sole.log('loadCoord')
       //this.navigateToMap(nextProps.coordinatesString)
       // sole.log('loadLoc')
       //this.props.loadLocation(nextProps.coordinatesString)
-      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.locality}`)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality}`)
+    }
+
+    if (nextProps.locality && nextProps.locality !== this.props.locality) {
+      //// sole.log('loadCoord')
+      //this.navigateToMap(nextProps.coordinatesString)
+      // sole.log('loadLoc')
+      //this.props.loadLocation(nextProps.coordinatesString)
+      // do i need to do anything
     }
 
 /*
@@ -123,11 +131,14 @@ class App extends Component {
   }
 
   loadData(props) {
-    if (props.coordinatesStringParam && !props.coordinatesString || props.coordinatesStringParam != props.coordinatesString) {
+    if (props.coordinatesStringParam && (!props.coordinatesString || props.coordinatesStringParam != props.coordinatesString)){
       // sole.log('newCoordinatesString')
       this.props.newCoordinatesString(props.coordinatesStringParam)
-    } else {
-      // sole.log('no need for newCoordinatesString')
+    }
+
+    if (props.localityParam && (!props.locality || props.localityParam != props.locality)) {
+      // sole.log('newlocality')
+      this.props.loadLocality(props.localityParam)
     }
 
     //this.props.loadLocation(props.lat, props.lng)
@@ -236,6 +247,7 @@ App.propTypes = {
   appBarLeft: PropTypes.number,
   coordinatesString: PropTypes.string,
   coordinatesStringParam: PropTypes.string,
+  localityParam: PropTypes.string,
   page: PropTypes.string,
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
@@ -262,7 +274,9 @@ function mapStateToProps(state, ownProps) {
     coordinatesStringParam: ownProps.params.coordinatesString,
     navToCoordinatesString: state.navToCoordinatesString,
     page: getPageFromPath(ownProps.location.pathname),
-    locality: state.locality
+    locality: state.locality,
+    localityParam: ownProps.params.locality,
+    navTolocality: state.navTolocality
   }
 }
 

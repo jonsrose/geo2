@@ -1,4 +1,4 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, TOGGLE_SIDE_NAV, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, TOGGLE_SIDE_NAV, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
@@ -37,6 +37,13 @@ export function navToCoordinatesString(coordinatesString) {
   }
 }
 
+export function navTolocality(locality) {
+  return {
+    type: NAV_TO_LOCALITY,
+    locality
+  }
+}
+
 export function newCoordinates(lat, lng) {
   let coordinatesString = `${lat},${lng}`
 
@@ -56,6 +63,13 @@ export function newCoordinates(lat, lng) {
         result: coordinatesString
     },
     coordinates: {lat, lng}
+  }
+}
+
+export function newLocality(locality){
+  return {
+    type: NEW_LOCALITY,
+    locality
   }
 }
 
