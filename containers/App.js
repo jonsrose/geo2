@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, toggleSideNav, loadCountry, loadLocation, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions'
+import { newCoordinatesString, randomCoordinates, toggleSideNav } from '../actions'
+import { loadCountry, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions/wikipediaActions'
+import { loadLocation } from '../actions/googleActions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import Paper from 'material-ui/lib/paper'
@@ -13,8 +15,6 @@ import MuiThemeProvider from 'material-ui/lib/MuiThemeProvider'
 // todo: on page load it needs to handle case where coords already present, e.g. put load location in right place
 // todo: fix mobile, maybe use appleftnav? download source of material ui
 // todo: link up panoramio
-
-
 
 const MainSection = props =>
 <div style={{
