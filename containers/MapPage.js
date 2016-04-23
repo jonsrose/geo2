@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-map
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
-import { navTolocality } from '../actions'
+import { navTolocality, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -39,6 +39,12 @@ class MapPage extends Component {
 
   handleCloseInfoWindow() {
     this.props.hideInfoWindow()
+  }
+
+  handleMapClick(event) {
+    const lat = event.latLng.lat()
+    const lng = event.latLng.lng()
+    this.props.navToCoordinatesString(`${lat},${lng}`)
   }
 
   renderCoordinates(coordinates) {
@@ -123,9 +129,8 @@ class MapPage extends Component {
               center={ { lat, lng } }
               ref="map"
               mapTypeId = {satelliteMap}
+              onClick={this.handleMapClick.bind(this)}
               >
-              {!this.props.wikiLocations && <Marker position={{lat, lng}} title={markerTitle}>
-              </Marker>}
               {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
                 return (
                   <Marker key={index}
@@ -205,7 +210,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { navTolocality, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { navTolocality, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*
