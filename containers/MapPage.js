@@ -138,6 +138,7 @@ class MapPage extends Component {
                     position={{lat: wikiLocationCoordinates.lat, lng: wikiLocationCoordinates.lon}}
                     onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title)}
                     title={wikiLocation.title}
+                    icon='https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0'
                   />
                 )
               })}
