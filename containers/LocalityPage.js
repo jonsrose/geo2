@@ -42,18 +42,23 @@ class LocalityPage extends Component {
         : null
       }
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
+      <div>
+        <a href={`https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`} target="_blank">Go to wikipedia page</a>
+      </div>
       </div>
     )
   }
 }
 
 LocalityPage.propTypes = {
+  locality: PropTypes.object,
   localityText: PropTypes.string,
   localityThumbnail: PropTypes.object
 }
 
 function mapStateToProps(state) {
   return {
+    locality: getLocalityObject(state),
     localityText: getLocalityObject(state) ? getLocalityObject(state).extract : null,
     localityThumbnail: getLocalityObject(state) ? getLocalityObject(state).thumbnail : null
   }
