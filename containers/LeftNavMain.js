@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/lib/app-bar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import MenuItem from 'material-ui/lib/menu/menu-item'
-import {getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
+import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations} from '../reducers'
 import { browserHistory } from 'react-router'
 import {randomCoordinates} from '../actions'
+import Avatar from 'material-ui/lib/avatar'
+import List from 'material-ui/lib/lists/list'
+import ListItem from 'material-ui/lib/lists/list-item'
 
 const SideNavLabel = props =>
 <div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
@@ -165,6 +168,32 @@ class LeftNavMain extends Component {
 
   }
 
+  renderWikiLocations() {
+    const {wikiLocations} = this.props
+
+    if (!wikiLocations || wikiLocations.length  == 0) {
+      return null
+    }
+
+    return (
+      <List subheader="Nearby locations">
+        {wikiLocations.map((wikiLocation, index) => {
+          return (
+            <ListItem
+              key={index}
+              primaryText={wikiLocation.title}
+              leftAvatar={
+                wikiLocation.thumbnail
+                ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
+              : <Avatar style={{ visibility:'hidden'}}/>
+              }
+            />
+          )
+        })}
+      </List>
+    )
+  }
+
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
     this.props.randomCoordinates()
@@ -178,10 +207,7 @@ class LeftNavMain extends Component {
       <div>
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
-        {this.renderMapMenuItem()}
-        {this.renderAreaLevel1MenuItem()}
-        {this.renderLocalityMenuItem()}
-        {this.renderCountryMenuItem()}
+        {this.renderWikiLocations()}
       </div>
 
     )
@@ -220,7 +246,8 @@ function mapStateToProps(state, ownProps) {
     areaLevel1Object: getAreaLevel1Object(state),
     localityObject: getLocalityObject(state),
     coordinatesString: state.coordinatesString,
-    page: getPageFromPath(ownProps.location.pathname)
+    page: getPageFromPath(ownProps.location.pathname),
+    wikiLocations: getWikiLocations(state)
   }
 }
 
