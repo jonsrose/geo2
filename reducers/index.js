@@ -102,6 +102,17 @@ function infoWindow(state = true, action) {
   return state
 }
 
+function hoverWikiLocationTitle(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_HOVER ) {
+    return action.title
+  } else if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_UNHOVER) {
+    return null
+  }
+
+  return state
+}
+
 export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
@@ -225,6 +236,14 @@ export function getWikiLocations(state) {
 
 }
 
+export function getHoverWikiLocation(state) {
+  if (!state.hoverWikiLocationTitle || !state.entities.wikiLocations || !state.entities.wikiLocations[state.hoverWikiLocationTitle] ) {
+    return null
+  }
+
+  return state.entities.wikiLocations[state.hoverWikiLocationTitle]
+}
+
 const rootReducer = combineReducers({
   entities,
   routing,
@@ -236,7 +255,8 @@ const rootReducer = combineReducers({
   wikiLocationsForCoordinates,
   navToCoordinatesString,
   locality,
-  navTolocality
+  navTolocality,
+  hoverWikiLocationTitle
 })
 
 

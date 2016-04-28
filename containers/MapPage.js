@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
-import {getCurrentLocationObject, getWikiLocations} from '../reducers'
+import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
 import { navTolocality, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
@@ -109,7 +109,7 @@ class MapPage extends Component {
     const {lat, lng} = this.props.coordinates
     // sole.log('read lat lng')
 
-    const markerTitle = `lat: ${lat}, lng: ${lng}`
+    // const markerTitle = `lat: ${lat}, lng: ${lng}`
 
     return (
       <section style={{ height: '100%' }}>
@@ -138,10 +138,16 @@ class MapPage extends Component {
                     position={{lat: wikiLocationCoordinates.lat, lng: wikiLocationCoordinates.lon}}
                     onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title)}
                     title={wikiLocation.title}
-                    icon='https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0'
+                    icon={'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0'}
                   />
                 )
               })}
+              {this.props.hoverWikiLocation &&
+                <Marker
+                  position={{lat: this.props.hoverWikiLocation.coordinates[0].lat,
+                    lng: this.props.hoverWikiLocation.coordinates[0].lon}}
+                />
+              }
             </GoogleMap>
           }
         />
@@ -208,7 +214,8 @@ function mapStateToProps(state, ownProps) {
     coordinatesString: state.coordinatesString,
     currentLocationObject: getCurrentLocationObject(state),
     infoWindow: state.infoWindow,
-    wikiLocations: getWikiLocations(state)
+    wikiLocations: getWikiLocations(state),
+    hoverWikiLocation: getHoverWikiLocation(state)
   }
 }
 

@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/lib/raised-button'
 import MenuItem from 'material-ui/lib/menu/menu-item'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations} from '../reducers'
 import { browserHistory } from 'react-router'
-import {randomCoordinates} from '../actions'
+import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation} from '../actions'
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
@@ -182,6 +182,8 @@ class LeftNavMain extends Component {
             <ListItem
               key={index}
               primaryText={wikiLocation.title}
+              onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
+              onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
               leftAvatar={
                 wikiLocation.thumbnail
                 ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
@@ -219,7 +221,9 @@ LeftNavMain.propTypes = {
   areaLevel1Object: PropTypes.object,
   localityObject: PropTypes.object,
   page: PropTypes.string,
-  coordinatesString: PropTypes.string
+  coordinatesString: PropTypes.string,
+  hoverWikiLocation: PropTypes.func,
+  unHoverWikiLocation: PropTypes.func
 }
 
 function getPageFromPath(path){
@@ -252,4 +256,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates })(LeftNavMain)
+  randomCoordinates, hoverWikiLocation, unHoverWikiLocation })(LeftNavMain)
