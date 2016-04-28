@@ -43,11 +43,13 @@ function navToCoordinatesString(state = null, action) {
   return state
 }
 
-function navTolocality(state = '', action) {
+function navTolocality(state = null, action) {
   const { type, locality } = action
 
   if (type === ActionTypes.NAV_TO_LOCALITY) {
     return locality
+  } else if (type === ActionTypes.LOCALITY_SUCCESS || type === '@@router/LOCATION_CHANGE') {
+    return null
   }
 
   return state
