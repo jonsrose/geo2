@@ -51,11 +51,13 @@ function callWikipediaApi(endpoint, schema, info) {
 
       let camelizedJson = null
 
-      if (json.query.geosearch.length == 0) {
+      if (json.query.pages.length == 0) {
         return Promise.reject(json)
       }
 
-      camelizedJson = camelizeKeys(json.query.geosearch)
+      const wikiLocations = Object.keys(json.query.pages).map(k => json.query.pages[k])
+
+      camelizedJson = camelizeKeys(wikiLocations)
 
       const coordinatesObject= {}
       coordinatesObject.coordinatesString = info.coordinatesString
@@ -153,10 +155,10 @@ export default store => next => action => {
     response => next(actionWith({
       response,
       type: successType
-    })),
+    }))/*,
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))
+    }))*/
   )
 }

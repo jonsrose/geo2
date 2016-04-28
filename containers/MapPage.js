@@ -132,9 +132,10 @@ class MapPage extends Component {
               onClick={this.handleMapClick.bind(this)}
               >
               {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
+                const wikiLocationCoordinates = wikiLocation.coordinates[0]
                 return (
                   <Marker key={index}
-                    position={{lat: wikiLocation.lat, lng: wikiLocation.lon}}
+                    position={{lat: wikiLocationCoordinates.lat, lng: wikiLocationCoordinates.lon}}
                     onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title)}
                     title={wikiLocation.title}
                   />
