@@ -36,18 +36,26 @@ class LocalityPage extends Component {
     console.log('renderlocality')
     // sole.log(this.props.localityText)
     return (
+      <div>
+      {this.props.localityThumbnail ?
+        <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
+        : null
+      }
       <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
+      </div>
     )
   }
 }
 
 LocalityPage.propTypes = {
-  localityObject: PropTypes.object
+  localityText: PropTypes.string,
+  localityThumbnail: PropTypes.object
 }
 
 function mapStateToProps(state) {
   return {
-    localityText: getLocalityObject(state) ? getLocalityObject(state).extract : null
+    localityText: getLocalityObject(state) ? getLocalityObject(state).extract : null,
+    localityThumbnail: getLocalityObject(state) ? getLocalityObject(state).thumbnail : null
   }
 }
 

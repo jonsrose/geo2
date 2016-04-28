@@ -37,10 +37,11 @@ export function loadAreaLevel1(areaLevel1) {
 
 function fetchLocality(locality) {
   // sole.log(`/actions/index fetchLocality ${locality}`)
+  // // https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro=&explaintext=&titles=antarctica&piprop=thumbnail&pithumbsize=400
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
-      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${locality}`,
+      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=380`,
       schema: WikipediaSchemas.LOCALITY
     }
   }
