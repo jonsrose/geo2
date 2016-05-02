@@ -1,4 +1,4 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, TOGGLE_SIDE_NAV, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, TOGGLE_SIDE_NAV, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
@@ -101,5 +101,18 @@ export function hoverWikiLocation(title) {
 export function unHoverWikiLocation() {
   return {
     type: LEFT_NAV_WIKI_LOCATION_UNHOVER
+  }
+}
+
+export function hoverFlickrPhoto(title) {
+  return {
+    type: LEFT_NAV_FLICKR_PHOTO_HOVER,
+    title
+  }
+}
+
+export function unHoverFlickrPhoto() {
+  return {
+    type: LEFT_NAV_FLICKR_PHOTO_UNHOVER
   }
 }

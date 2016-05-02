@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
-import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos} from '../reducers'
+import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
 import { navTolocality, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
@@ -167,6 +167,13 @@ class MapPage extends Component {
                 )
               })}
 
+              {this.props.hoverFlickrPhoto &&
+                <Marker
+                  position={{lat: Number(this.props.hoverFlickrPhoto.latitude),
+                    lng: Number(this.props.hoverFlickrPhoto.longitude)}}
+                    icon = {'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
+                />
+              }
             </GoogleMap>
           }
         />
@@ -234,7 +241,8 @@ function mapStateToProps(state, ownProps) {
     infoWindow: state.infoWindow,
     wikiLocations: getWikiLocations(state),
     flickrPhotos: getFlickrPhotos(state),
-    hoverWikiLocation: getHoverWikiLocation(state)
+    hoverWikiLocation: getHoverWikiLocation(state),
+    hoverFlickrPhoto: getHoverFlickrPhoto(state)
   }
 }
 

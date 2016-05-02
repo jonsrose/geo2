@@ -115,6 +115,17 @@ function hoverWikiLocationTitle(state = null, action) {
   return state
 }
 
+function hoverFlickrPhotoTitle(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_HOVER ) {
+    return action.title
+  } else if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_UNHOVER) {
+    return null
+  }
+
+  return state
+}
+
 export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
@@ -260,6 +271,14 @@ export function getHoverWikiLocation(state) {
   return state.entities.wikiLocations[state.hoverWikiLocationTitle]
 }
 
+export function getHoverFlickrPhoto(state) {
+  if (!state.hoverFlickrPhotoTitle || !state.entities.wikiLocations || !state.entities.flickrPhotos[state.hoverFlickrPhotoTitle] ) {
+    return null
+  }
+
+  return state.entities.flickrPhotos[state.hoverFlickrPhotoTitle]
+}
+
 const rootReducer = combineReducers({
   entities,
   routing,
@@ -272,7 +291,8 @@ const rootReducer = combineReducers({
   navToCoordinatesString,
   locality,
   navTolocality,
-  hoverWikiLocationTitle
+  hoverWikiLocationTitle,
+  hoverFlickrPhotoTitle
 })
 
 

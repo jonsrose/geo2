@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/lib/app-bar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import MenuItem from 'material-ui/lib/menu/menu-item'
-import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations} from '../reducers'
+import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality} from '../actions'
+import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto} from '../actions'
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
@@ -197,6 +197,31 @@ class LeftNavMain extends Component {
     )
   }
 
+  renderFlickrPhotos() {
+    const {flickrPhotos} = this.props
+
+    if (!flickrPhotos || flickrPhotos.length  == 0) {
+      return null
+    }
+
+    return (
+      <List subheader="Nearby locations">
+        {flickrPhotos.map((flickrPhoto, index) => {
+          return (
+            <ListItem
+              key={index}
+              primaryText={flickrPhoto.title}
+              onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
+              onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
+              onTouchTap={this.props.navTolocality.bind(this, flickrPhoto.title)}
+              leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
+            />
+          )
+        })}
+      </List>
+    )
+  }
+
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
     this.props.randomCoordinates()
@@ -211,6 +236,7 @@ class LeftNavMain extends Component {
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
         {this.renderWikiLocations()}
+        {this.renderFlickrPhotos()}
       </div>
 
     )
@@ -225,6 +251,8 @@ LeftNavMain.propTypes = {
   coordinatesString: PropTypes.string,
   hoverWikiLocation: PropTypes.func,
   unHoverWikiLocation: PropTypes.func,
+  hoverFlickrPhoto: PropTypes.func,
+  unHoverFlickrPhoto: PropTypes.func,
   navTolocality: PropTypes.func
 }
 
@@ -253,9 +281,10 @@ function mapStateToProps(state, ownProps) {
     localityObject: getLocalityObject(state),
     coordinatesString: state.coordinatesString,
     page: getPageFromPath(ownProps.location.pathname),
-    wikiLocations: getWikiLocations(state)
+    wikiLocations: getWikiLocations(state),
+    flickrPhotos: getFlickrPhotos(state)
   }
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality })(LeftNavMain)
+  randomCoordinates, hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality })(LeftNavMain)
