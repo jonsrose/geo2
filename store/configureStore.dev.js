@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import googleApi from '../middleware/googleApi'
 import wikipediaApi from '../middleware/wikipediaApi'
+import flickrApi from '../middleware/flickrApi'
 import rootReducer from '../reducers'
 // import DevTools from '../containers/DevTools'
 
@@ -14,7 +15,7 @@ export default function configureStore(initialState) {
     initialState,
     compose(
       //applyMiddleware(thunk, api, createLogger())
-      applyMiddleware(thunk, googleApi, wikipediaApi, createLogger())
+      applyMiddleware(thunk, googleApi, wikipediaApi, flickrApi, createLogger())
       // DevTools.instrument()
     )
   )

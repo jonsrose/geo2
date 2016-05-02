@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, toggleSideNav } from '../actions'
 import { loadCountry, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions/wikipediaActions'
+import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadLocation } from '../actions/googleActions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
@@ -80,6 +81,7 @@ class App extends Component {
       // sole.log('loadLoc')
       //this.props.loadLocation(nextProps.coordinatesString)
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
+      this.props.loadFlickrPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 
     if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
@@ -281,5 +283,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadWikiLocation, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
 })(App)

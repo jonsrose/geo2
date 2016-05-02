@@ -238,6 +238,20 @@ export function getWikiLocations(state) {
 
 }
 
+export function getFlickrPhotos(state) {
+  var coordinatesString = state.coordinatesString
+
+  if (!state.entities.flickrPhotoCoordinates || ! state.entities.flickrPhotoCoordinates[coordinatesString]) {
+    return null
+  }
+
+  const flickrPhotoKeys = state.entities.flickrPhotoCoordinates[coordinatesString].flickrPhotos
+
+  let flickrPhotos = flickrPhotoKeys.map( flickrPhotoKey => state.entities.flickrPhotos[flickrPhotoKey])
+  return flickrPhotos
+}
+
+
 export function getHoverWikiLocation(state) {
   if (!state.hoverWikiLocationTitle || !state.entities.wikiLocations || !state.entities.wikiLocations[state.hoverWikiLocationTitle] ) {
     return null

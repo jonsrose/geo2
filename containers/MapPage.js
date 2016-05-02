@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
-import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation} from '../reducers'
+import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
 import { navTolocality, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
@@ -135,7 +135,7 @@ class MapPage extends Component {
                 if (!wikiLocation.coordinates || wikiLocation.coordinates.length == 0) {
                   return null
                 }
-                
+
                 const wikiLocationCoordinates = wikiLocation.coordinates[0]
                 return (
                   <Marker key={index}
@@ -152,6 +152,21 @@ class MapPage extends Component {
                     lng: this.props.hoverWikiLocation.coordinates[0].lon}}
                 />
               }
+
+              {this.props.flickrPhotos && this.props.flickrPhotos.map((flickrPhoto, index) => {
+                if (!flickrPhoto.latitude || flickrPhoto.longitude == 0) {
+                  return null
+                }
+
+                return (
+                  <Marker key={index}
+                    position={{lat: Number(flickrPhoto.latitude), lng: Number(flickrPhoto.longitude)}}
+                    title={flickrPhoto.title}
+                    icon={'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png'}
+                  />
+                )
+              })}
+
             </GoogleMap>
           }
         />
@@ -167,7 +182,6 @@ MapPage.propTypes = {
   coordinates: PropTypes.object,
   coordinatesString: PropTypes.string,
   newCoordinatesString: PropTypes.func.isRequired,
-  loadLocation: PropTypes.func.isRequired,
   currentLocationObject: PropTypes.object
 }
 
@@ -219,6 +233,7 @@ function mapStateToProps(state, ownProps) {
     currentLocationObject: getCurrentLocationObject(state),
     infoWindow: state.infoWindow,
     wikiLocations: getWikiLocations(state),
+    flickrPhotos: getFlickrPhotos(state),
     hoverWikiLocation: getHoverWikiLocation(state)
   }
 }
