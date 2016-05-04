@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/lib/raised-button'
 import MenuItem from 'material-ui/lib/menu/menu-item'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto} from '../actions'
+import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto} from '../actions'
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
@@ -213,7 +213,7 @@ class LeftNavMain extends Component {
               primaryText={flickrPhoto.title}
               onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
               onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
-              onTouchTap={this.props.navTolocality.bind(this, flickrPhoto.title)}
+              onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id)}
               leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
             />
           )
@@ -253,7 +253,8 @@ LeftNavMain.propTypes = {
   unHoverWikiLocation: PropTypes.func,
   hoverFlickrPhoto: PropTypes.func,
   unHoverFlickrPhoto: PropTypes.func,
-  navTolocality: PropTypes.func
+  navTolocality: PropTypes.func,
+  navToFlickrPhoto: PropTypes.func
 }
 
 function getPageFromPath(path){
@@ -287,4 +288,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality })(LeftNavMain)
+  randomCoordinates, hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto })(LeftNavMain)

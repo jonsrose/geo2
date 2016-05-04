@@ -55,6 +55,19 @@ function navTolocality(state = null, action) {
   return state
 }
 
+function navToFlickrPhoto(state = null, action) {
+  const { type, id } = action
+
+  if (type === ActionTypes.NAV_TO_FLICKR_PHOTO) {
+    return id
+  } else if (type === '@@router/LOCATION_CHANGE') {
+    return null
+  }
+
+  return state
+}
+
+
 function locationForCoordinates(state = {}, action) {
   const { type } = action
 
@@ -84,6 +97,17 @@ function locality(state = '', action) {
 
   return state
 }
+
+function flickrPhotoId(state = '', action) {
+  const { type } = action
+
+  if (type === ActionTypes.LOAD_FLICKR_PHOTO) {
+    return action.flickrPhotoId
+  }
+
+  return state
+}
+
 
 
 function sideNav(state = true, action) {
@@ -262,6 +286,16 @@ export function getFlickrPhotos(state) {
   return flickrPhotos
 }
 
+export function getFlickrPhotoObject(state) {
+  var flickrPhotoId = state.flickrPhotoId
+
+  if (!flickrPhotoId || !state.entities.flickrPhotos) {
+    return null
+  }
+
+  return state.entities.flickrPhotos[flickrPhotoId]
+}
+
 
 export function getHoverWikiLocation(state) {
   if (!state.hoverWikiLocationTitle || !state.entities.wikiLocations || !state.entities.wikiLocations[state.hoverWikiLocationTitle] ) {
@@ -290,7 +324,9 @@ const rootReducer = combineReducers({
   wikiLocationsForCoordinates,
   navToCoordinatesString,
   locality,
+  flickrPhotoId,
   navTolocality,
+  navToFlickrPhoto,
   hoverWikiLocationTitle,
   hoverFlickrPhotoTitle
 })

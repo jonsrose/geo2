@@ -5,6 +5,7 @@ import { newCoordinatesString, randomCoordinates, toggleSideNav } from '../actio
 import { loadCountry, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadLocation } from '../actions/googleActions'
+import { loadFlickrPhoto } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
 import Paper from 'material-ui/lib/paper'
@@ -92,6 +93,11 @@ class App extends Component {
       browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality}`)
     }
 
+    if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto}`)
+    }
+
+
     if (nextProps.locality && nextProps.locality !== this.props.locality) {
       //// sole.log('loadCoord')
       //this.navigateToMap(nextProps.coordinatesString)
@@ -141,6 +147,11 @@ class App extends Component {
     if (props.localityParam && (!props.locality || props.localityParam != props.locality)) {
       // sole.log('newlocality')
       this.props.loadLocality(props.localityParam)
+    }
+
+    if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {
+      // sole.log('newlocality')
+      this.props.loadFlickrPhoto(props.flickrPhotoIdParam)
     }
 
     //this.props.loadLocation(props.lat, props.lng)
@@ -250,6 +261,7 @@ App.propTypes = {
   coordinatesString: PropTypes.string,
   coordinatesStringParam: PropTypes.string,
   localityParam: PropTypes.string,
+  flickrPhotoIdParam: PropTypes.string,
   page: PropTypes.string,
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
@@ -278,10 +290,12 @@ function mapStateToProps(state, ownProps) {
     page: getPageFromPath(ownProps.location.pathname),
     locality: state.locality,
     localityParam: ownProps.params.locality,
-    navTolocality: state.navTolocality
+    flickrPhotoIdParam: ownProps.params.flickrPhotoId,
+    navTolocality: state.navTolocality,
+    navToFlickrPhoto: state.navToFlickrPhoto
   }
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
 })(App)
