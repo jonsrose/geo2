@@ -176,7 +176,7 @@ class LeftNavMain extends Component {
     }
 
     return (
-      <List subheader="Nearby locations">
+      <List subheader="Nearby Wikipedia locations">
         {wikiLocations.map((wikiLocation, index) => {
           return (
             <ListItem
@@ -205,7 +205,7 @@ class LeftNavMain extends Component {
     }
 
     return (
-      <List subheader="Nearby locations">
+      <List subheader="Nearby Flickr Photos">
         {flickrPhotos.map((flickrPhoto, index) => {
           return (
             <ListItem

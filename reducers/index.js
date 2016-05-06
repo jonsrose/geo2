@@ -93,6 +93,8 @@ function locality(state = '', action) {
 
   if (type === ActionTypes.LOCALITY_SUCCESS) {
     return action.response.result
+  } else if (type === ActionTypes.LOCALITY_REQUEST) {
+    return null
   }
 
   return state

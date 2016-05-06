@@ -35,9 +35,8 @@ class LocalityPage extends Component {
   render() {
     console.log('renderlocality')
     // sole.log(this.props.localityText)
-    return (
-      <div>
-      {this.props.locality &&
+    if (this.props.locality) {
+      return (
         <div>
           {this.props.localityThumbnail &&
             <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
@@ -47,9 +46,10 @@ class LocalityPage extends Component {
             <a href={`https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`} target="_blank">Go to wikipedia page</a>
           </div>
         </div>
-      }
-      </div>
-    )
+      )
+    } else {
+      return null
+    }
   }
 }
 

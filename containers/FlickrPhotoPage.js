@@ -21,20 +21,22 @@ class FlickrPhotoPage extends Component {
   render() {
     console.log('renderFlickrPhoto')
     // sole.log(this.props.flickrPhotoText)
-    const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
 
-    return (
-      <div>
-      {this.props.flickrPhoto ?
-        <a href={flickrLink}><img src={this.props.flickrPhoto.urlM} width={380} /></a>
-        : null
-      }
-      <div dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
-      <div>
-        <a href={flickrLink} target="_blank">Go to flickr page</a>
-      </div>
-      </div>
-    )
+    if (this.props.flickrPhoto) {
+      const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
+      return (
+        <div>
+          <a href={flickrLink}><img src={this.props.flickrPhoto.urlM} width={380}/></a>
+          <div dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
+          <div>
+            <a href={flickrLink} target="_blank">Go to flickr page</a>
+          </div>
+        </div>
+      )
+    } else {
+      return null
+    }
+
   }
 }
 
