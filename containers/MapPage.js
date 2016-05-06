@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-map
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
-import { navTolocality, navToCoordinatesString } from '../actions'
+import { navTolocality, navToFlickrPhoto, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
 // import Repo from '../components/Repo'
@@ -35,6 +35,10 @@ class MapPage extends Component {
 
   handleWikiLocationMarkerClick(title) {
     this.props.navTolocality(title)
+  }
+
+  handleFlickrPhotoMarkerClick(title) {
+    this.props.navToFlickrPhoto(title)
   }
 
   handleCloseInfoWindow() {
@@ -161,6 +165,7 @@ class MapPage extends Component {
                 return (
                   <Marker key={index}
                     position={{lat: Number(flickrPhoto.latitude), lng: Number(flickrPhoto.longitude)}}
+                    onClick={this.handleFlickrPhotoMarkerClick.bind(this, flickrPhoto.id)}
                     title={flickrPhoto.title}
                     icon={'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png'}
                   />
@@ -246,7 +251,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { navTolocality, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
 
 /*
