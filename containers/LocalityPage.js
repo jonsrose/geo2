@@ -37,14 +37,17 @@ class LocalityPage extends Component {
     // sole.log(this.props.localityText)
     return (
       <div>
-      {this.props.localityThumbnail ?
-        <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
-        : null
+      {this.props.locality &&
+        <div>
+          {this.props.localityThumbnail &&
+            <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
+          }
+          <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
+          <div>
+            <a href={`https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`} target="_blank">Go to wikipedia page</a>
+          </div>
+        </div>
       }
-      <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
-      <div>
-        <a href={`https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`} target="_blank">Go to wikipedia page</a>
-      </div>
       </div>
     )
   }
