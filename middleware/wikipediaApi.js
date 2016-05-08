@@ -1,6 +1,6 @@
 import { Schema, normalize, arrayOf } from 'normalizr'
 import { camelizeKeys } from 'humps'
-import 'isomorphic-fetch'
+import fetchJsonp from 'fetch-jsonp'
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was
@@ -28,7 +28,7 @@ export const WikipediaSchemas = {
 }
 
 function callWikipediaApi(endpoint, schema, info) {
-  return fetch(endpoint)
+  return fetchJsonp(endpoint)
   .then(response => {
     // sole.log('Im in the first response bro')
     // sole.log(response)

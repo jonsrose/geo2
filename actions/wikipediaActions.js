@@ -6,7 +6,7 @@ function fetchCountry(country) {
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ COUNTRY_REQUEST, COUNTRY_SUCCESS, COUNTRY_FAILURE ],
-      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${country}`,
+      endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${country}`,
       schema: WikipediaSchemas.COUNTRY
     }
   }
@@ -23,7 +23,7 @@ function fetchAreaLevel1(areaLevel1) {
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ AREA_LEVEL_1_REQUEST, AREA_LEVEL_1_SUCCESS, AREA_LEVEL_1_FAILURE ],
-      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts&format=json&exintro=&titles=${areaLevel1}`,
+      endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=${areaLevel1}`,
       schema: WikipediaSchemas.AREA_LEVEL_1
     }
   }
@@ -41,7 +41,7 @@ function fetchLocality(locality) {
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
-      endpoint: `http://localhost:3000/api/wikipedia?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=380`,
+      endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=380`,
       schema: WikipediaSchemas.LOCALITY
     }
   }
@@ -60,7 +60,7 @@ function fetchWikiLocation(lat,lng) {
     [CALL_WIKIPEDIA_API]: {
       types: [ WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE ],
       endpoint:
-      `http://localhost:3000/api/wikipedia?action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&generator=geosearch&ggscoord=${lat}|${lng}&ggsradius=10000&ggslimit=50&format=json`,
+      `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&generator=geosearch&ggscoord=${lat}|${lng}&ggsradius=10000&ggslimit=50&format=json`,
       schema: WikipediaSchemas.WIKI_LOCATION_COORDINATES,
       info: {coordinatesString}
     }

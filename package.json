@@ -16,6 +16,7 @@
   "homepage": "http://redux.js.org",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
+    "fetch-jsonp": "^1.0.0",
     "humps": "^0.6.0",
     "isomorphic-fetch": "^2.1.1",
     "lodash": "^4.0.0",
