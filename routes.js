@@ -11,7 +11,7 @@ import FlickrPhotoPage from './containers/FlickrPhotoPage'
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute components={{leftChildren: LeftNavMain, rightChildren: null}}/>
+    <IndexRoute components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
     <Route path="/coordinates/:coordinatesString"
          components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
     <Route path="/coordinates/:coordinatesString/placeDetail"

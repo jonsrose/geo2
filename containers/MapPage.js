@@ -102,15 +102,27 @@ class MapPage extends Component {
   }
 
   render() {
+    console.log('MapPage')
     // sole.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
 
 
-    if (!this.props.coordinates) {
-      return null
-    }
 
     // sole.log(this.props.coordinates)
-    const {lat, lng} = this.props.coordinates
+    let {lat, lng} = {lat: 0, lng: 0}
+
+    if (this.props.coordinates) {
+        lat = this.props.coordinates.lat
+        lng = this.props.coordinates.lng
+    }
+
+    const style = {
+      height: 100,
+      width: 100,
+      margin: 20,
+      textAlign: 'center',
+      display: 'inline-block'
+    }
+
     // sole.log('read lat lng')
 
     // const markerTitle = `lat: ${lat}, lng: ${lng}`
