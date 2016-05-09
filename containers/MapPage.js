@@ -199,7 +199,7 @@ class MapPage extends Component {
 
               {!this.props.coordinates && lat == 0 && lng == 0 &&
                 <OverlayView
-                   position={{ lat: 0, lng: 0 }}
+                   position={{ lat, lng}}
                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                    getPixelPositionOffset={this.getPixelPositionOffset}
                   >
