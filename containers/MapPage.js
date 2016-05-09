@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
+import { GoogleMapLoader, GoogleMap, Marker, InfoWindow, OverlayView } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto} from '../reducers'
 import { satelliteMap } from '../components/GoogleMapsHelper'
@@ -19,6 +19,15 @@ function loadData(props) {
   props.loadStarred(login)
 }
 */
+
+const STYLES = {
+  overlayView: {
+    background: 'white',
+    border: '1px solid #ccc',
+    padding: 15,
+    textAlign: 'center'
+  }
+}
 
 class MapPage extends Component {
   constructor(props) {
@@ -101,6 +110,10 @@ class MapPage extends Component {
     )
   }
 
+  getPixelPositionOffset(width, height) {
+    return { x: -(width / 2), y: -(height / 2) }
+  }
+
   render() {
     console.log('MapPage')
     // sole.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
@@ -113,14 +126,6 @@ class MapPage extends Component {
     if (this.props.coordinates) {
         lat = this.props.coordinates.lat
         lng = this.props.coordinates.lng
-    }
-
-    const style = {
-      height: 100,
-      width: 100,
-      margin: 20,
-      textAlign: 'center',
-      display: 'inline-block'
     }
 
     // sole.log('read lat lng')
@@ -190,6 +195,19 @@ class MapPage extends Component {
                     lng: Number(this.props.hoverFlickrPhoto.longitude)}}
                     icon = {'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
                 />
+              }
+
+              {!this.props.coordinates && lat == 0 && lng == 0 &&
+                <OverlayView
+                   position={{ lat: 0, lng: 0 }}
+                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                   getPixelPositionOffset={this.getPixelPositionOffset}
+                  >
+                   <div style={STYLES.overlayView}>
+                     <h1>Click on the JUMP button to jump to a random location!</h1>
+                     <p>GEOJUMP will search for nearby wikipedia locations and flickr photos based on where you land!</p>
+                   </div>
+                  </OverlayView>
               }
             </GoogleMap>
           }
