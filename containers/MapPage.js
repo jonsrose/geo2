@@ -197,15 +197,28 @@ class MapPage extends Component {
                 />
               }
 
-              {!this.props.coordinates && lat == 0 && lng == 0 &&
+              {!this.props.coordinates &&
                 <OverlayView
                    position={{ lat, lng}}
                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                    getPixelPositionOffset={this.getPixelPositionOffset}
                   >
                    <div style={STYLES.overlayView}>
-                     <h1>Click on the JUMP button to jump to a random location!</h1>
-                     <p>GEOJUMP will search for nearby wikipedia locations and flickr photos based on where you land!</p>
+                     <h1>Press the JUMP button to start!</h1>
+                     <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
+                   </div>
+                  </OverlayView>
+              }
+
+              {this.props.coordinates && !this.props.flickrPhotos && !this.props.wikiLocations &&
+                <OverlayView
+                   position={{ lat, lng}}
+                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                   getPixelPositionOffset={this.getPixelPositionOffset}
+                  >
+                   <div style={STYLES.overlayView}>
+                     <h1>No nearby places found. </h1>
+                     <p>Try pressing elsewhere on the map to scan somewhere close by, or hit the JUMP to go to another location</p>
                    </div>
                   </OverlayView>
               }
