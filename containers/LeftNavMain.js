@@ -9,6 +9,7 @@ import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality
 import Avatar from 'material-ui/lib/avatar'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
+import Paper from 'material-ui/lib/paper'
 
 const SideNavLabel = props =>
 <div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
@@ -168,60 +169,6 @@ class LeftNavMain extends Component {
 
   }
 
-  renderWikiLocations() {
-    const {wikiLocations} = this.props
-
-    if (!wikiLocations || wikiLocations.length  == 0) {
-      return null
-    }
-
-    return (
-      <List subheader="Nearby Wikipedia locations">
-        {wikiLocations.map((wikiLocation, index) => {
-          return (
-            <ListItem
-              key={index}
-              primaryText={wikiLocation.title}
-              onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
-              onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
-              onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title)}
-              leftAvatar={
-                wikiLocation.thumbnail
-                ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
-              : <Avatar style={{ visibility:'hidden'}}/>
-              }
-            />
-          )
-        })}
-      </List>
-    )
-  }
-
-  renderFlickrPhotos() {
-    const {flickrPhotos} = this.props
-
-    if (!flickrPhotos || flickrPhotos.length  == 0) {
-      return null
-    }
-
-    return (
-      <List subheader="Nearby Flickr Photos">
-        {flickrPhotos.map((flickrPhoto, index) => {
-          return (
-            <ListItem
-              key={index}
-              primaryText={flickrPhoto.title}
-              onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
-              onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
-              onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id)}
-              leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
-            />
-          )
-        })}
-      </List>
-    )
-  }
-
   randomCoordinates() {
     //this.setState(this.getLatLngFromRandom());
     this.props.randomCoordinates()
@@ -231,12 +178,57 @@ class LeftNavMain extends Component {
   render() {
     // sole.log('rendercountry')
     // sole.log(this.props.countryText)
+    const {wikiLocations, flickrPhotos} = this.props
     return (
       <div>
         <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
         </AppBar>
-        {this.renderWikiLocations()}
-        {this.renderFlickrPhotos()}
+
+        {wikiLocations &&
+          <List subheader="Nearby Wikipedia locations">
+          {wikiLocations.map((wikiLocation, index) => {
+            return (
+              <ListItem
+                key={index}
+                primaryText={wikiLocation.title}
+                onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
+                onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
+                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title)}
+                leftAvatar={
+                  wikiLocation.thumbnail
+                  ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
+                : <Avatar style={{ visibility:'hidden'}}/>
+                }
+              />
+            )
+          })}
+          </List>
+        }
+
+        {flickrPhotos &&
+          <List subheader="Nearby Flickr Photos">
+          {flickrPhotos.map((flickrPhoto, index) => {
+            return (
+              <ListItem
+                key={index}
+                primaryText={flickrPhoto.title}
+                onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
+                onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
+                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id)}
+                leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
+              />
+            )
+          })}
+          </List>
+        }
+
+        {!wikiLocations && !flickrPhotos &&
+          <Paper style={{position: 'absolute', top: 64, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
+            <p><strong>No nearby places found.</strong></p>
+              <p>Touch somewhere else on the map, zoom out first if that helps</p>
+              <p>Or hit the JUMP to go to another location</p>
+          </Paper>
+        }
       </div>
 
     )

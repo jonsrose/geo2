@@ -209,19 +209,6 @@ class MapPage extends Component {
                    </div>
                   </OverlayView>
               }
-
-              {this.props.coordinates && !this.props.flickrPhotos && !this.props.wikiLocations &&
-                <OverlayView
-                   position={{ lat, lng}}
-                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                   getPixelPositionOffset={this.getPixelPositionOffset}
-                  >
-                   <div style={STYLES.overlayView}>
-                     <h1>No nearby places found. </h1>
-                     <p>Try pressing elsewhere on the map to scan somewhere close by, or hit the JUMP to go to another location</p>
-                   </div>
-                  </OverlayView>
-              }
             </GoogleMap>
           }
         />
