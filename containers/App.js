@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, toggleSideNav } from '../actions'
-import { loadCountry, loadWikiLocation, loadAreaLevel1, loadLocality } from '../actions/wikipediaActions'
+import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
-import { loadLocation } from '../actions/googleActions'
 import { loadFlickrPhoto } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import LeftNav from 'material-ui/lib/left-nav'
@@ -297,5 +296,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadCountry, loadAreaLevel1, loadLocation, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
+  randomCoordinates, toggleSideNav, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
 })(App)
