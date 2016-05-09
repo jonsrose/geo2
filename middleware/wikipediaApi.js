@@ -51,7 +51,7 @@ function callWikipediaApi(endpoint, schema, info) {
 
       let camelizedJson = null
 
-      if (json.query.pages.length == 0) {
+      if (!json.query || !json.query.pages || json.query.pages.length == 0) {
         return Promise.reject(json)
       }
 
@@ -155,10 +155,10 @@ export default store => next => action => {
     response => next(actionWith({
       response,
       type: successType
-    }))/*,
+    })),
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
-    }))*/
+    }))
   )
 }
