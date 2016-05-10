@@ -2,8 +2,6 @@ import { CALL_WIKIPEDIA_API, WikipediaSchemas } from '../middleware/wikipediaApi
 import { LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE, WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE } from './ActionTypes'
 
 function fetchLocality(locality) {
-  // sole.log(`/actions/index fetchLocality ${locality}`)
-  // // https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro=&explaintext=&titles=antarctica&piprop=thumbnail&pithumbsize=400
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
@@ -24,7 +22,6 @@ export function loadLocality(locality) {
 }
 
 function fetchWikiLocation(lat,lng) {
-  // sole.log(`/actions/index fetchWikiLocation ${wikiLocation}`)
   const coordinatesString =  `${lat},${lng}`
   return {
     [CALL_WIKIPEDIA_API]: {

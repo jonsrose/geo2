@@ -5,22 +5,15 @@ import { getFlickrPhotoObject } from '../reducers'
 class FlickrPhotoPage extends Component {
 
   createMarkup(text) {
-    // sole.log('createMarkup')
-    // sole.log(text)
     return {__html: text}
   }
 
   constructor(props) {
-    // sole.log('containers/MapPage constructor props:')
-    // sole.log(props)
     super(props)
-    // this.renderRepo = this.renderRepo.bind(this)
-    // this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
   }
 
   render() {
     console.log('renderFlickrPhoto')
-    // sole.log(this.props.flickrPhotoText)
 
     if (this.props.flickrPhoto) {
       const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`

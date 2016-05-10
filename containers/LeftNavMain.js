@@ -55,15 +55,12 @@ class LeftNavMain extends Component {
   renderCountryMenuItem() {
     console.log('renderCountryMenuItem')
     const { countryObject, page } = this.props
-    // sole.log(`countryObject ${countryObject}`)
 
     if (page == 'country' || page == 'home') {
-      // sole.log('if (page == \'country\') ')
       return null
     }
 
     if (!countryObject || ! countryObject.title) {
-      //console.log('nocountry')
       return null
     }
 
@@ -77,15 +74,12 @@ class LeftNavMain extends Component {
   renderAreaLevel1MenuItem() {
     console.log('renderAreaLevel1MenuItem')
     const { areaLevel1Object, page } = this.props
-    // sole.log(`areaLevel1Object ${areaLevel1Object}`)
 
     if (page == 'areaLevel1' || page == 'home') {
-      // sole.log('if (page == \'areaLevel1\') ')
       return null
     }
 
     if (!areaLevel1Object || ! areaLevel1Object.title) {
-      //console.log('noareaLevel1')
       return null
     }
 
@@ -99,15 +93,12 @@ class LeftNavMain extends Component {
   renderLocalityMenuItem() {
     console.log('renderLocalityMenuItem')
     const { localityObject, page } = this.props
-    // sole.log(`localityObject ${localityObject}`)
 
     if (page == 'locality' || page == 'home') {
-      // sole.log('if (page == \'locality\') ')
       return null
     }
 
     if (!localityObject || ! localityObject.title) {
-      //console.log('nolocality')
       return null
     }
 
@@ -119,7 +110,6 @@ class LeftNavMain extends Component {
   }
 
   renderCoordinates() {
-      // sole.log('renderCoordinates')
       const { coordinates } = this.props
 
       if (!coordinates) {
@@ -141,10 +131,8 @@ class LeftNavMain extends Component {
   renderMapMenuItem() {
     const { page } = this.props
     if (page == 'map' || page == 'home') {
-      return null /* TODO could return read only menu item with treatment */
+      return null
     }
-
-    // sole.log('we do have a map dude')
 
     return (
       <MenuItem index={3} onTouchTap={this.mapInfo.bind(this)}>Map</MenuItem>
@@ -152,10 +140,7 @@ class LeftNavMain extends Component {
   }
 
   renderCurrentLocation() {
-    // sole.log('renderCurrentLocation this.props')
-    // sole.log(this.props)
     const { currentLocationObject } = this.props
-    // sole.log(currentLocationObject)
 
     if (!currentLocationObject) {
       return null
@@ -170,14 +155,10 @@ class LeftNavMain extends Component {
   }
 
   randomCoordinates() {
-    //this.setState(this.getLatLngFromRandom());
     this.props.randomCoordinates()
-    // sole.log('randomCoordinates')
   }
 
   render() {
-    // sole.log('rendercountry')
-    // sole.log(this.props.countryText)
     const {wikiLocations, flickrPhotos, coordinatesString} = this.props
     return (
       <div>
@@ -276,8 +257,6 @@ function getPageFromPath(path){
 }
 
 function mapStateToProps(state, ownProps) {
-  //const page = getPageFromPath(ownProps.location.pathname)
-
   return {
     countryObject: getCountryObject(state),
     areaLevel1Object: getAreaLevel1Object(state),

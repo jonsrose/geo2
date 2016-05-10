@@ -2,13 +2,6 @@ import { Schema, normalize, arrayOf } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import fetchJsonp from 'fetch-jsonp'
 
-// Fetches an API response and normalizes the result JSON according to schema.
-// This makes every API response have the same shape, regardless of how nested it was
-
-//const wikiLocationSchema = new Schema('wikiLocations', {
-//  idAttribute: 'title'
-//})
-
 const wikiLocationSchema = new Schema('wikiLocations', { idAttribute: 'title' })
 const wikiLocationCoordinatesSchema = new Schema('wikiLocationCoordinates', { idAttribute: 'coordinatesString' })
 
@@ -21,7 +14,6 @@ const localitySchema = new Schema('localities', {
   idAttribute: 'title'
 })
 
-// Schemas for Github API responses.
 export const WikipediaSchemas = {
   WIKI_LOCATION_COORDINATES: wikiLocationCoordinatesSchema,
   LOCALITY: localitySchema
@@ -30,11 +22,8 @@ export const WikipediaSchemas = {
 function callWikipediaApi(endpoint, schema, info) {
   return fetchJsonp(endpoint)
   .then(response => {
-    // sole.log('Im in the first response bro')
-    // sole.log(response)
     return response.json()
     .then(json => {
-      // sole.log('Im in the 2nd response bro')
       return { json, response }
     })
   }
@@ -45,10 +34,6 @@ function callWikipediaApi(endpoint, schema, info) {
     }
 
     if (endpoint.indexOf('geosearch') > -1) {
-
-
-      // sole.log('wikiwikiwiki')
-
       let camelizedJson = null
 
       if (!json.query || !json.query.pages || json.query.pages.length == 0) {
@@ -62,8 +47,6 @@ function callWikipediaApi(endpoint, schema, info) {
       const coordinatesObject= {}
       coordinatesObject.coordinatesString = info.coordinatesString
       coordinatesObject.wikiLocations = camelizedJson
-
-      //console.log(`coordinatesString ${coordinatesString}`)
 
       return Object.assign({},
         normalize(coordinatesObject, schema)
@@ -88,22 +71,9 @@ function callWikipediaApi(endpoint, schema, info) {
         normalized
       )
     }
-
   })
 }
 
-// We use this Normalizr schemas to transform API responses from a nested form
-// to a flat form where repos and users are placed in `entities`, and nested
-// JSON objects are replaced with their IDs. This is very convenient for
-// consumption by reducers, because we can easily build a normalized tree
-// and keep it updated as we fetch more data.
-
-// Read more about Normalizr: https://github.com/gaearon/normalizr
-
-
-
-
-// Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_WIKIPEDIA_API = Symbol('Call Wikipedia API')
 
 // A Redux middleware that interprets actions with CALL_WIKIPEDIA_API info specified.
@@ -121,9 +91,6 @@ export default store => next => action => {
   if (callApi.info) {
     info = callApi.info
   }
-
-  // sole.log('info')
-  // sole.log(info)
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())

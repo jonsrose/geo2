@@ -3,11 +3,7 @@ import merge from 'lodash/merge'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
-// Updates an entity cache in response to any action with response.entities.
 function entities(state = { }, action) {
-  // sole.log('/reducers/index.js entities() state: action: ')
-  // sole.log(state)
-  // sole.log(action)
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
@@ -156,7 +152,6 @@ export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
   var location = state.locationForCoordinates[coordinatesString]
-  //// sole.log(`getCurrentLocation ${location}`)
   return (location)
 }
 
@@ -168,7 +163,6 @@ export function getCurrentLocationObject(state) {
   }
 
   var locationObject = state.entities.locations[location]
-  //// sole.log(`getCurrentLocationObject ${locationObject}`)
   return (locationObject)
 }
 

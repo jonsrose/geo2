@@ -2,7 +2,6 @@ import { CALL_FLICKR_API, FlickrSchemas } from '../middleware/flickrApi'
 import { FLICKR_PHOTO_REQUEST, FLICKR_PHOTO_SUCCESS, FLICKR_PHOTO_FAILURE } from './ActionTypes'
 
 function fetchFlickrPhotos(lat,lng) {
-  // sole.log(`/actions/index fetchCountry ${country}`)
   const coordinatesString =  `${lat},${lng}`
   return {
     [CALL_FLICKR_API]: {

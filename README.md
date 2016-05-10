@@ -10,4 +10,6 @@ If wikipedia locations are found close by, they will be listed in the side nav o
 
 User can touch anywhere on the map to jump to a another nearby location on the map, and it will scan for nearby places based on the new location.
 
-The app uses Reactjs and the Redux library. It is based off of the real world example in the redux library. It uses React Router to modify the url and provide browser history and bookmarking support. 
+The app uses Reactjs and the Redux library. It is based off of the real world example in the redux library. It uses React Router to modify the url and provide browser history and bookmarking support.
+
+Random coordinates are picked according to this stack overflow entry: http://stackoverflow.com/questions/34359902/better-way-to-pick-random-point-on-earth

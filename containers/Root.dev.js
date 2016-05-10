@@ -6,8 +6,6 @@ import { Router } from 'react-router'
 export default class Root extends Component {
   render() {
     const { store, history } = this.props
-    // sole.log('/containers/Root.dev.js Root.render()')
-    // sole.log(store)
     return (
       <Provider store={store}>
         <div>
