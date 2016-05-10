@@ -40,12 +40,7 @@ class MapPage extends Component {
   }
 
   renderInfoWindowContent() {
-    // sole.log('renderInfoWindowContent')
-
     const { coordinates, currentLocationObject } = this.props
-
-    // sole.log(coordinates)
-    // sole.log(currentLocationObject)
 
     if (!coordinates) {
       return null

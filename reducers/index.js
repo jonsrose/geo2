@@ -106,8 +106,6 @@ function flickrPhotoId(state = '', action) {
   return state
 }
 
-
-
 function sideNav(state = true, action) {
   const { type } = action
   if (type === ActionTypes.TOGGLE_SIDE_NAV) {
