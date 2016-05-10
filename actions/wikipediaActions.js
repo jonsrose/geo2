@@ -14,7 +14,11 @@ function fetchLocality(locality) {
 }
 
 export function loadLocality(locality) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().entities.localities && getState().entities.localities[locality]) {
+      return null
+    }
+
     return dispatch(fetchLocality(locality))
   }
 }
@@ -33,8 +37,19 @@ function fetchWikiLocation(lat,lng) {
   }
 }
 
+
 export function loadWikiLocation(lat,lng) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const coordinatesString = `${lat},${lng}`
+
+    if (getState().entities.wikiLocationCoordinates) {
+      const wikiLocationCoordinates = getState().entities.wikiLocationCoordinates[coordinatesString]
+
+      if (wikiLocationCoordinates && wikiLocationCoordinates.wikiLocation && wikiLocationCoordinates.wikiLocation.length > 0) {
+        return null
+      }
+    }
+
     return dispatch(fetchWikiLocation(lat,lng))
   }
 }
