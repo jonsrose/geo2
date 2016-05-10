@@ -36,14 +36,15 @@ class LocalityPage extends Component {
     console.log('renderlocality')
     // sole.log(this.props.localityText)
     if (this.props.locality) {
+      const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
       return (
         <div>
           {this.props.localityThumbnail &&
-            <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
+            <a href={link} target="_blank"><img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/></a>
           }
           <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
           <div>
-            <a href={`https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`} target="_blank">Go to wikipedia page</a>
+            <a href={link} target="_blank">Go to wikipedia page</a>
           </div>
         </div>
       )
