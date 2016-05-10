@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { GoogleMapLoader, GoogleMap, Marker, InfoWindow, OverlayView } from 'react-google-maps'
+import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto} from '../reducers'
-import { satelliteMap } from '../components/GoogleMapsHelper'
+import { satelliteMap } from '../util/GoogleMapsHelper'
 import { navTolocality, navToFlickrPhoto, navToCoordinatesString } from '../actions'
 // import { loadUser, loadStarred } from '../actions'
 // import User from '../components/User'
@@ -19,15 +19,6 @@ function loadData(props) {
   props.loadStarred(login)
 }
 */
-
-const STYLES = {
-  overlayView: {
-    background: 'white',
-    border: '1px solid #ccc',
-    padding: 15,
-    textAlign: 'center'
-  }
-}
 
 class MapPage extends Component {
   constructor(props) {
@@ -195,19 +186,6 @@ class MapPage extends Component {
                     lng: Number(this.props.hoverFlickrPhoto.longitude)}}
                     icon = {'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
                 />
-              }
-
-              {!this.props.coordinates &&
-                <OverlayView
-                   position={{ lat, lng}}
-                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                   getPixelPositionOffset={this.getPixelPositionOffset}
-                  >
-                   <div style={STYLES.overlayView}>
-                     <h1>Press the JUMP button to start!</h1>
-                     <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
-                   </div>
-                  </OverlayView>
               }
             </GoogleMap>
           }

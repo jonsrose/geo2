@@ -53,7 +53,7 @@ class PlaceDetail extends Component {
     return (
       <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0}}>
         <div style={{position: 'absolute', left: 0, top:0, height:44}}>
-          <FlatButton label="Back to map" primary={true} onTouchTap={this.mapInfo.bind(this)} />
+          <FlatButton label="Close" primary={true} onTouchTap={this.mapInfo.bind(this)} />
         </div>
         <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}}>
           {this.props.children}
