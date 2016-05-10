@@ -139,6 +139,7 @@ class MapPage extends Component {
                 <Marker
                   position={{lat: this.props.hoverWikiLocation.coordinates[0].lat,
                     lng: this.props.hoverWikiLocation.coordinates[0].lon}}
+                    icon = {'http://maps.google.com/mapfiles/ms/icons/red-dot.png'}
                 />
               }
 
