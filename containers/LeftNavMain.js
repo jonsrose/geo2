@@ -211,7 +211,6 @@ class LeftNavMain extends Component {
           </Paper>
         }
 
-
         {!coordinatesString &&
           <Paper style={{position: 'absolute', top: 64, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
             <p><strong>Welcome to GEOJUMP!</strong></p>

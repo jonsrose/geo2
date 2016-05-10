@@ -128,7 +128,7 @@ function hoverWikiLocationTitle(state = null, action) {
   const { type } = action
   if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_HOVER ) {
     return action.title
-  } else if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_UNHOVER) {
+  } else if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_UNHOVER || type === ActionTypes.NAV_TO_LOCALITY) {
     return null
   }
 
@@ -139,7 +139,7 @@ function hoverFlickrPhotoTitle(state = null, action) {
   const { type } = action
   if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_HOVER ) {
     return action.title
-  } else if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_UNHOVER) {
+  } else if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_UNHOVER || type === ActionTypes.NAV_TO_LOCALITY) {
     return null
   }
 
