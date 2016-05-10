@@ -112,10 +112,10 @@ export function unHoverWikiLocation() {
   }
 }
 
-export function hoverFlickrPhoto(title) {
+export function hoverFlickrPhoto(id) {
   return {
     type: LEFT_NAV_FLICKR_PHOTO_HOVER,
-    title
+    id
   }
 }
 
@@ -125,9 +125,9 @@ export function unHoverFlickrPhoto() {
   }
 }
 
-export function loadFlickrPhoto(flickrPhotoId) {
+export function loadFlickrPhoto(id) {
   return {
     type: LOAD_FLICKR_PHOTO,
-    flickrPhotoId
+    id
   }
 }

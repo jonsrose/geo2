@@ -100,7 +100,7 @@ function flickrPhotoId(state = '', action) {
   const { type } = action
 
   if (type === ActionTypes.LOAD_FLICKR_PHOTO) {
-    return action.flickrPhotoId
+    return action.id
   }
 
   return state
@@ -126,20 +126,22 @@ function infoWindow(state = true, action) {
 
 function hoverWikiLocationTitle(state = null, action) {
   const { type } = action
-  if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_HOVER ) {
+  if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_HOVER) {
     return action.title
-  } else if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_UNHOVER || type === ActionTypes.NAV_TO_LOCALITY) {
+  } else if (type === ActionTypes.LOCALITY_SUCCESS) {
+    return action.response.result
+  } else if (type === ActionTypes.LEFT_NAV_WIKI_LOCATION_UNHOVER || type === ActionTypes.NAV_TO_LOCALITY || type === '@@router/LOCATION_CHANGE') {
     return null
   }
 
   return state
 }
 
-function hoverFlickrPhotoTitle(state = null, action) {
+function hoverFlickrPhotoId(state = null, action) {
   const { type } = action
-  if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_HOVER ) {
-    return action.title
-  } else if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_UNHOVER || type === ActionTypes.NAV_TO_LOCALITY) {
+  if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_HOVER || type === ActionTypes.LOAD_FLICKR_PHOTO) {
+    return action.id
+  } else if (type === ActionTypes.LEFT_NAV_FLICKR_PHOTO_UNHOVER || type === ActionTypes.NAV_TO_FLICKR_PHOTO || type === '@@router/LOCATION_CHANGE') {
     return null
   }
 
@@ -300,11 +302,11 @@ export function getHoverWikiLocation(state) {
 }
 
 export function getHoverFlickrPhoto(state) {
-  if (!state.hoverFlickrPhotoTitle || !state.entities.wikiLocations || !state.entities.flickrPhotos[state.hoverFlickrPhotoTitle] ) {
+  if (!state.hoverFlickrPhotoId || !state.entities.wikiLocations || !state.entities.flickrPhotos[state.hoverFlickrPhotoId] ) {
     return null
   }
 
-  return state.entities.flickrPhotos[state.hoverFlickrPhotoTitle]
+  return state.entities.flickrPhotos[state.hoverFlickrPhotoId]
 }
 
 const rootReducer = combineReducers({
@@ -322,7 +324,7 @@ const rootReducer = combineReducers({
   navTolocality,
   navToFlickrPhoto,
   hoverWikiLocationTitle,
-  hoverFlickrPhotoTitle
+  hoverFlickrPhotoId
 })
 
 
