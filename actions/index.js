@@ -1,4 +1,4 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, TOGGLE_SIDE_NAV, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO, SET_SIDE_NAV_VISIBILITY } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
@@ -81,12 +81,6 @@ export function newLocality(locality){
   }
 }
 
-export function toggleSideNav() {
-  return {
-    type: TOGGLE_SIDE_NAV
-  }
-}
-
 export function showInfoWindow() {
   return {
     type: SHOW_INFO_WINDOW
@@ -129,5 +123,12 @@ export function loadFlickrPhoto(id) {
   return {
     type: LOAD_FLICKR_PHOTO,
     id
+  }
+}
+
+export function setSideNavVisibility(open) {
+  return {
+    type: SET_SIDE_NAV_VISIBILITY,
+    open
   }
 }

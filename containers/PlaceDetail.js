@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Paper from 'material-ui/lib/paper'
-import FlatButton from 'material-ui/lib/flat-button'
+import Paper from 'material-ui/Paper'
+import FlatButton from 'material-ui/FlatButton'
 import { browserHistory } from 'react-router'
 
 class PlaceDetail extends Component {
@@ -30,7 +30,7 @@ class PlaceDetail extends Component {
         <div style={{position: 'absolute', left: 0, top:0, height:44}}>
           <FlatButton label="Close" primary={true} onTouchTap={this.mapInfo.bind(this)} />
         </div>
-        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto', paddingLeft:10, paddingRight:10}}>
+        <div style={{position: 'absolute', top: 44, bottom:0, overflow:'auto'}}>
           {this.props.children}
         </div>
       </Paper>
