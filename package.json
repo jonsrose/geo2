@@ -6,12 +6,11 @@
     "start": "node server.js"
   },
   "author": "Jon Rose",
-  "license": "MIT",
+  "license": "MIT", 
   "repository": {
     "type": "git",
     "url": "https://github.com/jonsrose/geojump.git"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jonsrose/geojump/issues"
   },
@@ -45,6 +44,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.1",
     "concurrently": "^0.1.1",
+    "cross-env": "^1.0.7",
     "eslint": "^2.7.0",
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^4.3.0",
