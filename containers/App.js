@@ -1,28 +1,29 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, toggleSideNav } from '../actions'
+import { newCoordinatesString, randomCoordinates, setSideNavVisibility } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadFlickrPhoto } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
-import LeftNav from 'material-ui/lib/left-nav'
-import Paper from 'material-ui/lib/paper'
+import Drawer from 'material-ui/Drawer'
+import Paper from 'material-ui/Paper'
 
-import {deepOrange500} from 'material-ui/lib/styles/colors'
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/lib/MuiThemeProvider'
+import {deepOrange500} from 'material-ui/styles/colors'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import AppBar from 'material-ui/AppBar'
+import RaisedButton from 'material-ui/RaisedButton'
 
-const MainSection = props =>
+const MainSection = (props) =>
 <div style={{
     position: 'absolute',
     top: 0,
-    left: props.sideNavWidth + 'px',
+    left: 0,
     right: 0,
     bottom: 0,
     backgroundColor:'rgb(0, 188, 212)'
   }}
-
 >
   {props.children}
 </div>
@@ -110,10 +111,6 @@ class App extends Component {
     return title
   }
 
-  handleToggle() {
-    this.props.toggleSideNav()
-  }
-
   renderPaper() {
     return (
       <Paper zDepth={1} style={{position:'fixed', top: 64, left:0, right:0, height:44, zIndex: 1101, width:'inherit', fontSize:18, lineHeight:'44px', textAlign: 'center' }}>
@@ -122,15 +119,23 @@ class App extends Component {
     )
   }
 
+  setSideNavVisibility(open) {
+
+      this.props.setSideNavVisibility(open)
+  }
+
   render() {
     const { leftChildren, rightChildren } = this.props
+    var sideNavVisibility = this.props.sideNav
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <LeftNav width={400} open={this.props.sideNav} zDepth={1} containerStyle={{zIndex: 1100}}>
+          <Drawer onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
-          </LeftNav>
-          <MainSection sideNavWidth={400}>
+          </Drawer>
+          <MainSection sideNavWidth={0}>
+            <AppBar title="GEOJUMP" onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
+            </AppBar>
             {rightChildren}
           </MainSection>
         </div>
@@ -163,7 +168,6 @@ App.propTypes = {
   countryObject: PropTypes.object,
   coordinates: PropTypes.object,
   appBarTitle: PropTypes.string,
-  toggleSideNav: PropTypes.func.isRequired,
   appBarLeft: PropTypes.number,
   coordinatesString: PropTypes.string,
   coordinatesStringParam: PropTypes.string,
@@ -172,7 +176,8 @@ App.propTypes = {
   page: PropTypes.string,
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
-  locality: PropTypes.string
+  locality: PropTypes.string,
+  setSideNavVisibility: PropTypes.func
 }
 
 
@@ -202,5 +207,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, toggleSideNav, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString
+  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString, setSideNavVisibility
 })(App)
