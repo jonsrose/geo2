@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "description": "Geojump will take you to random destinations on Google Maps",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "deploy": "gh-pages -d build",
+    "build": "webpack"
   },
   "author": "Jon Rose",
-  "license": "MIT", 
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/jonsrose/geojump.git"
@@ -49,6 +51,8 @@
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^4.3.0",
     "express": "^4.13.3",
+    "gh-pages": "^0.10.0",
+    "html-webpack-plugin": "^2.16.1",
     "redux-devtools": "^3.1.0",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.3",
