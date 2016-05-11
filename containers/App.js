@@ -52,7 +52,7 @@ class App extends Component {
 
   navigateToMap(coordinatesString) {
     console.log('navigateToMap')
-    browserHistory.push(`/geojump/coordinates/${coordinatesString}`)
+    browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,11 +68,11 @@ class App extends Component {
     }
 
     if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
-      browserHistory.push(`/geojump/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality}`)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality}`)
     }
 
     if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
-      browserHistory.push(`/geojump/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto}`)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto}`)
     }
   }
 
