@@ -106,10 +106,10 @@ function flickrPhotoId(state = '', action) {
   return state
 }
 
-function sideNav(state = true, action) {
+function sideNav(state = false, action) {
   const { type } = action
-  if (type === ActionTypes.TOGGLE_SIDE_NAV) {
-    return !state
+  if (type === ActionTypes.SET_SIDE_NAV_VISIBILITY) {
+    return action.open
   }
   return state
 }

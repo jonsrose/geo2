@@ -19,7 +19,7 @@ class FlickrPhotoPage extends Component {
       const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
       return (
         <div>
-          <a href={flickrLink} target="_blank"><img src={this.props.flickrPhoto.urlM} width={380}/></a>
+          <a href={flickrLink} target="_blank"><img src={this.props.flickrPhoto.urlM} width={256}/></a>
           <div dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
           <div>
             <a href={flickrLink} target="_blank">Go to flickr page</a>

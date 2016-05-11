@@ -1,15 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import AppBar from 'material-ui/lib/app-bar'
-import RaisedButton from 'material-ui/lib/raised-button'
-import MenuItem from 'material-ui/lib/menu/menu-item'
+import MenuItem from 'material-ui/MenuItem'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {randomCoordinates, hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto} from '../actions'
-import Avatar from 'material-ui/lib/avatar'
-import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-import Paper from 'material-ui/lib/paper'
+import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto} from '../actions'
+import Avatar from 'material-ui/Avatar'
+import {List, ListItem} from 'material-ui/List'
+import Paper from 'material-ui/Paper'
 
 const SideNavLabel = props =>
 <div style={{color:'rgba(0, 0, 0,0.54)',fontSize:'14px',fontWeight:500,lineHeight:'48px',paddingLeft:'16px'}}
@@ -21,19 +18,19 @@ class LeftNavMain extends Component {
 
   navigateToMap(coordinatesString) {
     console.log('navigateToMap')
-    browserHistory.push(`/coordinates/${coordinatesString}`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}`)
   }
 
   navigateToCountry(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/countryInfo`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/countryInfo`)
   }
 
   navigateToAreaLevel1(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/areaLevel1Info`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/areaLevel1Info`)
   }
 
   navigateToLocality(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/localityInfo`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/localityInfo`)
   }
 
   mapInfo() {
@@ -154,17 +151,10 @@ class LeftNavMain extends Component {
 
   }
 
-  randomCoordinates() {
-    this.props.randomCoordinates()
-  }
-
   render() {
     const {wikiLocations, flickrPhotos, coordinatesString} = this.props
     return (
       <div>
-        <AppBar title="GEOJUMP" showMenuIconButton={false} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
-        </AppBar>
-
         {wikiLocations &&
           <List subheader="Nearby Wikipedia locations">
           {wikiLocations.map((wikiLocation, index) => {
@@ -268,4 +258,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto })(LeftNavMain)
+  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto })(LeftNavMain)

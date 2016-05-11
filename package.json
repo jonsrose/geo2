@@ -1,17 +1,20 @@
 {
-  "name": "redux-real-world-example",
-  "version": "0.0.0",
-  "description": "Redux real-world example",
+  "name": "geojump",
+  "version": "0.1.0",
+  "description": "Geojump will take you to random destinations on Google Maps",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "deploy": "gh-pages -d build",
+    "build": "webpack"
   },
+  "author": "Jon Rose",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reactjs/redux.git"
+    "url": "https://github.com/jonsrose/geojump.git"
   },
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/reactjs/redux/issues"
+    "url": "https://github.com/jonsrose/geojump/issues"
   },
   "homepage": "http://redux.js.org",
   "dependencies": {
@@ -20,7 +23,7 @@
     "humps": "^0.6.0",
     "isomorphic-fetch": "^2.1.1",
     "lodash": "^4.0.0",
-    "material-ui": "^0.14.4",
+    "material-ui": "^0.15.0",
     "node-fetch": "^1.5.1",
     "normalizr": "^2.0.0",
     "react": "^15.0.1",
@@ -43,10 +46,13 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.1",
     "concurrently": "^0.1.1",
+    "cross-env": "^1.0.7",
     "eslint": "^2.7.0",
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^4.3.0",
     "express": "^4.13.3",
+    "gh-pages": "^0.10.0",
+    "html-webpack-plugin": "^2.16.1",
     "redux-devtools": "^3.1.0",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.3",
