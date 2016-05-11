@@ -130,11 +130,11 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <Drawer overlayStyle={{opacity:0}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
+          <Drawer overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
           </Drawer>
           <MainSection sideNavWidth={0}>
-            <AppBar title="GEOJUMP" onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} primary={true} style={{marginTop:6, marginRight:6}} />}>
+            <AppBar title="GEOJUMP" onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
             </AppBar>
             {rightChildren}
           </MainSection>
