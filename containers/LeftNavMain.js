@@ -18,19 +18,19 @@ class LeftNavMain extends Component {
 
   navigateToMap(coordinatesString) {
     console.log('navigateToMap')
-    browserHistory.push(`/coordinates/${coordinatesString}`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}`)
   }
 
   navigateToCountry(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/countryInfo`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/countryInfo`)
   }
 
   navigateToAreaLevel1(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/areaLevel1Info`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/areaLevel1Info`)
   }
 
   navigateToLocality(coordinatesString) {
-    browserHistory.push(`/coordinates/${coordinatesString}/placeDetail/localityInfo`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}/placeDetail/localityInfo`)
   }
 
   mapInfo() {

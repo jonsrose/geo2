@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router'
 class PlaceDetail extends Component {
   navigateToMap(coordinatesString) {
     console.log('navigateToMap')
-    browserHistory.push(`/coordinates/${coordinatesString}`)
+    browserHistory.push(`/geojump/coordinates/${coordinatesString}`)
   }
 
   mapInfo() {

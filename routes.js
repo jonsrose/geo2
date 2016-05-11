@@ -8,12 +8,12 @@ import PlaceDetail from './containers/PlaceDetail'
 import FlickrPhotoPage from './containers/FlickrPhotoPage'
 
 export default (
-  <Route path="/" component={App}>
+  <Route path="/geojump/" component={App}>
     <IndexRoute components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
-    <Route path="/coordinates/:coordinatesString" components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
-    <Route path="/coordinates/:coordinatesString/placeDetail" components={{leftChildren: PlaceDetail, rightChildren: MapPage}}>
-      <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:locality" component={LocalityPage}/>
-      <Route path="/coordinates/:coordinatesString/placeDetail/flickrPhoto/:flickrPhotoId" component={FlickrPhotoPage}/>
+    <Route path="/geojump/coordinates/:coordinatesString" components={{leftChildren: LeftNavMain, rightChildren: MapPage}}/>
+    <Route path="/geojump/coordinates/:coordinatesString/placeDetail" components={{leftChildren: PlaceDetail, rightChildren: MapPage}}>
+      <Route path="/geojump/coordinates/:coordinatesString/placeDetail/localityInfo/:locality" component={LocalityPage}/>
+      <Route path="/geojump/coordinates/:coordinatesString/placeDetail/flickrPhoto/:flickrPhotoId" component={FlickrPhotoPage}/>
     </Route>
   </Route>
 )
