@@ -5,7 +5,7 @@ function fetchLocality(locality) {
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
-      endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=380`,
+      endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=256`,
       schema: WikipediaSchemas.LOCALITY
     }
   }

@@ -130,7 +130,7 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <Drawer onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
+          <Drawer overlayStyle={{opacity:0}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
           </Drawer>
           <MainSection sideNavWidth={0}>
