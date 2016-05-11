@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e4ee033fd09444e844f4"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3d8fa98d35b35cdace37"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -15770,7 +15770,7 @@
 	
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/geojump', component: _App2.default },
+	  { path: '/geojump/', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { components: { leftChildren: _LeftNavMain2.default, rightChildren: _MapPage2.default } }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/geojump/coordinates/:coordinatesString', components: { leftChildren: _LeftNavMain2.default, rightChildren: _MapPage2.default } }),
 	  _react2.default.createElement(
