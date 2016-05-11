@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cb6deab412cc428c1cfe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e4ee033fd09444e844f4"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -15770,14 +15770,14 @@
 	
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/', component: _App2.default },
+	  { path: '/geojump', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { components: { leftChildren: _LeftNavMain2.default, rightChildren: _MapPage2.default } }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/coordinates/:coordinatesString', components: { leftChildren: _LeftNavMain2.default, rightChildren: _MapPage2.default } }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/geojump/coordinates/:coordinatesString', components: { leftChildren: _LeftNavMain2.default, rightChildren: _MapPage2.default } }),
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: '/coordinates/:coordinatesString/placeDetail', components: { leftChildren: _PlaceDetail2.default, rightChildren: _MapPage2.default } },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/coordinates/:coordinatesString/placeDetail/localityInfo/:locality', component: _LocalityPage2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/coordinates/:coordinatesString/placeDetail/flickrPhoto/:flickrPhotoId', component: _FlickrPhotoPage2.default })
+	    { path: '/geojump/coordinates/:coordinatesString/placeDetail', components: { leftChildren: _PlaceDetail2.default, rightChildren: _MapPage2.default } },
+	    _react2.default.createElement(_reactRouter.Route, { path: '/geojump/coordinates/:coordinatesString/placeDetail/localityInfo/:locality', component: _LocalityPage2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/geojump/coordinates/:coordinatesString/placeDetail/flickrPhoto/:flickrPhotoId', component: _FlickrPhotoPage2.default })
 	  )
 	);
 
