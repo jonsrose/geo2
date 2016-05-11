@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3d8fa98d35b35cdace37"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1be13392d5f5b98d92a5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -25410,7 +25410,7 @@
 	    key: 'navigateToMap',
 	    value: function navigateToMap(coordinatesString) {
 	      console.log('navigateToMap');
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString);
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString);
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -25427,11 +25427,11 @@
 	      }
 	
 	      if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
-	        _reactRouter.browserHistory.push('/coordinates/' + nextProps.coordinatesString + '/placeDetail/localityInfo/' + nextProps.navTolocality);
+	        _reactRouter.browserHistory.push('/geojump/coordinates/' + nextProps.coordinatesString + '/placeDetail/localityInfo/' + nextProps.navTolocality);
 	      }
 	
 	      if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
-	        _reactRouter.browserHistory.push('/coordinates/' + nextProps.coordinatesString + '/placeDetail/flickrPhoto/' + nextProps.navToFlickrPhoto);
+	        _reactRouter.browserHistory.push('/geojump/coordinates/' + nextProps.coordinatesString + '/placeDetail/flickrPhoto/' + nextProps.navToFlickrPhoto);
 	      }
 	    }
 	  }, {
@@ -25825,22 +25825,22 @@
 	    key: 'navigateToMap',
 	    value: function navigateToMap(coordinatesString) {
 	      console.log('navigateToMap');
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString);
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString);
 	    }
 	  }, {
 	    key: 'navigateToCountry',
 	    value: function navigateToCountry(coordinatesString) {
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString + '/placeDetail/countryInfo');
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString + '/placeDetail/countryInfo');
 	    }
 	  }, {
 	    key: 'navigateToAreaLevel1',
 	    value: function navigateToAreaLevel1(coordinatesString) {
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString + '/placeDetail/areaLevel1Info');
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString + '/placeDetail/areaLevel1Info');
 	    }
 	  }, {
 	    key: 'navigateToLocality',
 	    value: function navigateToLocality(coordinatesString) {
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString + '/placeDetail/localityInfo');
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString + '/placeDetail/localityInfo');
 	    }
 	  }, {
 	    key: 'mapInfo',
@@ -26658,7 +26658,7 @@
 	    key: 'navigateToMap',
 	    value: function navigateToMap(coordinatesString) {
 	      console.log('navigateToMap');
-	      _reactRouter.browserHistory.push('/coordinates/' + coordinatesString);
+	      _reactRouter.browserHistory.push('/geojump/coordinates/' + coordinatesString);
 	    }
 	  }, {
 	    key: 'mapInfo',
