@@ -3,8 +3,6 @@ var webpack = require('webpack')
 
 var env = process.env.NODE_ENV
 
-var prod = process.env.NODE_ENV === 'production'
-
 module.exports = {
   devtool: 'source-map',
   entry: [
@@ -16,23 +14,12 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/static/'
   },
-  plugins: prod
-  ? [
+  plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false }
-    })]
-  : [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
-    })]
-  ,
+    })],
   module: {
     loaders: [
       {
