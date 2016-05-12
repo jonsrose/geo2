@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "author": "Jon Rose",
-  "license": "MIT", 
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/jonsrose/geojump.git"
@@ -52,7 +52,7 @@
     "redux-devtools": "^3.1.0",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.3",
-    "webpack": "^1.9.11",
+    "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.9.1"
   }
