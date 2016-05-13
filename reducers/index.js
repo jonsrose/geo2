@@ -106,7 +106,7 @@ function flickrPhotoId(state = '', action) {
   return state
 }
 
-function sideNav(state = false, action) {
+function sideNav(state = true, action) {
   const { type } = action
   if (type === ActionTypes.SET_SIDE_NAV_VISIBILITY) {
     return action.open
