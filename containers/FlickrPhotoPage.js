@@ -13,8 +13,6 @@ class FlickrPhotoPage extends Component {
   }
 
   render() {
-    console.log('renderFlickrPhoto')
-
     if (this.props.flickrPhoto) {
       const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
       return (

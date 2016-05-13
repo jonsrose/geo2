@@ -10,9 +10,6 @@ export function randomCoordinates() {
   let lng = (Math.PI - 2 * Math.PI * getRandomInRange(0, 1000000, 0) / 1000000) * 180 / Math.PI
   let lat = (Math.PI / 2 - Math.acos(2 * getRandomInRange(0, 1000000, 0) / 1000000 - 1)) * 180 / Math.PI
 
-  console.log(`lng: ${lng}`)
-  console.log(`lat: ${lat}`)
-
   let coordinatesString = `${lat},${lng}`
 
   return navToCoordinatesString(coordinatesString)

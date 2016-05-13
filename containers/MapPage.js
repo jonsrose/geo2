@@ -83,12 +83,6 @@ class MapPage extends Component {
   }
 
   render() {
-    console.log('MapPage')
-    // sole.log(`map page lat = ${this.props.lat} lng = ${this.props.lng}`)
-
-
-
-    // sole.log(this.props.coordinates)
     let {lat, lng} = {lat: 0, lng: 0}
 
     if (this.props.coordinates) {

@@ -6,7 +6,6 @@ import { browserHistory } from 'react-router'
 
 class PlaceDetail extends Component {
   navigateToMap(coordinatesString) {
-    console.log('navigateToMap')
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
@@ -24,7 +23,6 @@ class PlaceDetail extends Component {
   }
 
   render() {
-    console.log('renderplaceDetail')
     return (
       <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0}}>
         <div style={{position: 'absolute', left: 0, top:0, height:44}}>

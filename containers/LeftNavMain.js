@@ -17,7 +17,6 @@ const SideNavLabel = props =>
 class LeftNavMain extends Component {
 
   navigateToMap(coordinatesString) {
-    console.log('navigateToMap')
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
@@ -50,7 +49,6 @@ class LeftNavMain extends Component {
   }
 
   renderCountryMenuItem() {
-    console.log('renderCountryMenuItem')
     const { countryObject, page } = this.props
 
     if (page == 'country' || page == 'home') {
@@ -61,15 +59,12 @@ class LeftNavMain extends Component {
       return null
     }
 
-    console.log(`country ${countryObject.title}`)
-
     return (
       <MenuItem index={0} onTouchTap={this.countryInfo.bind(this)}>More about {countryObject.title}</MenuItem>
     )
   }
 
   renderAreaLevel1MenuItem() {
-    console.log('renderAreaLevel1MenuItem')
     const { areaLevel1Object, page } = this.props
 
     if (page == 'areaLevel1' || page == 'home') {
@@ -80,15 +75,12 @@ class LeftNavMain extends Component {
       return null
     }
 
-    console.log(`areaLevel1 ${areaLevel1Object.title}`)
-
     return (
       <MenuItem index={1} onTouchTap={this.areaLevel1Info.bind(this)}>More about {areaLevel1Object.title}</MenuItem>
     )
   }
 
   renderLocalityMenuItem() {
-    console.log('renderLocalityMenuItem')
     const { localityObject, page } = this.props
 
     if (page == 'locality' || page == 'home') {
@@ -98,8 +90,6 @@ class LeftNavMain extends Component {
     if (!localityObject || ! localityObject.title) {
       return null
     }
-
-    console.log(`locality ${localityObject.title}`)
 
     return (
       <MenuItem index={2} onTouchTap={this.localityInfo.bind(this)}>More about {localityObject.title}</MenuItem>

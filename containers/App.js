@@ -40,7 +40,6 @@ class App extends Component {
   }
 
   navigateToMap(coordinatesString) {
-    console.log('navigateToMap')
     browserHistory.push(`/coordinates/${coordinatesString}`)
   }
 
@@ -75,6 +74,7 @@ class App extends Component {
     }
 
     if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {
+      console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam)
     }
   }
@@ -198,6 +198,7 @@ function mapStateToProps(state, ownProps) {
     locality: state.locality,
     localityParam: ownProps.params.locality,
     flickrPhotoIdParam: ownProps.params.flickrPhotoId,
+    flickrPhotoId: state.flickrPhotoId,
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto
   }

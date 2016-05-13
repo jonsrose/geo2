@@ -110,6 +110,8 @@ function sideNav(state = false, action) {
   const { type } = action
   if (type === ActionTypes.SET_SIDE_NAV_VISIBILITY) {
     return action.open
+  } else if (type == ActionTypes.WIKI_LOCATION_SUCCESS || type == ActionTypes.FLICKR_PHOTO_SUCCESS || type == ActionTypes.LOAD_FLICKR_PHOTO || type == ActionTypes.LOCALITY_SUCCESS) {
+    return true
   }
   return state
 }
