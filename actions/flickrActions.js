@@ -6,7 +6,7 @@ function fetchFlickrPhotos(lat,lng) {
   return {
     [CALL_FLICKR_API]: {
       types: [ FLICKR_PHOTO_REQUEST, FLICKR_PHOTO_SUCCESS, FLICKR_PHOTO_FAILURE ],
-      endpoint: `https://api.flickr.com/services/rest/?method=flickr.photos.search&extras=description,geo,url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o
+      endpoint: `https://api.flickr.com/services/rest/?method=flickr.photos.search&per_page=20&extras=description,geo,url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o
       &api_key=22355a5ffcecac332859348f3d9f2611&lat=${lat}&lon=${lng}&format=json&nojsoncallback=1`,
       schema: FlickrSchemas.FLICKR_PHOTO_COORDINATES,
       info: {coordinatesString}

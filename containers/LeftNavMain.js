@@ -188,6 +188,7 @@ class LeftNavMain extends Component {
             <p><strong>No nearby places found.</strong></p>
               <p>Touch somewhere else on the map, zoom out first if that helps</p>
               <p>Or hit the JUMP to go to another location</p>
+              <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water.</p>
           </Paper>
         }
 
@@ -196,9 +197,9 @@ class LeftNavMain extends Component {
             <p><strong>Welcome to GEOJUMP!</strong></p>
             <p>Press the JUMP button to start!</p>
             <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
+            <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water!</p>
           </Paper>
         }
-
       </div>
 
     )
