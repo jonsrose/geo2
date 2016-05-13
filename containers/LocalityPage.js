@@ -18,12 +18,9 @@ class LocalityPage extends Component {
       return (
         <div>
           {this.props.localityThumbnail &&
-            <a href={link} target="_blank"><img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/></a>
+            <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
           }
-          <div dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
-          <div>
-            <a href={link} target="_blank">Go to wikipedia page</a>
-          </div>
+          <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
         </div>
       )
     } else {
