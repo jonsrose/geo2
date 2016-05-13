@@ -122,7 +122,7 @@ class App extends Component {
           <Drawer overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
           </Drawer>
-          <AppBar title={<span>GEOJUMP <span style={{fontSize:10}}>(beta)</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+          <AppBar title={<span>GEOJUMP <span style={{fontSize:10}}>(beta)</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
           <div style={{
               position: 'absolute',
