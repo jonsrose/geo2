@@ -15,18 +15,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import RaisedButton from 'material-ui/RaisedButton'
 
-const MainSection = (props) =>
-<div style={{
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor:'rgb(0, 188, 212)'
-  }}
->
-  {props.children}
-</div>
+
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -133,11 +122,19 @@ class App extends Component {
           <Drawer overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
           </Drawer>
-          <MainSection sideNavWidth={0}>
-            <AppBar title="GEOJUMP" onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
-            </AppBar>
+          <AppBar title="GEOJUMP" onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+          </AppBar>
+          <div style={{
+              position: 'absolute',
+              top:0,
+              marginTop:64,
+              bottom:0,
+              width:'100%',
+              backgroundColor:'rgb(0, 188, 212)'
+            }}
+          >
             {rightChildren}
-          </MainSection>
+          </div>
         </div>
       </MuiThemeProvider>
     )
