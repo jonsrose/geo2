@@ -108,7 +108,7 @@ class MapPage extends Component {
           googleMapElement={
             <GoogleMap
               ref={(map) => console.log(map)}
-              defaultZoom={8}
+              defaultZoom={6}
               center={ { lat, lng } }
               ref="map"
               mapTypeId = {satelliteMap}
