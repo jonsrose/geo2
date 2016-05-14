@@ -24,10 +24,10 @@ class PlaceDetail extends Component {
 
   render() {
     return (
-      <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0}}>
-        <div style={{position: 'absolute', top: 0, bottom:0, overflow:'auto'}}>
-          {this.props.children}
+      <Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
+        <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
           <FlatButton label="Back" primary={true} onTouchTap={this.mapInfo.bind(this)} />
+          {this.props.children}
         </div>
       </Paper>
     )

@@ -144,7 +144,7 @@ class LeftNavMain extends Component {
   render() {
     const {wikiLocations, flickrPhotos, coordinatesString} = this.props
     return (
-      <div>
+      <div style={{overflowX:'hidden'}}>
         {wikiLocations &&
           <List subheader="Nearby Wikipedia locations">
           {wikiLocations.map((wikiLocation, index) => {
@@ -184,7 +184,7 @@ class LeftNavMain extends Component {
         }
 
         {coordinatesString && !wikiLocations && !flickrPhotos &&
-          <Paper style={{position: 'absolute', top: 64, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
+          <Paper style={{position: 'absolute', top: 0, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
             <p><strong>No nearby places found.</strong></p>
               <p>Touch somewhere else on the map, zoom out first if that helps</p>
               <p>Or hit the JUMP to go to another location</p>
@@ -193,7 +193,7 @@ class LeftNavMain extends Component {
         }
 
         {!coordinatesString &&
-          <Paper style={{position: 'absolute', top: 64, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
+          <Paper style={{position: 'absolute', top: 0, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
             <p><strong>Welcome to GEOJUMP!</strong></p>
             <p>Press the JUMP button to start!</p>
             <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
