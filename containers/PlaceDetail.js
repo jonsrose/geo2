@@ -23,6 +23,9 @@ class PlaceDetail extends Component {
   }
 
   render() {
+    // https://github.com/twbs/bootstrap/issues/7501
+    document.body.style.overflow='hidden'
+    document.body.style.position='fixed'
     return (
       <Paper style={{position: 'absolute', left:0, top:0, right:0, bottom: 0}}>
         <div style={{position: 'absolute', top: 0, bottom:0, overflow:'auto'}}>
