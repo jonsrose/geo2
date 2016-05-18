@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getFlickrPhotoObject } from '../reducers'
-import FlatButton from 'material-ui/FlatButton'
 
 class FlickrPhotoPage extends Component {
 
@@ -15,7 +14,7 @@ class FlickrPhotoPage extends Component {
 
   render() {
     if (this.props.flickrPhoto) {
-      const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
+      // const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
       return (
         <div>
           <img className={'responsive-image'} src={this.props.flickrPhoto.urlM} />
