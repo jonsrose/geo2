@@ -17,6 +17,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 const wideDrawerWidth = 408
 const narrowDrawerWidth = 256
+const ipadWidth = 768
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -120,7 +121,7 @@ class App extends Component {
 
     let drawerWidth
     /*eslint-disable */
-    if ($(window).width() >= wideDrawerWidth*2 ) { /*eslint-enable */
+    if ($(window).width() >= ipadWidth ) { /*eslint-enable */
       drawerWidth = wideDrawerWidth
     } else {
       drawerWidth = narrowDrawerWidth

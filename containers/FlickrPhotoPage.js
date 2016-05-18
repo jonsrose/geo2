@@ -18,7 +18,7 @@ class FlickrPhotoPage extends Component {
       const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
       return (
         <div>
-          <img src={this.props.flickrPhoto.urlM} width={256}/>
+          <img className={'responsive-image'} src={this.props.flickrPhoto.urlM} />
           <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
         </div>
       )
