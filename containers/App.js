@@ -15,7 +15,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import RaisedButton from 'material-ui/RaisedButton'
 
-
+const wideDrawerWidth = 408
+const narrowDrawerWidth = 256
+const ipadWidth = 768
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -114,12 +116,23 @@ class App extends Component {
   }
 
   render() {
+    //  console.log ($(window).width())
+    // todo if width is > ? set drawer width to 408, otherwise leave at 256
+
+    let drawerWidth
+    /*eslint-disable */
+    if ($(window).width() >= ipadWidth ) { /*eslint-enable */
+      drawerWidth = wideDrawerWidth
+    } else {
+      drawerWidth = narrowDrawerWidth
+    }
+
     const { leftChildren, rightChildren } = this.props
     var sideNavVisibility = this.props.sideNav
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <Drawer overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
+          <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {leftChildren}
           </Drawer>
           <AppBar style={{position:'fixed'}}title={<span>GEOJUMP <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>

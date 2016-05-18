@@ -14,11 +14,11 @@ class LocalityPage extends Component {
 
   render() {
     if (this.props.locality) {
-      const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
+      // const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
       return (
         <div>
           {this.props.localityThumbnail &&
-            <img src={this.props.localityThumbnail.source} width={this.props.localityThumbnail.width} height={this.props.localityThumbnail.height}/>
+            <img className={'responsive-image'} src={this.props.localityThumbnail.source} />
           }
           <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
         </div>
