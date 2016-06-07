@@ -151,10 +151,12 @@ function hoverFlickrPhotoId(state = null, action) {
 }
 
 function zoom(state = false, action) {
-  const { type } = action
+  const { type, payload } = action
     if (type === ActionTypes.ZOOM) {
       return true
     } else if (type === ActionTypes.UNZOOM) {
+      return false
+    } else if (type === '@@router/LOCATION_CHANGE' && payload.pathname.indexOf('localityInfo') === -1 &&  payload.pathname.indexOf('flickrPhoto') === -1) {
       return false
     }
     return state
