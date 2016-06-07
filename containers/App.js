@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, setSideNavVisibility } from '../actions'
+import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadFlickrPhoto } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
+import FlatButton from 'material-ui/FlatButton'
 
 import {deepOrange500} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -34,12 +35,31 @@ const muiTheme = getMuiTheme({
   }
 })
 
+/*
+
+*/
+
+const LeftNavContainer = props => (
+<Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
+  <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
+    <FlatButton label="Back" primary={true} onTouchTap={props.mapInfo()} />
+    <FlatButton label="Zoom" primary={true} onTouchTap={props.zoom()} />
+    { props.children }
+  </div>
+</Paper>
+)
+
 class App extends Component {
+
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleDismissClick =
      this.handleDismissClick.bind(this)
+  }
+
+  mapInfo() {
+    this.navigateToMap(this.props.coordinatesString)
   }
 
   handleDismissClick(e) {
@@ -133,19 +153,33 @@ class App extends Component {
 
     if (page === LOCALITY_PAGE) {
       console.log('LocalityPage')
-      return (
-        <LocalityPage />
-      )
+      /*return (
+        <LeftNavContainer zoom={this.props.zoom.bind(this)} mapInfo={this.mapInfo.bind(this)}>
+          <LocalityPage />
+        </LeftNavContainer>
+      )*/
+      return(
+        <Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
+        <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
+          <FlatButton label="Back" primary={true} onTouchTap={this.mapInfo.bind(this)} />
+          <FlatButton label="Zoom" primary={true} onTouchTap={this.props.zoom.bind(this)} />
+          <LocalityPage />
+        </div>
+      </Paper>)
     }
 
     if (page === FLICKR_PHOTO_PAGE) {
       console.log('FlickrPhotoPage')
       return (
-        <FlickrPhotoPage />
+        <Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
+        <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
+          <FlatButton label="Back" primary={true} onTouchTap={this.mapInfo.bind(this)} />
+          <FlatButton label="Zoom" primary={true} onTouchTap={this.props.zoom.bind(this)} />
+          <FlickrPhotoPage />
+        </div>
+      </Paper>        
       )
     }
-
-
 
   }
 
@@ -162,6 +196,15 @@ class App extends Component {
     }
 
     var sideNavVisibility = this.props.sideNav
+
+    if (this.props.zoomed) {
+      return (
+        <MuiThemeProvider muiTheme={muiTheme}>
+          {this.renderLeftNav()}
+        </MuiThemeProvider>
+      )
+    }
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
@@ -220,7 +263,8 @@ App.propTypes = {
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
   locality: PropTypes.string,
-  setSideNavVisibility: PropTypes.func
+  setSideNavVisibility: PropTypes.func,
+  zoomed: PropTypes.bool
 }
 
 
@@ -246,10 +290,11 @@ function mapStateToProps(state, ownProps) {
     flickrPhotoIdParam: ownProps.params.flickrPhotoId,
     flickrPhotoId: state.flickrPhotoId,
     navTolocality: state.navTolocality,
-    navToFlickrPhoto: state.navToFlickrPhoto
+    navToFlickrPhoto: state.navToFlickrPhoto,
+    zoomed: state.zoom
   }
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString, setSideNavVisibility
+  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString, setSideNavVisibility, zoom
 })(App)

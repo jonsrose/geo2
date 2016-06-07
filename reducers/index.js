@@ -150,6 +150,14 @@ function hoverFlickrPhotoId(state = null, action) {
   return state
 }
 
+function zoom(state = false, action) {
+  const { type } = action
+    if (type === ActionTypes.ZOOM) {
+      return true
+    }
+    return state
+}
+
 export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
@@ -326,7 +334,8 @@ const rootReducer = combineReducers({
   navTolocality,
   navToFlickrPhoto,
   hoverWikiLocationTitle,
-  hoverFlickrPhotoId
+  hoverFlickrPhotoId,
+  zoom
 })
 
 
