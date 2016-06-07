@@ -17,7 +17,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import LeftNavMain from './LeftNavMain'
 import MapPage from './MapPage'
 import FlickrPhotoPage from './FlickrPhotoPage'
-import PlaceDetail from './PlaceDetail'
 import LocalityPage from './LocalityPage'
 
 const wideDrawerWidth = 408
@@ -135,18 +134,14 @@ class App extends Component {
     if (page === LOCALITY_PAGE) {
       console.log('LocalityPage')
       return (
-        <PlaceDetail>
-          <LocalityPage />
-        </PlaceDetail>
+        <LocalityPage />
       )
     }
 
     if (page === FLICKR_PHOTO_PAGE) {
       console.log('FlickrPhotoPage')
       return (
-        <PlaceDetail>
-          <FlickrPhotoPage />
-        </PlaceDetail>
+        <FlickrPhotoPage />
       )
     }
 
