@@ -32,14 +32,16 @@ class LocalityPage extends Component {
 LocalityPage.propTypes = {
   locality: PropTypes.object,
   localityText: PropTypes.string,
-  localityThumbnail: PropTypes.object
+  localityThumbnail: PropTypes.object,
+  coordinatesString: PropTypes.string
 }
 
 function mapStateToProps(state) {
   return {
     locality: getLocalityObject(state),
     localityText: getLocalityObject(state) ? getLocalityObject(state).extract : null,
-    localityThumbnail: getLocalityObject(state) ? getLocalityObject(state).thumbnail : null
+    localityThumbnail: getLocalityObject(state) ? getLocalityObject(state).thumbnail : null,
+    coordinatesString: state.coordinatesString
   }
 }
 

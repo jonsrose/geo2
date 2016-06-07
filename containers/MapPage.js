@@ -177,9 +177,8 @@ MapPage.propTypes = {
   currentLocationObject: PropTypes.object
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    coordinatesStringParam: ownProps.params.coordinatesString,
     coordinates: state.coordinates,
     coordinatesString: state.coordinatesString,
     currentLocationObject: getCurrentLocationObject(state),

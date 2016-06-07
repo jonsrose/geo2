@@ -14,27 +14,27 @@ class FlickrPhotoPage extends Component {
 
   render() {
     if (this.props.flickrPhoto) {
-      // const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
       return (
-        <div>
-          <img className={'responsive-image'} src={this.props.flickrPhoto.urlM} />
-          <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
-        </div>
+            <div>
+              <img className={'responsive-image'} src={this.props.flickrPhoto.urlL} />
+              <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
+            </div>
       )
     } else {
       return null
     }
-
   }
 }
 
 FlickrPhotoPage.propTypes = {
-  flickrPhoto: PropTypes.object
+  flickrPhoto: PropTypes.object,
+  coordinatesString: PropTypes.string
 }
 
 function mapStateToProps(state) {
   return {
-    flickrPhoto: getFlickrPhotoObject(state)
+    flickrPhoto: getFlickrPhotoObject(state),
+    coordinatesString: state.coordinatesString
   }
 }
 
