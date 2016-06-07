@@ -8,7 +8,6 @@ import { loadFlickrPhoto } from '../actions'
 import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
-import FlatButton from 'material-ui/FlatButton'
 
 import {deepOrange500} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -18,6 +17,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import LeftNavMain from './LeftNavMain'
 import MapPage from './MapPage'
 import FlickrPhotoPage from './FlickrPhotoPage'
+import LeftNavContainer from './LeftNavContainer'
 import LocalityPage from './LocalityPage'
 
 const wideDrawerWidth = 408
@@ -34,20 +34,6 @@ const muiTheme = getMuiTheme({
     accent1Color: deepOrange500
   }
 })
-
-/*
-
-*/
-
-const LeftNavContainer = props => (
-<Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
-  <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
-    <FlatButton label="Back" primary={true} onTouchTap={props.mapInfo()} />
-    <FlatButton label="Zoom" primary={true} onTouchTap={props.zoom()} />
-    { props.children }
-  </div>
-</Paper>
-)
 
 class App extends Component {
 
@@ -159,25 +145,17 @@ class App extends Component {
         </LeftNavContainer>
       )*/
       return(
-        <Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
-        <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
-          <FlatButton label="Back" primary={true} onTouchTap={this.mapInfo.bind(this)} />
-          <FlatButton label="Zoom" primary={true} onTouchTap={this.props.zoom.bind(this)} />
+        <LeftNavContainer>
           <LocalityPage />
-        </div>
-      </Paper>)
+        </LeftNavContainer>
+      )
     }
 
     if (page === FLICKR_PHOTO_PAGE) {
-      console.log('FlickrPhotoPage')
       return (
-        <Paper style={{position: 'fixed', left:0, top:0, right:0, bottom: 0}}>
-        <div style={{position: 'fixed', top: 0, bottom:0, overflowY:'auto'}}>
-          <FlatButton label="Back" primary={true} onTouchTap={this.mapInfo.bind(this)} />
-          <FlatButton label="Zoom" primary={true} onTouchTap={this.props.zoom.bind(this)} />
+        <LeftNavContainer>
           <FlickrPhotoPage />
-        </div>
-      </Paper>        
+        </LeftNavContainer>
       )
     }
 
