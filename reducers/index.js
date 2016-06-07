@@ -154,6 +154,8 @@ function zoom(state = false, action) {
   const { type } = action
     if (type === ActionTypes.ZOOM) {
       return true
+    } else if (type === ActionTypes.UNZOOM) {
+      return false
     }
     return state
 }

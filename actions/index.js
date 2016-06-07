@@ -1,4 +1,4 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM, UNZOOM } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
@@ -131,8 +131,13 @@ export function setSideNavVisibility(open) {
 }
 
 export function zoom() {
-  console.log('yo am zoomin muthafucka')
   return {
     type: ZOOM
+  }
+}
+
+export function unzoom() {
+  return {
+    type: UNZOOM
   }
 }

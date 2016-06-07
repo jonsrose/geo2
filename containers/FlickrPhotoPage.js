@@ -16,7 +16,7 @@ class FlickrPhotoPage extends Component {
     if (this.props.flickrPhoto) {
       return (
             <div>
-              <img className={'responsive-image'} src={this.props.flickrPhoto.urlM} />
+              <img className={'responsive-image'} src={this.props.flickrPhoto.urlL} />
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
             </div>
       )
