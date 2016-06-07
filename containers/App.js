@@ -14,10 +14,20 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import RaisedButton from 'material-ui/RaisedButton'
+import LeftNavMain from './LeftNavMain'
+import MapPage from './MapPage'
+import FlickrPhotoPage from './FlickrPhotoPage'
+import PlaceDetail from './PlaceDetail'
+import LocalityPage from './LocalityPage'
 
 const wideDrawerWidth = 408
 const narrowDrawerWidth = 256
 const ipadWidth = 768
+
+const LOCALITY_PAGE = 'locality'
+const FLICKR_PHOTO_PAGE = 'flickrPhoto'
+const MAP_PAGE = 'map'
+const HOME_PAGE = 'home'
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -115,6 +125,35 @@ class App extends Component {
       this.props.setSideNavVisibility(open)
   }
 
+  renderLeftNav() {
+    const { page  }= this.props
+    if (page === HOME_PAGE || page === MAP_PAGE) {
+      console.log('LeftNavMain')
+      return <LeftNavMain />
+    }
+
+    if (page === LOCALITY_PAGE) {
+      console.log('LocalityPage')
+      return (
+        <PlaceDetail>
+          <LocalityPage />
+        </PlaceDetail>
+      )
+    }
+
+    if (page === FLICKR_PHOTO_PAGE) {
+      console.log('FlickrPhotoPage')
+      return (
+        <PlaceDetail>
+          <FlickrPhotoPage />
+        </PlaceDetail>
+      )
+    }
+
+
+
+  }
+
   render() {
     //  console.log ($(window).width())
     // todo if width is > ? set drawer width to 408, otherwise leave at 256
@@ -127,13 +166,12 @@ class App extends Component {
       drawerWidth = narrowDrawerWidth
     }
 
-    const { leftChildren, rightChildren } = this.props
     var sideNavVisibility = this.props.sideNav
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
-            {leftChildren}
+            {this.renderLeftNav()}
           </Drawer>
           <AppBar style={{position:'fixed'}}title={<span>GEOJUMP <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
@@ -146,7 +184,7 @@ class App extends Component {
               backgroundColor:'rgb(0, 188, 212)'
             }}
           >
-            {rightChildren}
+            <MapPage />
           </div>
         </div>
       </MuiThemeProvider>
@@ -155,19 +193,19 @@ class App extends Component {
 }
 
 function getPageFromPath(path){
-  if (path.indexOf('countryInfo') > -1) {
-    return 'country'
-  } else if (path.indexOf('areaLevel1Info') > -1) {
-    return 'areaLevel1'
-  } else if (path.indexOf('locality') > -1) {
-    return 'locality'
+  if (path.indexOf('localityInfo') > -1) {
+    return LOCALITY_PAGE
+  }
+
+  if (path.indexOf('flickrPhoto') > -1) {
+    return FLICKR_PHOTO_PAGE
   }
 
   if (path.indexOf('coordinates') > -1) {
-    return 'map'
+    return MAP_PAGE
   }
 
-  return 'home'
+  return HOME_PAGE
 }
 
 App.propTypes = {

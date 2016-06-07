@@ -220,6 +220,7 @@ LeftNavMain.propTypes = {
   navToFlickrPhoto: PropTypes.func
 }
 
+/*
 function getPageFromPath(path){
   if (path.indexOf('countryInfo') > -1) {
     return 'country'
@@ -235,14 +236,14 @@ function getPageFromPath(path){
 
   return 'home'
 }
+*/
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     countryObject: getCountryObject(state),
     areaLevel1Object: getAreaLevel1Object(state),
     localityObject: getLocalityObject(state),
     coordinatesString: state.coordinatesString,
-    page: getPageFromPath(ownProps.location.pathname),
     wikiLocations: getWikiLocations(state),
     flickrPhotos: getFlickrPhotos(state)
   }
