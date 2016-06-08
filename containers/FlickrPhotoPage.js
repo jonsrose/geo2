@@ -21,6 +21,7 @@ class FlickrPhotoPage extends Component {
 
     if (flickrPhoto) {
       const { prev, next } = flickrPhoto
+
       return (
             <div>
               <div>
@@ -28,7 +29,7 @@ class FlickrPhotoPage extends Component {
                 {flickrPhoto.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, prev.id, prev.index )}/>}
                 {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
               </div>
-              <img className={'responsive-image'} src={this.props.flickrPhoto.urlL} />
+              <img className={'responsive-image'} src={this.props.zoomed ? this.props.flickrPhoto.urlO : this.props.flickrPhoto.urlM} />
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
             </div>
       )
@@ -41,13 +42,15 @@ class FlickrPhotoPage extends Component {
 FlickrPhotoPage.propTypes = {
   flickrPhoto: PropTypes.object,
   coordinatesString: PropTypes.string,
-  navToFlickrPhoto: PropTypes.func
+  navToFlickrPhoto: PropTypes.func,
+  zoomed: PropTypes.bool
 }
 
 function mapStateToProps(state) {
   return {
     flickrPhoto: getFlickrPhotoObject(state),
-    coordinatesString: state.coordinatesString
+    coordinatesString: state.coordinatesString,
+    zoomed: state.zoom
   }
 }
 
