@@ -16,9 +16,9 @@ class LeftNavCommon extends Component {
   render() {
     return (
     <span>
-      {!this.props.zoomed && <FlatButton label="Close" primary={true} onTouchTap={this.mapInfo.bind(this)} />}
+      <FlatButton label="Close" primary={true} onTouchTap={this.mapInfo.bind(this)} />
       {!this.props.zoomed && <FlatButton label="Zoom" primary={true} onTouchTap={this.props.zoom.bind(this)} />}
-      {this.props.zoomed && <FlatButton label="Close" primary={true} onTouchTap={this.props.unzoom.bind(this)} />}
+      {this.props.zoomed && <FlatButton label="Shrink" primary={true} onTouchTap={this.props.unzoom.bind(this)} />}
       { this.props.children }
     </span>
   )

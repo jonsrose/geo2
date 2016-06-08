@@ -26,8 +26,13 @@ class LocalityPage extends Component {
         <div>
           <div>
             <LeftNavCommon />
+
             {locality.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navTolocality.bind(this, prev.id, prev.index )}/>}
+            {!locality.prev && <FlatButton label="Prev" disabled={true}/>}
+
             {locality.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navTolocality.bind(this, next.id, next.index )}/>}
+            {!locality.next && <FlatButton label="Next" disabled={true}/>}
+
 
           </div>
           {this.props.localityThumbnail &&

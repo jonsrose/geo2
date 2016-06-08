@@ -35,7 +35,10 @@ class FlickrPhotoPage extends Component {
               <div>
                 <LeftNavCommon />
                 {flickrPhoto.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, prev.id, prev.index )}/>}
+                {!flickrPhoto.prev && <FlatButton label="Prev" disabled={true}/>}
+
                 {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
+                {!flickrPhoto.next && <FlatButton label="Next" disabled={true}/>}
               </div>
               <img className={'responsive-image'} src={imageUrl} />
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
