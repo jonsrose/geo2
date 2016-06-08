@@ -92,8 +92,9 @@ class App extends Component {
       this.props.loadLocality(props.localityParam, parseInt(props.indexParam))
     }
 
-    if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {
-      // console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
+    // console.log('props.flickrPhoto',props.flickrPhoto,'props.flickrPhotoIdParam',props.flickrPhotoIdParam)
+    if (props.flickrPhotoIdParam && (!props.flickrPhoto || props.flickrPhotoIdParam != props.flickrPhoto.id)) {
+      console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
     }
   }
@@ -270,7 +271,7 @@ function mapStateToProps(state, ownProps) {
     localityParam: ownProps.params.locality,
     flickrPhotoIdParam: ownProps.params.flickrPhotoId,
     indexParam: ownProps.params.index,
-    flickrPhotoId: state.flickrPhotoId,
+    flickrPhoto: state.flickrPhoto,
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto,
     zoomed: state.zoom

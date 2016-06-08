@@ -22,6 +22,14 @@ class FlickrPhotoPage extends Component {
     if (flickrPhoto) {
       const { prev, next } = flickrPhoto
 
+      let imageUrl
+
+      if (this.props.zoomed) {
+        imageUrl = flickrPhoto.urlL
+      } else {
+        imageUrl = flickrPhoto.urlM
+      }
+
       return (
             <div>
               <div>
@@ -29,7 +37,7 @@ class FlickrPhotoPage extends Component {
                 {flickrPhoto.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, prev.id, prev.index )}/>}
                 {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
               </div>
-              <img className={'responsive-image'} src={this.props.zoomed ? this.props.flickrPhoto.urlO : this.props.flickrPhoto.urlM} />
+              <img className={'responsive-image'} src={imageUrl} />
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
             </div>
       )
