@@ -156,7 +156,7 @@ class LeftNavMain extends Component {
                 primaryText={wikiLocation.title}
                 onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
                 onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
-                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title)}
+                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title, index)}
                 leftAvatar={
                   wikiLocation.thumbnail
                   ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />

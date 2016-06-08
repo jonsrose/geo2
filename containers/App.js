@@ -73,7 +73,7 @@ class App extends Component {
     }
 
     if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
-      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality}`)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/localityInfo/${nextProps.navTolocality.index}/${nextProps.navTolocality.locality}`)
     }
 
     if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
@@ -86,8 +86,10 @@ class App extends Component {
       this.props.newCoordinatesString(props.coordinatesStringParam)
     }
 
-    if (props.localityParam && (!props.locality || props.localityParam != props.locality)) {
-      this.props.loadLocality(props.localityParam)
+    console.log('props.localityParam',props.localityParam, 'props.locality',props.locality)
+    if (props.localityParam && (!props.locality || props.localityParam != props.locality.id)) {
+      console.log('loadLocality',props.localityParam, parseInt(props.indexParam))
+      this.props.loadLocality(props.localityParam, parseInt(props.indexParam))
     }
 
     if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {

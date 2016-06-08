@@ -34,10 +34,11 @@ export function navToCoordinatesString(coordinatesString) {
   }
 }
 
-export function navTolocality(locality) {
+export function navTolocality(locality, index) {
   return {
     type: NAV_TO_LOCALITY,
-    locality
+    locality,
+    index
   }
 }
 

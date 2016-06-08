@@ -6,7 +6,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute />
     <Route path="/coordinates/:coordinatesString" />
-    <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:locality"  />
+    <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:index/:locality"  />
     <Route path="/coordinates/:coordinatesString/placeDetail/flickrPhoto/:index-:flickrPhotoId" />
   </Route>
 )

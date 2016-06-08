@@ -40,10 +40,10 @@ function navToCoordinatesString(state = null, action) {
 }
 
 function navTolocality(state = null, action) {
-  const { type, locality } = action
+  const { type, locality, index } = action
 
   if (type === ActionTypes.NAV_TO_LOCALITY) {
-    return locality
+    return {locality, index}
   } else if (type === ActionTypes.LOCALITY_SUCCESS || type === '@@router/LOCATION_CHANGE') {
     return null
   }
@@ -84,11 +84,16 @@ function wikiLocationsForCoordinates(state = {}, action) {
   return state
 }
 
-function locality(state = '', action) {
+function locality(state = {}, action) {
   const { type } = action
 
   if (type === ActionTypes.LOCALITY_SUCCESS) {
-    return action.response.result
+
+    const id = action.response.result
+    const localityObject = action.response.entities.localities[id]
+    const { index } = localityObject
+
+    return {id, index}
   } else if (type === ActionTypes.LOCALITY_REQUEST) {
     return null
   }
@@ -250,15 +255,7 @@ export function getLocality(state) {
   return locationObject.locality
 }
 
-export function getLocalityObject(state) {
-  var locality = state.locality
 
-  if (!locality || !state.entities.localities) {
-    return null
-  }
-
-  return state.entities.localities[locality]
-}
 
 export function getLocalityText(state) {
   var localityObject = getLocalityObject(state)
@@ -270,14 +267,22 @@ export function getLocalityText(state) {
   return localityObject.extract
 }
 
-export function getWikiLocations(state) {
+export function getWikiLocationKeys(state) {
   var coordinatesString = state.coordinatesString
 
   if (!state.entities.wikiLocationCoordinates || ! state.entities.wikiLocationCoordinates[coordinatesString]) {
     return null
   }
 
-  const wikiLocationKeys = state.entities.wikiLocationCoordinates[coordinatesString].wikiLocations
+  return state.entities.wikiLocationCoordinates[coordinatesString].wikiLocations
+}
+
+export function getWikiLocations(state) {
+  const wikiLocationKeys = getWikiLocationKeys(state)
+
+  if (!wikiLocationKeys || wikiLocationKeys.length === 0) {
+    return null
+  }
 
   return wikiLocationKeys.map( wikiLocationKey => state.entities.wikiLocations[wikiLocationKey])
 
@@ -305,6 +310,34 @@ export function getFlickrPhotos(state) {
   return flickrPhotos
 }
 
+export function getLocalityObject(state) {
+  var locality = state.locality
+
+  console.log('locality',locality)
+
+  if (!locality || !state.entities.localities) {
+    return null
+  }
+
+  const { id, index } = locality
+
+  let localityObject = state.entities.localities[id]
+
+  const localityKeys = getWikiLocationKeys(state)
+
+  if (localityKeys && localityKeys.length !== 0) {
+    if (index > 0) {
+      localityObject.prev = {id: localityKeys[index-1], index:index-1}
+    }
+
+    if (index < localityKeys.length-1) {
+      localityObject.next = {id: localityKeys[index+1], index:index+1}
+    }
+  }
+
+  return localityObject
+}
+
 export function getFlickrPhotoObject(state) {
   var flickrPhoto = state.flickrPhoto
 
@@ -319,7 +352,7 @@ export function getFlickrPhotoObject(state) {
   let flickrPhotoObject = state.entities.flickrPhotos[id]
 
   const flickrPhotoKeys = getFlickrPhotoKeys(state)
-
+  /* TODO check not null / empty? */
   if (index > 0) {
     flickrPhotoObject.prev = {id: flickrPhotoKeys[index-1], index:index-1}
   }

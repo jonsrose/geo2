@@ -25,7 +25,6 @@ class FlickrPhotoPage extends Component {
             <div>
               <div>
                 <LeftNavCommon />
-
                 {flickrPhoto.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, prev.id, prev.index )}/>}
                 {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
               </div>
