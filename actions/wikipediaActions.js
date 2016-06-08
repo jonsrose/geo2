@@ -20,7 +20,6 @@ export function loadLocality(locality, index) {
       return null
     }
     */
-    console.log('der dispatch')
     return dispatch(fetchLocality(locality, index))
   }
 }

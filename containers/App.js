@@ -86,14 +86,14 @@ class App extends Component {
       this.props.newCoordinatesString(props.coordinatesStringParam)
     }
 
-    console.log('props.localityParam',props.localityParam, 'props.locality',props.locality)
+    // console.log('props.localityParam',props.localityParam, 'props.locality',props.locality)
     if (props.localityParam && (!props.locality || props.localityParam != props.locality.id)) {
-      console.log('loadLocality',props.localityParam, parseInt(props.indexParam))
+      // console.log('loadLocality',props.localityParam, parseInt(props.indexParam))
       this.props.loadLocality(props.localityParam, parseInt(props.indexParam))
     }
 
     if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {
-      console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
+      // console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
     }
   }
@@ -135,12 +135,12 @@ class App extends Component {
   renderLeftNav() {
     const { page  }= this.props
     if (page === HOME_PAGE || page === MAP_PAGE) {
-      console.log('LeftNavMain')
+      // console.log('LeftNavMain')
       return <LeftNavMain />
     }
 
     if (page === LOCALITY_PAGE) {
-      console.log('LocalityPage')
+      // console.log('LocalityPage')
       /*return (
         <LeftNavContainer zoom={this.props.zoom.bind(this)} mapInfo={this.mapInfo.bind(this)}>
           <LocalityPage />
@@ -243,7 +243,7 @@ App.propTypes = {
   page: PropTypes.string,
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
-  locality: PropTypes.string,
+  locality: PropTypes.object,
   setSideNavVisibility: PropTypes.func,
   zoomed: PropTypes.bool
 }
