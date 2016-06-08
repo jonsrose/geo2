@@ -77,7 +77,7 @@ class App extends Component {
     }
 
     if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
-      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto}`)
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto.index}-${nextProps.navToFlickrPhoto.id}`)
     }
   }
 
@@ -92,7 +92,7 @@ class App extends Component {
 
     if (props.flickrPhotoIdParam && (!props.flickrPhotoId || props.flickrPhotoIdParam != props.flickrPhotoId)) {
       console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
-      this.props.loadFlickrPhoto(props.flickrPhotoIdParam)
+      this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
     }
   }
 
@@ -237,6 +237,7 @@ App.propTypes = {
   coordinatesStringParam: PropTypes.string,
   localityParam: PropTypes.string,
   flickrPhotoIdParam: PropTypes.string,
+  indexParam: PropTypes.string,
   page: PropTypes.string,
   leftChildren: PropTypes.node,
   rightChildren: PropTypes.node,
@@ -266,6 +267,7 @@ function mapStateToProps(state, ownProps) {
     locality: state.locality,
     localityParam: ownProps.params.locality,
     flickrPhotoIdParam: ownProps.params.flickrPhotoId,
+    indexParam: ownProps.params.index,
     flickrPhotoId: state.flickrPhotoId,
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto,

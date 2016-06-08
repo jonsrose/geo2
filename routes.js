@@ -7,6 +7,6 @@ export default (
     <IndexRoute />
     <Route path="/coordinates/:coordinatesString" />
     <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:locality"  />
-    <Route path="/coordinates/:coordinatesString/placeDetail/flickrPhoto/:flickrPhotoId" />
+    <Route path="/coordinates/:coordinatesString/placeDetail/flickrPhoto/:index-:flickrPhotoId" />
   </Route>
 )

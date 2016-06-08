@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router'
 import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto} from '../actions'
 import Avatar from 'material-ui/Avatar'
 import {List, ListItem} from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
 import Paper from 'material-ui/Paper'
 
 const SideNavLabel = props =>
@@ -146,7 +147,8 @@ class LeftNavMain extends Component {
     return (
       <div style={{overflowX:'hidden'}}>
         {wikiLocations &&
-          <List subheader="Nearby Wikipedia locations">
+          <List>
+          <Subheader>Nearby Wikipedia locations</Subheader>
           {wikiLocations.map((wikiLocation, index) => {
             return (
               <ListItem
@@ -167,7 +169,8 @@ class LeftNavMain extends Component {
         }
 
         {flickrPhotos &&
-          <List subheader="Nearby Flickr Photos">
+          <List>
+          <Subheader>Nearby Flickr Photos</Subheader>
           {flickrPhotos.map((flickrPhoto, index) => {
             return (
               <ListItem
@@ -175,7 +178,7 @@ class LeftNavMain extends Component {
                 primaryText={flickrPhoto.title}
                 onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
                 onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
-                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id)}
+                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id, index)}
                 leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
               />
             )

@@ -41,10 +41,11 @@ export function navTolocality(locality) {
   }
 }
 
-export function navToFlickrPhoto(id) {
+export function navToFlickrPhoto(id, index) {
   return {
     type: NAV_TO_FLICKR_PHOTO,
-    id
+    id,
+    index
   }
 }
 
@@ -116,10 +117,11 @@ export function unHoverFlickrPhoto() {
   }
 }
 
-export function loadFlickrPhoto(id) {
+export function loadFlickrPhoto(id, index) {
   return {
     type: LOAD_FLICKR_PHOTO,
-    id
+    id,
+    index
   }
 }
 

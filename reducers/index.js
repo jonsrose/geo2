@@ -51,11 +51,11 @@ function navTolocality(state = null, action) {
   return state
 }
 
-function navToFlickrPhoto(state = null, action) {
-  const { type, id } = action
+function navToFlickrPhoto(state = {}, action) {
+  const { type, id, index } = action
 
   if (type === ActionTypes.NAV_TO_FLICKR_PHOTO) {
-    return id
+    return {id, index}
   } else if (type === '@@router/LOCATION_CHANGE') {
     return null
   }
@@ -96,11 +96,11 @@ function locality(state = '', action) {
   return state
 }
 
-function flickrPhotoId(state = '', action) {
-  const { type } = action
+function flickrPhoto(state = {}, action) {
+  const { type, id, index } = action
 
   if (type === ActionTypes.LOAD_FLICKR_PHOTO) {
-    return action.id
+    return {id, index}
   }
 
   return state
@@ -283,27 +283,52 @@ export function getWikiLocations(state) {
 
 }
 
-export function getFlickrPhotos(state) {
+export function getFlickrPhotoKeys(state) {
   var coordinatesString = state.coordinatesString
 
   if (!state.entities.flickrPhotoCoordinates || ! state.entities.flickrPhotoCoordinates[coordinatesString]) {
     return null
   }
 
-  const flickrPhotoKeys = state.entities.flickrPhotoCoordinates[coordinatesString].flickrPhotos
+  return state.entities.flickrPhotoCoordinates[coordinatesString].flickrPhotos
+}
+
+
+export function getFlickrPhotos(state) {
+  const flickrPhotoKeys = getFlickrPhotoKeys(state)
+
+  if (!flickrPhotoKeys || flickrPhotoKeys.length === 0) {
+    return null
+  }
 
   let flickrPhotos = flickrPhotoKeys.map( flickrPhotoKey => state.entities.flickrPhotos[flickrPhotoKey])
   return flickrPhotos
 }
 
 export function getFlickrPhotoObject(state) {
-  var flickrPhotoId = state.flickrPhotoId
+  var flickrPhoto = state.flickrPhoto
 
-  if (!flickrPhotoId || !state.entities.flickrPhotos) {
+  if (!flickrPhoto || !state.entities.flickrPhotos) {
     return null
   }
 
-  return state.entities.flickrPhotos[flickrPhotoId]
+  const { id, index } = flickrPhoto
+
+  console.log('flickrPhoto',flickrPhoto)
+
+  let flickrPhotoObject = state.entities.flickrPhotos[id]
+
+  const flickrPhotoKeys = getFlickrPhotoKeys(state)
+
+  if (index > 0) {
+    flickrPhotoObject.prev = {id: flickrPhotoKeys[index-1], index:index-1}
+  }
+
+  if (index < flickrPhotoKeys.length-1) {
+    flickrPhotoObject.next = {id: flickrPhotoKeys[index+1], index:index+1}
+  }
+
+  return flickrPhotoObject
 }
 
 
@@ -334,7 +359,7 @@ const rootReducer = combineReducers({
   wikiLocationsForCoordinates,
   navToCoordinatesString,
   locality,
-  flickrPhotoId,
+  flickrPhoto,
   navTolocality,
   navToFlickrPhoto,
   hoverWikiLocationTitle,
