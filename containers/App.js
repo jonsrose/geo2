@@ -86,15 +86,11 @@ class App extends Component {
       this.props.newCoordinatesString(props.coordinatesStringParam)
     }
 
-    // console.log('props.localityParam',props.localityParam, 'props.locality',props.locality)
     if (props.localityParam && (!props.locality || props.localityParam != props.locality.id)) {
-      // console.log('loadLocality',props.localityParam, parseInt(props.indexParam))
       this.props.loadLocality(props.localityParam, parseInt(props.indexParam))
     }
 
-    // console.log('props.flickrPhoto',props.flickrPhoto,'props.flickrPhotoIdParam',props.flickrPhotoIdParam)
     if (props.flickrPhotoIdParam && (!props.flickrPhoto || props.flickrPhotoIdParam != props.flickrPhoto.id)) {
-      console.log(`loadFlickrPhoto ${props.flickrPhotoIdParam} ${props.flickrPhotoId}`)
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
     }
   }
@@ -136,12 +132,10 @@ class App extends Component {
   renderLeftNav() {
     const { page  }= this.props
     if (page === HOME_PAGE || page === MAP_PAGE) {
-      // console.log('LeftNavMain')
       return <LeftNavMain />
     }
 
     if (page === LOCALITY_PAGE) {
-      // console.log('LocalityPage')
       /*return (
         <LeftNavContainer zoom={this.props.zoom.bind(this)} mapInfo={this.mapInfo.bind(this)}>
           <LocalityPage />
@@ -165,8 +159,6 @@ class App extends Component {
   }
 
   render() {
-    //  console.log ($(window).width())
-    // todo if width is > ? set drawer width to 408, otherwise leave at 256
 
     let drawerWidth
     /*eslint-disable */
@@ -192,7 +184,7 @@ class App extends Component {
           <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {this.renderLeftNav()}
           </Drawer>
-          <AppBar style={{position:'fixed'}}title={<span>GEOJUMP <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
           <div style={{
               position: 'fixed',

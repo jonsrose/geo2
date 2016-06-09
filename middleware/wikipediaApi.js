@@ -67,10 +67,6 @@ function callWikipediaApi(endpoint, schema, info) {
         page.index = info.index
       }
 
-      // console.log('yo wikipedia api page', page, 'info.index',info.index)      
-
-
-
       const camelizedJson = camelizeKeys(page)
 
       const normalized = normalize(camelizedJson, schema)

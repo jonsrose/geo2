@@ -16,7 +16,6 @@ export function loadLocality(locality, index) {
   return (dispatch, getState) => {
     /*
     if (getState().entities.localities && getState().entities.localities[locality]) {
-      console.log('der nully')
       return null
     }
     */

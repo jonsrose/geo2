@@ -336,8 +336,6 @@ export function getFlickrPhotos(state) {
 export function getLocalityObject(state) {
   var locality = state.locality
 
-  // console.log('locality',locality)
-
   if (!locality || !state.entities.localities) {
     return null
   }
@@ -369,8 +367,6 @@ export function getFlickrPhotoObject(state) {
   }
 
   const { id, index } = flickrPhoto
-
-  // console.log('flickrPhoto',flickrPhoto)
 
   let flickrPhotoObject = state.entities.flickrPhotos[id]
 
