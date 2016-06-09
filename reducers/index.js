@@ -118,8 +118,21 @@ function sideNav(state = true, action) {
   } else if (type == ActionTypes.WIKI_LOCATION_SUCCESS || type == ActionTypes.FLICKR_PHOTO_SUCCESS || type == ActionTypes.LOAD_FLICKR_PHOTO || type == ActionTypes.LOCALITY_SUCCESS) {
     return true
   }
+
   return state
 }
+
+function persistentSideNav(state = true, action) {
+  const { type } = action
+  if (type === ActionTypes.SET_SIDE_NAV_VISIBILITY) {
+    return action.open
+  } else if (type == ActionTypes.WIKI_LOCATION_SUCCESS || type == ActionTypes.FLICKR_PHOTO_SUCCESS || type == ActionTypes.LOAD_FLICKR_PHOTO || type == ActionTypes.LOCALITY_SUCCESS || type == ActionTypes.WIKI_LOCATION_FAILURE || type == ActionTypes.FLICKR_PHOTO_FAILURE ) {
+    return true
+  }
+
+  return state
+}
+
 
 function infoWindow(state = true, action) {
   const { type } = action
@@ -165,6 +178,16 @@ function zoom(state = false, action) {
       return false
     }
     return state
+}
+
+function hideEmpty(state = false, action) {
+  const { type } = action
+
+  if (type === ActionTypes.TOGGLE_HIDE_EMPTY) {
+    return !state
+  }
+
+  return state
 }
 
 export function getCurrentLocation(state) {
@@ -381,11 +404,16 @@ export function getHoverFlickrPhoto(state) {
   return state.entities.flickrPhotos[state.hoverFlickrPhotoId]
 }
 
+export function getSideNavVisibility(state) {
+  return state.sideNav || (state.persistentSideNav && !state.hideEmpty)
+}
+
 const rootReducer = combineReducers({
   entities,
   routing,
   coordinates,
   sideNav,
+  persistentSideNav,
   infoWindow,
   coordinatesString,
   locationForCoordinates,
@@ -397,7 +425,8 @@ const rootReducer = combineReducers({
   navToFlickrPhoto,
   hoverWikiLocationTitle,
   hoverFlickrPhotoId,
-  zoom
+  zoom,
+  hideEmpty
 })
 
 

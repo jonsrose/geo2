@@ -5,7 +5,7 @@ import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } f
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadFlickrPhoto } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject} from '../reducers'
+import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject, getSideNavVisibility} from '../reducers'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
 
@@ -261,7 +261,7 @@ function mapStateToProps(state, ownProps) {
     areaLevel1Object: getAreaLevel1Object(state),
     localityObject: getLocalityObject(state),
     appBarTitle: state.appBarTitle,
-    sideNav: state.sideNav,
+    sideNav: getSideNavVisibility(state),
     appBarLeft: state.sideNav? 256 : 0,
     coordinatesString: state.coordinatesString,
     coordinatesStringParam: ownProps.params.coordinatesString,
