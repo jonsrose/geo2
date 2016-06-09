@@ -63,6 +63,10 @@ function callWikipediaApi(endpoint, schema, info) {
 
       const page = json.query.pages[firstKey]
 
+      if (info && (info.index || info.index === 0)) {
+        page.index = info.index
+      }
+
       const camelizedJson = camelizeKeys(page)
 
       const normalized = normalize(camelizedJson, schema)

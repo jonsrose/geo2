@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {getLocalityObject} from '../reducers'
+import LeftNavCommon from './LeftNavCommon'
+import FlatButton from 'material-ui/FlatButton'
+import { navTolocality } from '../actions'
 
 class LocalityPage extends Component {
 
@@ -15,8 +18,23 @@ class LocalityPage extends Component {
   render() {
     if (this.props.locality) {
       // const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
+      const {locality} = this.props
+
+      const { prev, next } = locality
+
       return (
         <div>
+          <div>
+            <LeftNavCommon />
+
+            {locality.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navTolocality.bind(this, prev.id, prev.index )}/>}
+            {!locality.prev && <FlatButton label="Prev" disabled={true}/>}
+
+            {locality.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navTolocality.bind(this, next.id, next.index )}/>}
+            {!locality.next && <FlatButton label="Next" disabled={true}/>}
+
+
+          </div>
           {this.props.localityThumbnail &&
             <img className={'responsive-image'} src={this.props.localityThumbnail.source} />
           }
@@ -33,7 +51,8 @@ LocalityPage.propTypes = {
   locality: PropTypes.object,
   localityText: PropTypes.string,
   localityThumbnail: PropTypes.object,
-  coordinatesString: PropTypes.string
+  coordinatesString: PropTypes.string,
+  navTolocality: PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -45,4 +64,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(LocalityPage)
+export default connect(mapStateToProps, { navTolocality })(LocalityPage)

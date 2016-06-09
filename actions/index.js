@@ -1,4 +1,4 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM, UNZOOM } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, LOAD_FLICKR_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM, UNZOOM, TOGGLE_HIDE_EMPTY } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
@@ -34,17 +34,19 @@ export function navToCoordinatesString(coordinatesString) {
   }
 }
 
-export function navTolocality(locality) {
+export function navTolocality(locality, index) {
   return {
     type: NAV_TO_LOCALITY,
-    locality
+    locality,
+    index
   }
 }
 
-export function navToFlickrPhoto(id) {
+export function navToFlickrPhoto(id, index) {
   return {
     type: NAV_TO_FLICKR_PHOTO,
-    id
+    id,
+    index
   }
 }
 
@@ -116,10 +118,11 @@ export function unHoverFlickrPhoto() {
   }
 }
 
-export function loadFlickrPhoto(id) {
+export function loadFlickrPhoto(id, index) {
   return {
     type: LOAD_FLICKR_PHOTO,
-    id
+    id,
+    index
   }
 }
 
@@ -127,6 +130,12 @@ export function setSideNavVisibility(open) {
   return {
     type: SET_SIDE_NAV_VISIBILITY,
     open
+  }
+}
+
+export function toggleHideEmpty() {
+  return {
+    type: TOGGLE_HIDE_EMPTY
   }
 }
 

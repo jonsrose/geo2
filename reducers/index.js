@@ -40,10 +40,10 @@ function navToCoordinatesString(state = null, action) {
 }
 
 function navTolocality(state = null, action) {
-  const { type, locality } = action
+  const { type, locality, index } = action
 
   if (type === ActionTypes.NAV_TO_LOCALITY) {
-    return locality
+    return {locality, index}
   } else if (type === ActionTypes.LOCALITY_SUCCESS || type === '@@router/LOCATION_CHANGE') {
     return null
   }
@@ -51,11 +51,11 @@ function navTolocality(state = null, action) {
   return state
 }
 
-function navToFlickrPhoto(state = null, action) {
-  const { type, id } = action
+function navToFlickrPhoto(state = {}, action) {
+  const { type, id, index } = action
 
   if (type === ActionTypes.NAV_TO_FLICKR_PHOTO) {
-    return id
+    return {id, index}
   } else if (type === '@@router/LOCATION_CHANGE') {
     return null
   }
@@ -84,11 +84,16 @@ function wikiLocationsForCoordinates(state = {}, action) {
   return state
 }
 
-function locality(state = '', action) {
+function locality(state = {}, action) {
   const { type } = action
 
   if (type === ActionTypes.LOCALITY_SUCCESS) {
-    return action.response.result
+
+    const id = action.response.result
+    const localityObject = action.response.entities.localities[id]
+    const { index } = localityObject
+
+    return {id, index}
   } else if (type === ActionTypes.LOCALITY_REQUEST) {
     return null
   }
@@ -96,11 +101,11 @@ function locality(state = '', action) {
   return state
 }
 
-function flickrPhotoId(state = '', action) {
-  const { type } = action
+function flickrPhoto(state = {}, action) {
+  const { type, id, index } = action
 
   if (type === ActionTypes.LOAD_FLICKR_PHOTO) {
-    return action.id
+    return {id, index}
   }
 
   return state
@@ -113,8 +118,21 @@ function sideNav(state = true, action) {
   } else if (type == ActionTypes.WIKI_LOCATION_SUCCESS || type == ActionTypes.FLICKR_PHOTO_SUCCESS || type == ActionTypes.LOAD_FLICKR_PHOTO || type == ActionTypes.LOCALITY_SUCCESS) {
     return true
   }
+
   return state
 }
+
+function persistentSideNav(state = true, action) {
+  const { type } = action
+  if (type === ActionTypes.SET_SIDE_NAV_VISIBILITY) {
+    return action.open
+  } else if (type == ActionTypes.WIKI_LOCATION_SUCCESS || type == ActionTypes.FLICKR_PHOTO_SUCCESS || type == ActionTypes.LOAD_FLICKR_PHOTO || type == ActionTypes.LOCALITY_SUCCESS || type == ActionTypes.WIKI_LOCATION_FAILURE || type == ActionTypes.FLICKR_PHOTO_FAILURE ) {
+    return true
+  }
+
+  return state
+}
+
 
 function infoWindow(state = true, action) {
   const { type } = action
@@ -160,6 +178,16 @@ function zoom(state = false, action) {
       return false
     }
     return state
+}
+
+function hideEmpty(state = false, action) {
+  const { type } = action
+
+  if (type === ActionTypes.TOGGLE_HIDE_EMPTY) {
+    return !state
+  }
+
+  return state
 }
 
 export function getCurrentLocation(state) {
@@ -250,15 +278,7 @@ export function getLocality(state) {
   return locationObject.locality
 }
 
-export function getLocalityObject(state) {
-  var locality = state.locality
 
-  if (!locality || !state.entities.localities) {
-    return null
-  }
-
-  return state.entities.localities[locality]
-}
 
 export function getLocalityText(state) {
   var localityObject = getLocalityObject(state)
@@ -270,40 +290,97 @@ export function getLocalityText(state) {
   return localityObject.extract
 }
 
-export function getWikiLocations(state) {
+export function getWikiLocationKeys(state) {
   var coordinatesString = state.coordinatesString
 
   if (!state.entities.wikiLocationCoordinates || ! state.entities.wikiLocationCoordinates[coordinatesString]) {
     return null
   }
 
-  const wikiLocationKeys = state.entities.wikiLocationCoordinates[coordinatesString].wikiLocations
+  return state.entities.wikiLocationCoordinates[coordinatesString].wikiLocations
+}
+
+export function getWikiLocations(state) {
+  const wikiLocationKeys = getWikiLocationKeys(state)
+
+  if (!wikiLocationKeys || wikiLocationKeys.length === 0) {
+    return null
+  }
 
   return wikiLocationKeys.map( wikiLocationKey => state.entities.wikiLocations[wikiLocationKey])
 
 }
 
-export function getFlickrPhotos(state) {
+export function getFlickrPhotoKeys(state) {
   var coordinatesString = state.coordinatesString
 
   if (!state.entities.flickrPhotoCoordinates || ! state.entities.flickrPhotoCoordinates[coordinatesString]) {
     return null
   }
 
-  const flickrPhotoKeys = state.entities.flickrPhotoCoordinates[coordinatesString].flickrPhotos
+  return state.entities.flickrPhotoCoordinates[coordinatesString].flickrPhotos
+}
+
+
+export function getFlickrPhotos(state) {
+  const flickrPhotoKeys = getFlickrPhotoKeys(state)
+
+  if (!flickrPhotoKeys || flickrPhotoKeys.length === 0) {
+    return null
+  }
 
   let flickrPhotos = flickrPhotoKeys.map( flickrPhotoKey => state.entities.flickrPhotos[flickrPhotoKey])
   return flickrPhotos
 }
 
-export function getFlickrPhotoObject(state) {
-  var flickrPhotoId = state.flickrPhotoId
+export function getLocalityObject(state) {
+  var locality = state.locality
 
-  if (!flickrPhotoId || !state.entities.flickrPhotos) {
+  if (!locality || !state.entities.localities) {
     return null
   }
 
-  return state.entities.flickrPhotos[flickrPhotoId]
+  const { id, index } = locality
+
+  let localityObject = state.entities.localities[id]
+
+  const localityKeys = getWikiLocationKeys(state)
+
+  if (localityKeys && localityKeys.length !== 0) {
+    if (index > 0) {
+      localityObject.prev = {id: localityKeys[index-1], index:index-1}
+    }
+
+    if (index < localityKeys.length-1) {
+      localityObject.next = {id: localityKeys[index+1], index:index+1}
+    }
+  }
+
+  return localityObject
+}
+
+export function getFlickrPhotoObject(state) {
+  var flickrPhoto = state.flickrPhoto
+
+  if (!flickrPhoto || !state.entities.flickrPhotos) {
+    return null
+  }
+
+  const { id, index } = flickrPhoto
+
+  let flickrPhotoObject = state.entities.flickrPhotos[id]
+
+  const flickrPhotoKeys = getFlickrPhotoKeys(state)
+  /* TODO check not null / empty? */
+  if (index > 0) {
+    flickrPhotoObject.prev = {id: flickrPhotoKeys[index-1], index:index-1}
+  }
+
+  if (index < flickrPhotoKeys.length-1) {
+    flickrPhotoObject.next = {id: flickrPhotoKeys[index+1], index:index+1}
+  }
+
+  return flickrPhotoObject
 }
 
 
@@ -323,23 +400,29 @@ export function getHoverFlickrPhoto(state) {
   return state.entities.flickrPhotos[state.hoverFlickrPhotoId]
 }
 
+export function getSideNavVisibility(state) {
+  return state.sideNav || (state.persistentSideNav && !state.hideEmpty)
+}
+
 const rootReducer = combineReducers({
   entities,
   routing,
   coordinates,
   sideNav,
+  persistentSideNav,
   infoWindow,
   coordinatesString,
   locationForCoordinates,
   wikiLocationsForCoordinates,
   navToCoordinatesString,
   locality,
-  flickrPhotoId,
+  flickrPhoto,
   navTolocality,
   navToFlickrPhoto,
   hoverWikiLocationTitle,
   hoverFlickrPhotoId,
-  zoom
+  zoom,
+  hideEmpty
 })
 
 

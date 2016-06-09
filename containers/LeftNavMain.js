@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto} from '../actions'
+import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, toggleHideEmpty} from '../actions'
 import Avatar from 'material-ui/Avatar'
 import {List, ListItem} from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
 import Paper from 'material-ui/Paper'
 
 const SideNavLabel = props =>
@@ -146,7 +147,8 @@ class LeftNavMain extends Component {
     return (
       <div style={{overflowX:'hidden'}}>
         {wikiLocations &&
-          <List subheader="Nearby Wikipedia locations">
+          <List>
+          <Subheader>Nearby Wikipedia locations</Subheader>
           {wikiLocations.map((wikiLocation, index) => {
             return (
               <ListItem
@@ -154,7 +156,7 @@ class LeftNavMain extends Component {
                 primaryText={wikiLocation.title}
                 onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
                 onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
-                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title)}
+                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title, index)}
                 leftAvatar={
                   wikiLocation.thumbnail
                   ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
@@ -167,7 +169,8 @@ class LeftNavMain extends Component {
         }
 
         {flickrPhotos &&
-          <List subheader="Nearby Flickr Photos">
+          <List>
+          <Subheader>Nearby Flickr Photos</Subheader>
           {flickrPhotos.map((flickrPhoto, index) => {
             return (
               <ListItem
@@ -175,7 +178,7 @@ class LeftNavMain extends Component {
                 primaryText={flickrPhoto.title}
                 onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
                 onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
-                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id)}
+                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id, index)}
                 leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
               />
             )
@@ -188,7 +191,8 @@ class LeftNavMain extends Component {
             <p><strong>No nearby places found.</strong></p>
               <p>Touch somewhere else on the map, zoom out first if that helps</p>
               <p>Or hit the JUMP to go to another location</p>
-              <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water.</p>
+              <p>Note that you may have to jump several times before landing on a location!</p>
+              <p><input type="checkbox" checked={this.props.hideEmpty} onClick={this.props.toggleHideEmpty}  />Don't show this again</p>
           </Paper>
         }
 
@@ -198,6 +202,7 @@ class LeftNavMain extends Component {
             <p>Press the JUMP button to start!</p>
             <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
             <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water!</p>
+            <p>Questions? email <a href="jonrosesf@gmail.com">jonrosesf@gmail.com</a></p>
           </Paper>
         }
       </div>
@@ -217,7 +222,8 @@ LeftNavMain.propTypes = {
   hoverFlickrPhoto: PropTypes.func,
   unHoverFlickrPhoto: PropTypes.func,
   navTolocality: PropTypes.func,
-  navToFlickrPhoto: PropTypes.func
+  navToFlickrPhoto: PropTypes.func,
+  toggleHideEmpty: PropTypes.func
 }
 
 /*
@@ -245,9 +251,10 @@ function mapStateToProps(state) {
     localityObject: getLocalityObject(state),
     coordinatesString: state.coordinatesString,
     wikiLocations: getWikiLocations(state),
-    flickrPhotos: getFlickrPhotos(state)
+    flickrPhotos: getFlickrPhotos(state),
+    hideEmpty: state.hideEmpty
   }
 }
 
 export default connect(mapStateToProps, {
-  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto })(LeftNavMain)
+  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto, toggleHideEmpty })(LeftNavMain)

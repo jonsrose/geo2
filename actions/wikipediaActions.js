@@ -1,23 +1,25 @@
 import { CALL_WIKIPEDIA_API, WikipediaSchemas } from '../middleware/wikipediaApi'
 import { LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE, WIKI_LOCATION_REQUEST, WIKI_LOCATION_SUCCESS, WIKI_LOCATION_FAILURE } from './ActionTypes'
 
-function fetchLocality(locality) {
+function fetchLocality(locality, index) {
   return {
     [CALL_WIKIPEDIA_API]: {
       types: [ LOCALITY_REQUEST, LOCALITY_SUCCESS, LOCALITY_FAILURE ],
       endpoint: `https://en.wikipedia.org/w/api.php?action=query&prop=extracts|pageimages&format=json&exintro=&titles=${locality}&piprop=thumbnail&pithumbsize=1024`,
-      schema: WikipediaSchemas.LOCALITY
+      schema: WikipediaSchemas.LOCALITY,
+      info: {index}
     }
   }
 }
 
-export function loadLocality(locality) {
+export function loadLocality(locality, index) {
   return (dispatch, getState) => {
+    /*
     if (getState().entities.localities && getState().entities.localities[locality]) {
       return null
     }
-
-    return dispatch(fetchLocality(locality))
+    */
+    return dispatch(fetchLocality(locality, index))
   }
 }
 

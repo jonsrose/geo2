@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getFlickrPhotoObject } from '../reducers'
+import LeftNavCommon from './LeftNavCommon'
+import FlatButton from 'material-ui/FlatButton'
+import { navToFlickrPhoto } from '../actions'
+
 
 class FlickrPhotoPage extends Component {
 
@@ -13,10 +17,30 @@ class FlickrPhotoPage extends Component {
   }
 
   render() {
-    if (this.props.flickrPhoto) {
+    const { flickrPhoto } = this.props
+
+    if (flickrPhoto) {
+      const { prev, next } = flickrPhoto
+
+      let imageUrl
+
+      if (this.props.zoomed) {
+        imageUrl = flickrPhoto.urlL
+      } else {
+        imageUrl = flickrPhoto.urlM
+      }
+
       return (
             <div>
-              <img className={'responsive-image'} src={this.props.flickrPhoto.urlL} />
+              <div>
+                <LeftNavCommon />
+                {flickrPhoto.prev && <FlatButton label="Prev" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, prev.id, prev.index )}/>}
+                {!flickrPhoto.prev && <FlatButton label="Prev" disabled={true}/>}
+
+                {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
+                {!flickrPhoto.next && <FlatButton label="Next" disabled={true}/>}
+              </div>
+              <img className={'responsive-image'} src={imageUrl} />
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
             </div>
       )
@@ -28,14 +52,17 @@ class FlickrPhotoPage extends Component {
 
 FlickrPhotoPage.propTypes = {
   flickrPhoto: PropTypes.object,
-  coordinatesString: PropTypes.string
+  coordinatesString: PropTypes.string,
+  navToFlickrPhoto: PropTypes.func,
+  zoomed: PropTypes.bool
 }
 
 function mapStateToProps(state) {
   return {
     flickrPhoto: getFlickrPhotoObject(state),
-    coordinatesString: state.coordinatesString
+    coordinatesString: state.coordinatesString,
+    zoomed: state.zoom
   }
 }
 
-export default connect(mapStateToProps, null)(FlickrPhotoPage)
+export default connect(mapStateToProps, { navToFlickrPhoto })(FlickrPhotoPage)
