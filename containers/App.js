@@ -4,8 +4,9 @@ import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
+import { loadPanoramioPhotos } from '../actions/panoramioActions'
 import { loadFlickrPhoto } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject, getSideNavVisibility} from '../reducers'
+import { getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject, getSideNavVisibility } from '../reducers'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
 
@@ -67,9 +68,13 @@ class App extends Component {
 
     this.loadData(nextProps)
 
+      console.log('hello?')
+
     if (nextProps.coordinatesString && nextProps.coordinatesString !== this.props.coordinatesString) {
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
       this.props.loadFlickrPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
+      console.log('loadPanoramioPhotos')
+      this.props.loadPanoramioPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 
     if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
@@ -271,5 +276,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString, setSideNavVisibility, zoom
+  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos,  newCoordinatesString, setSideNavVisibility, zoom
 })(App)

@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import wikipediaApi from '../middleware/wikipediaApi'
 import flickrApi from '../middleware/flickrApi'
+import panoramioApi from '../middleware/panoramioApi'
 import rootReducer from '../reducers'
 
 export default function configureStore(initialState) {
@@ -10,7 +11,7 @@ export default function configureStore(initialState) {
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(thunk, wikipediaApi, flickrApi, createLogger())
+      applyMiddleware(thunk, wikipediaApi, flickrApi, panoramioApi, createLogger())
     )
   )
 
