@@ -333,6 +333,33 @@ export function getFlickrPhotos(state) {
   return flickrPhotos
 }
 
+export function getPanoramioPhotoKeys(state) {
+  var coordinatesString = state.coordinatesString
+
+  if (!state.entities.panoramioPhotoCoordinates || ! state.entities.panoramioPhotoCoordinates[coordinatesString]) {
+    return null
+  }
+
+  return state.entities.panoramioPhotoCoordinates[coordinatesString].panoramioPhotos
+}
+
+
+export function getPanoramioPhotos(state) {
+
+  const panoramioPhotoKeys = getPanoramioPhotoKeys(state)
+
+  if (!panoramioPhotoKeys || panoramioPhotoKeys.length === 0) {
+    return null
+  }
+
+
+
+  let panoramioPhotos = panoramioPhotoKeys.map( panoramioPhotoKey => state.entities.panoramioPhotos[panoramioPhotoKey])
+
+  return panoramioPhotos
+}
+
+
 export function getLocalityObject(state) {
   var locality = state.locality
 

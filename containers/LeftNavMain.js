@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
-import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos} from '../reducers'
+import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos, getPanoramioPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
 import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, toggleHideEmpty} from '../actions'
 import Avatar from 'material-ui/Avatar'
@@ -143,7 +143,7 @@ class LeftNavMain extends Component {
   }
 
   render() {
-    const {wikiLocations, flickrPhotos, coordinatesString} = this.props
+    const {wikiLocations, flickrPhotos, panoramioPhotos, coordinatesString} = this.props
     return (
       <div style={{overflowX:'hidden'}}>
         {wikiLocations &&
@@ -186,7 +186,22 @@ class LeftNavMain extends Component {
           </List>
         }
 
-        {coordinatesString && !wikiLocations && !flickrPhotos &&
+        {panoramioPhotos &&
+          <List>
+          <Subheader>Nearby Panoramio Photos</Subheader>
+          {panoramioPhotos.map((panoramioPhoto, index) => {
+            return (
+              <ListItem
+                key={index}
+                primaryText={panoramioPhoto.photoTitle}
+                leftAvatar={<Avatar style={{borderRadius:0}} src={panoramioPhoto.photoFileUrl} />}
+              />
+            )
+          })}
+          </List>
+        }
+
+        {coordinatesString && !wikiLocations && !flickrPhotos && !panoramioPhotos &&
           <Paper style={{position: 'absolute', top: 0, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
             <p><strong>No nearby places found.</strong></p>
               <p>Touch somewhere else on the map, zoom out first if that helps</p>
@@ -200,7 +215,7 @@ class LeftNavMain extends Component {
           <Paper style={{position: 'absolute', top: 0, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
             <p><strong>Welcome to GEOJUMP!</strong></p>
             <p>Press the JUMP button to start!</p>
-            <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Flickr or locations from Wikipedia</p>
+            <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Panoramio or Flickr or locations from Wikipedia</p>
             <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water!</p>
             <p>Questions? email <a href="jonrosesf@gmail.com">jonrosesf@gmail.com</a></p>
           </Paper>
@@ -252,6 +267,7 @@ function mapStateToProps(state) {
     coordinatesString: state.coordinatesString,
     wikiLocations: getWikiLocations(state),
     flickrPhotos: getFlickrPhotos(state),
+    panoramioPhotos: getPanoramioPhotos(state),
     hideEmpty: state.hideEmpty
   }
 }

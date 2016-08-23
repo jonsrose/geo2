@@ -11,7 +11,6 @@ function fetchPanoramioPhotos(lat,lng) {
   var maxLatitude = Math.max(boundingCoordinates[0].latitude(), boundingCoordinates[1].latitude())
   var maxLongitude = Math.max(boundingCoordinates[0].longitude(), boundingCoordinates[1].longitude())
 
-
   console.log('boundingCoordinates',boundingCoordinates)
   const coordinatesString =  `${lat},${lng}`
   return {
