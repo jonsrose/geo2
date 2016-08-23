@@ -2,7 +2,7 @@ import { Schema, normalize, arrayOf } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import fetchJsonp from 'fetch-jsonp'
 
-const panoramioPhotoSchema = new Schema('panoramioPhotos')
+const panoramioPhotoSchema = new Schema('panoramioPhotos', { idAttribute: 'photoId' })
 const panoramioPhotoCoordinatesSchema = new Schema('panoramioPhotoCoordinates', { idAttribute: 'coordinatesString' })
 
 
@@ -19,30 +19,40 @@ function callPanoramioApi(endpoint, schema, info) {
   .then(response => {
     return response.json()
     .then(json => {
+      console.log('json',json)
       return { json, response }
     })
   }
   ).then(({ json, response }) => {
+    console.log('response',response)
     if (!response.ok) {
       return Promise.reject(json)
     }
     let camelizedJson = null
 
-    if (json.photos.photo.length == 0) {
+    if (json.photos.length == 0) {
       return Promise.reject(json)
     }
 
-    const panoramioPhotos = json.photos.photo
+    const panoramioPhotos = json.photos
+
+    console.log('panoramioPhotos',panoramioPhotos)
 
     camelizedJson = camelizeKeys(panoramioPhotos)
+
+    console.log('camelizedJson',camelizedJson)
 
     const coordinatesObject= {}
     coordinatesObject.coordinatesString = info.coordinatesString
     coordinatesObject.panoramioPhotos = camelizedJson
 
-    return Object.assign({},
+    const result = Object.assign({},
       normalize(coordinatesObject, schema)
     )
+
+    console.log('resulty', result)
+
+    return result
   })
 }
 
@@ -92,10 +102,12 @@ export default store => next => action => {
   next(actionWith({ type: requestType }))
 
   return callPanoramioApi(endpoint, schema, info).then(
-    response => next(actionWith({
+    response => {
+      console.log('response2',response)
+      return next(actionWith({
       response,
       type: successType
-    })),
+    }))},
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'

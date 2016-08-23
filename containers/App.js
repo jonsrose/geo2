@@ -68,7 +68,7 @@ class App extends Component {
 
     this.loadData(nextProps)
 
-      console.log('hello?')
+      //console.log('hello?')
 
     if (nextProps.coordinatesString && nextProps.coordinatesString !== this.props.coordinatesString) {
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
