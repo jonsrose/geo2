@@ -195,7 +195,7 @@ function zoom(state = false, action) {
       return true
     } else if (type === ActionTypes.UNZOOM) {
       return false
-    } else if (type === '@@router/LOCATION_CHANGE' && payload.pathname.indexOf('localityInfo') === -1 &&  payload.pathname.indexOf('flickrPhoto') === -1) {
+    } else if (type === '@@router/LOCATION_CHANGE' && payload.pathname.indexOf('localityInfo') === -1 && payload.pathname.indexOf('panoramioPhoto') === -1 &&  payload.pathname.indexOf('flickrPhoto') === -1) {
       return false
     }
     return state
