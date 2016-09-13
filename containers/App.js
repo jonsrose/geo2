@@ -4,8 +4,9 @@ import { browserHistory } from 'react-router'
 import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
-import { loadFlickrPhoto } from '../actions'
-import {getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject, getSideNavVisibility} from '../reducers'
+import { loadPanoramioPhotos } from '../actions/panoramioActions'
+import { loadFlickrPhoto, loadPanoramioPhoto } from '../actions'
+import { getCurrentLocation, getCurrentLocationObject, getCountryObject, getAreaLevel1Object, getLocalityObject, getSideNavVisibility } from '../reducers'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
 
@@ -17,6 +18,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import LeftNavMain from './LeftNavMain'
 import MapPage from './MapPage'
 import FlickrPhotoPage from './FlickrPhotoPage'
+import PanoramioPhotoPage from './PanoramioPhotoPage'
 import LeftNavContainer from './LeftNavContainer'
 import LocalityPage from './LocalityPage'
 
@@ -26,6 +28,7 @@ const ipadWidth = 768
 
 const LOCALITY_PAGE = 'locality'
 const FLICKR_PHOTO_PAGE = 'flickrPhoto'
+const PANORAMIO_PHOTO_PAGE = 'panoramioPhoto'
 const MAP_PAGE = 'map'
 const HOME_PAGE = 'home'
 
@@ -67,9 +70,13 @@ class App extends Component {
 
     this.loadData(nextProps)
 
+      //console.log('hello?')
+
     if (nextProps.coordinatesString && nextProps.coordinatesString !== this.props.coordinatesString) {
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
       this.props.loadFlickrPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
+      console.log('loadPanoramioPhotos')
+      this.props.loadPanoramioPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 
     if (nextProps.navTolocality && nextProps.navTolocality !== this.props.navTolocality) {
@@ -79,6 +86,11 @@ class App extends Component {
     if (nextProps.navToFlickrPhoto && nextProps.navToFlickrPhoto !== this.props.navToFlickrPhoto) {
       browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/flickrPhoto/${nextProps.navToFlickrPhoto.index}-${nextProps.navToFlickrPhoto.id}`)
     }
+
+    if (nextProps.navToPanoramioPhoto && nextProps.navToPanoramioPhoto !== this.props.navToPanoramioPhoto) {
+      browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/panoramioPhoto/${nextProps.navToPanoramioPhoto.index}-${nextProps.navToPanoramioPhoto.id}`)
+    }
+
   }
 
   loadData(props) {
@@ -92,6 +104,10 @@ class App extends Component {
 
     if (props.flickrPhotoIdParam && (!props.flickrPhoto || props.flickrPhotoIdParam != props.flickrPhoto.id)) {
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
+    }
+
+    if (props.panoramioPhotoIdParam && (!props.panoramioPhoto || props.panoramioPhotoIdParam != props.panoramioPhoto.photoId)) {
+      this.props.loadPanoramioPhoto(props.panoramioPhotoIdParam, parseInt(props.indexParam))
     }
   }
 
@@ -156,6 +172,14 @@ class App extends Component {
       )
     }
 
+    if (page === PANORAMIO_PHOTO_PAGE) {
+      return (
+        <LeftNavContainer>
+          <PanoramioPhotoPage />
+        </LeftNavContainer>
+      )
+    }
+
   }
 
   render() {
@@ -212,6 +236,10 @@ function getPageFromPath(path){
     return FLICKR_PHOTO_PAGE
   }
 
+  if (path.indexOf('panoramioPhoto') > -1) {
+    return PANORAMIO_PHOTO_PAGE
+  }
+
   if (path.indexOf('coordinates') > -1) {
     return MAP_PAGE
   }
@@ -262,14 +290,16 @@ function mapStateToProps(state, ownProps) {
     locality: state.locality,
     localityParam: ownProps.params.locality,
     flickrPhotoIdParam: ownProps.params.flickrPhotoId,
+    panoramioPhotoIdParam: ownProps.params.panoramioPhotoId,
     indexParam: ownProps.params.index,
     flickrPhoto: state.flickrPhoto,
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto,
+    navToPanoramioPhoto: state.navToPanoramioPhoto,
     zoomed: state.zoom
   }
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation,loadFlickrPhotos, newCoordinatesString, setSideNavVisibility, zoom
+  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos, loadPanoramioPhoto, newCoordinatesString, setSideNavVisibility, zoom
 })(App)
