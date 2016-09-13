@@ -35,7 +35,7 @@ class PanoramioPhotoPage extends Component {
                 {!panoramioPhoto.next && <FlatButton label="Next" disabled={true}/>}
               </div>
               <img className={'responsive-image'} src={imageUrl} />
-              <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.panoramioPhoto.title)} />
+              <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.panoramioPhoto.photoTitle)} />
             </div>
       )
     } else {

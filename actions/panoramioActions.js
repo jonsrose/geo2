@@ -16,7 +16,7 @@ function fetchPanoramioPhotos(lat,lng) {
   return {
     [CALL_PANORAMIO_API]: {
       types: [ PANORAMIO_PHOTO_REQUEST, PANORAMIO_PHOTO_SUCCESS, PANORAMIO_PHOTO_FAILURE ],
-      endpoint: `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=25&minx=${minLongitude}&miny=${minLatitude}&maxx=${maxLongitude}&maxy=${maxLatitude}&size=medium&mapfilter=true`,
+      endpoint: `http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=25&minx=${minLongitude}&miny=${minLatitude}&maxx=${maxLongitude}&maxy=${maxLatitude}&size=original&mapfilter=true`,
       schema: PanoramioSchemas.PANORAMIO_PHOTO_COORDINATES,
       info: {coordinatesString}
     }
