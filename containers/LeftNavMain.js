@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos, getPanoramioPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, toggleHideEmpty} from '../actions'
+import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty} from '../actions'
 import Avatar from 'material-ui/Avatar'
 import {List, ListItem} from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
@@ -194,6 +194,7 @@ class LeftNavMain extends Component {
               <ListItem
                 key={index}
                 primaryText={panoramioPhoto.photoTitle}
+                onTouchTap={this.props.navToPanoramioPhoto.bind(this, panoramioPhoto.photoId, index)}
                 leftAvatar={<Avatar style={{borderRadius:0}} src={panoramioPhoto.photoFileUrl} />}
               />
             )
@@ -238,6 +239,7 @@ LeftNavMain.propTypes = {
   unHoverFlickrPhoto: PropTypes.func,
   navTolocality: PropTypes.func,
   navToFlickrPhoto: PropTypes.func,
+  navToPanoramioPhoto: PropTypes.func,
   toggleHideEmpty: PropTypes.func
 }
 
@@ -273,4 +275,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto, toggleHideEmpty })(LeftNavMain)
+  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty })(LeftNavMain)

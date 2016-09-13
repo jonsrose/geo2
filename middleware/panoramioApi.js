@@ -2,7 +2,7 @@ import { Schema, normalize, arrayOf } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import fetchJsonp from 'fetch-jsonp'
 
-const panoramioPhotoSchema = new Schema('panoramioPhotos', { idAttribute: 'photoId' })
+const panoramioPhotoSchema = new Schema('panoramioPhotos',{ idAttribute: 'photoId' })
 const panoramioPhotoCoordinatesSchema = new Schema('panoramioPhotoCoordinates', { idAttribute: 'coordinatesString' })
 
 

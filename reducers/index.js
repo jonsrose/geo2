@@ -63,6 +63,17 @@ function navToFlickrPhoto(state = {}, action) {
   return state
 }
 
+function navToPanoramioPhoto(state = {}, action) {
+  const { type, id, index } = action
+
+  if (type === ActionTypes.NAV_TO_PANORAMIO_PHOTO) {
+    return {id, index}
+  } else if (type === '@@router/LOCATION_CHANGE') {
+    return null
+  }
+
+  return state
+}
 
 function locationForCoordinates(state = {}, action) {
   const { type } = action
@@ -105,6 +116,16 @@ function flickrPhoto(state = {}, action) {
   const { type, id, index } = action
 
   if (type === ActionTypes.LOAD_FLICKR_PHOTO) {
+    return {id, index}
+  }
+
+  return state
+}
+
+function panoramioPhoto(state = {}, action) {
+  const { type, id, index } = action
+
+  if (type === ActionTypes.LOAD_PANORAMIO_PHOTO) {
     return {id, index}
   }
 
@@ -352,8 +373,6 @@ export function getPanoramioPhotos(state) {
     return null
   }
 
-
-
   let panoramioPhotos = panoramioPhotoKeys.map( panoramioPhotoKey => state.entities.panoramioPhotos[panoramioPhotoKey])
 
   return panoramioPhotos
@@ -410,6 +429,29 @@ export function getFlickrPhotoObject(state) {
   return flickrPhotoObject
 }
 
+export function getPanoramioPhotoObject(state) {
+  var panoramioPhoto = state.panoramioPhoto
+
+  if (!panoramioPhoto || !state.entities.panoramioPhotos) {
+    return null
+  }
+
+  const { id, index } = panoramioPhoto
+
+  let panoramioPhotoObject = state.entities.panoramioPhotos[id]
+
+  const panoramioPhotoKeys = getPanoramioPhotoKeys(state)
+  /* TODO check not null / empty? */
+  if (index > 0) {
+    panoramioPhotoObject.prev = {id: panoramioPhotoKeys[index-1], index:index-1}
+  }
+
+  if (index < panoramioPhotoKeys.length-1) {
+    panoramioPhotoObject.next = {id: panoramioPhotoKeys[index+1], index:index+1}
+  }
+
+  return panoramioPhotoObject
+}
 
 export function getHoverWikiLocation(state) {
   if (!state.hoverWikiLocationTitle || !state.entities.wikiLocations || !state.entities.wikiLocations[state.hoverWikiLocationTitle] ) {
@@ -444,8 +486,10 @@ const rootReducer = combineReducers({
   navToCoordinatesString,
   locality,
   flickrPhoto,
+  panoramioPhoto,
   navTolocality,
   navToFlickrPhoto,
+  navToPanoramioPhoto,
   hoverWikiLocationTitle,
   hoverFlickrPhotoId,
   zoom,

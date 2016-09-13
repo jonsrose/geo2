@@ -8,5 +8,6 @@ export default (
     <Route path="/coordinates/:coordinatesString" />
     <Route path="/coordinates/:coordinatesString/placeDetail/localityInfo/:index/:locality"  />
     <Route path="/coordinates/:coordinatesString/placeDetail/flickrPhoto/:index-:flickrPhotoId" />
+    <Route path="/coordinates/:coordinatesString/placeDetail/panoramioPhoto/:index-:panoramioPhotoId" />
   </Route>
 )
