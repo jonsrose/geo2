@@ -4,8 +4,7 @@ import MenuItem from 'material-ui/MenuItem'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos, getPanoramioPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
 import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty} from '../actions'
-import Avatar from 'material-ui/Avatar'
-import {List, ListItem} from 'material-ui/List'
+
 import Subheader from 'material-ui/Subheader'
 import Paper from 'material-ui/Paper'
 
@@ -14,6 +13,12 @@ const SideNavLabel = props =>
 >
   {props.children}
 </div>
+
+const LeftNavItem = props =>
+<a style={{position:'relative', display:'block'}} onClick={props.onClick} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
+    <img src={props.imageUrl} className="responsive-image"/>
+    <div style={{bottom:0, position:'absolute', color:'#fff', backgroundColor:'rgba(0, 0, 0, 0.2)', width:'100%' }}>{props.description}</div>
+</a>
 
 class LeftNavMain extends Component {
 
@@ -139,7 +144,6 @@ class LeftNavMain extends Component {
         {currentLocationObject.formattedAddress}
       </SideNavLabel>
     )
-
   }
 
   render() {
@@ -147,59 +151,46 @@ class LeftNavMain extends Component {
     return (
       <div style={{overflowX:'hidden'}}>
         {wikiLocations &&
-          <List>
+          <div>
           <Subheader>Nearby Wikipedia locations</Subheader>
           {wikiLocations.map((wikiLocation, index) => {
             return (
-              <ListItem
+              <LeftNavItem
                 key={index}
-                primaryText={wikiLocation.title}
+                description={wikiLocation.title}
                 onMouseEnter = {this.props.hoverWikiLocation.bind(this, wikiLocation.title)}
                 onMouseLeave = {this.props.unHoverWikiLocation.bind(this)}
-                onTouchTap={this.props.navTolocality.bind(this, wikiLocation.title, index)}
-                leftAvatar={
-                  wikiLocation.thumbnail
-                  ? <Avatar style={{borderRadius:0}} src={wikiLocation.thumbnail.source} />
-                : <Avatar style={{ visibility:'hidden'}}/>
-                }
+                onClick={this.props.navTolocality.bind(this, wikiLocation.title, index)}
+                imageUrl={wikiLocation.thumbnail ? wikiLocation.thumbnail.source : ''}
               />
             )
           })}
-          </List>
+          </div>
         }
 
         {flickrPhotos &&
-          <List>
+          <div>
           <Subheader>Nearby Flickr Photos</Subheader>
           {flickrPhotos.map((flickrPhoto, index) => {
             return (
-              <ListItem
-                key={index}
-                primaryText={flickrPhoto.title}
-                onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
-                onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
-                onTouchTap={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id, index)}
-                leftAvatar={<Avatar style={{borderRadius:0}} src={flickrPhoto.urlSq} />}
-              />
+              <LeftNavItem key={index} imageUrl={flickrPhoto.urlM} description={flickrPhoto.title}
+              onMouseEnter = {this.props.hoverFlickrPhoto.bind(this, flickrPhoto.id)}
+              onMouseLeave = {this.props.unHoverFlickrPhoto.bind(this)}
+              onClick={this.props.navToFlickrPhoto.bind(this, flickrPhoto.id, index)} />
             )
           })}
-          </List>
+          </div>
         }
 
         {panoramioPhotos &&
-          <List>
+          <div>
           <Subheader>Nearby Panoramio Photos</Subheader>
           {panoramioPhotos.map((panoramioPhoto, index) => {
             return (
-              <ListItem
-                key={index}
-                primaryText={panoramioPhoto.photoTitle}
-                onTouchTap={this.props.navToPanoramioPhoto.bind(this, panoramioPhoto.photoId, index)}
-                leftAvatar={<Avatar style={{borderRadius:0}} src={panoramioPhoto.photoFileUrl} />}
-              />
+              <LeftNavItem key={index} imageUrl={panoramioPhoto.photoFileUrl} description={panoramioPhoto.photoTitle} onClick={this.props.navToPanoramioPhoto.bind(this, panoramioPhoto.photoId, index)} />
             )
           })}
-          </List>
+          </div>
         }
 
         {coordinatesString && !wikiLocations && !flickrPhotos && !panoramioPhotos &&
