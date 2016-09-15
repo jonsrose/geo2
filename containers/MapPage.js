@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
-import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto} from '../reducers'
+import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto, getPanoramioPhotos, getHoverPanoramioPhoto} from '../reducers'
 import { satelliteMap } from '../util/GoogleMapsHelper'
-import { navTolocality, navToFlickrPhoto, navToCoordinatesString } from '../actions'
+import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString } from '../actions'
 
 class MapPage extends Component {
   constructor(props) {
@@ -15,12 +15,16 @@ class MapPage extends Component {
     this.props.showInfoWindow()
   }
 
-  handleWikiLocationMarkerClick(title) {
-    this.props.navTolocality(title)
+  handleWikiLocationMarkerClick(title, index) {
+    this.props.navTolocality(title, index)
   }
 
-  handleFlickrPhotoMarkerClick(title) {
-    this.props.navToFlickrPhoto(title)
+  handleFlickrPhotoMarkerClick(title, index) {
+    this.props.navToFlickrPhoto(title, index)
+  }
+
+  handlePanoramioPhotoMarkerClick(title, index) {
+    this.props.navToPanoramioPhoto(title, index)
   }
 
   handleCloseInfoWindow() {
@@ -123,7 +127,7 @@ class MapPage extends Component {
                 return (
                   <Marker key={index}
                     position={{lat: wikiLocationCoordinates.lat, lng: wikiLocationCoordinates.lon}}
-                    onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title)}
+                    onClick={this.handleWikiLocationMarkerClick.bind(this, wikiLocation.title, index)}
                     title={wikiLocation.title}
                     icon={'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0'}
                   />
@@ -145,7 +149,7 @@ class MapPage extends Component {
                 return (
                   <Marker key={index}
                     position={{lat: Number(flickrPhoto.latitude), lng: Number(flickrPhoto.longitude)}}
-                    onClick={this.handleFlickrPhotoMarkerClick.bind(this, flickrPhoto.id)}
+                    onClick={this.handleFlickrPhotoMarkerClick.bind(this, flickrPhoto.id, index)}
                     title={flickrPhoto.title}
                     icon={'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png'}
                   />
@@ -159,6 +163,30 @@ class MapPage extends Component {
                     icon = {'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
                 />
               }
+
+              {this.props.panoramioPhotos && this.props.panoramioPhotos.map((panoramioPhoto, index) => {
+                if (!panoramioPhoto.latitude || panoramioPhoto.longitude == 0) {
+                  return null
+                }
+
+                return (
+                  <Marker key={index}
+                    position={{lat: Number(panoramioPhoto.latitude), lng: Number(panoramioPhoto.longitude)}}
+                    onClick={this.handlePanoramioPhotoMarkerClick.bind(this, panoramioPhoto.photoId, index)}
+                    title={panoramioPhoto.title}
+                    icon={'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png'}
+                  />
+                )
+              })}
+
+              {this.props.hoverPanoramioPhoto &&
+                <Marker
+                  position={{lat: Number(this.props.hoverPanoramioPhoto.latitude),
+                    lng: Number(this.props.hoverPanoramioPhoto.longitude)}}
+                    icon = {'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
+                />
+              }
+
             </GoogleMap>
           }
         />
@@ -185,10 +213,12 @@ function mapStateToProps(state) {
     infoWindow: state.infoWindow,
     wikiLocations: getWikiLocations(state),
     flickrPhotos: getFlickrPhotos(state),
+    panoramioPhotos: getPanoramioPhotos(state),
     hoverWikiLocation: getHoverWikiLocation(state),
-    hoverFlickrPhoto: getHoverFlickrPhoto(state)
+    hoverFlickrPhoto: getHoverFlickrPhoto(state),
+    hoverPanoramioPhoto: getHoverPanoramioPhoto(state)
   }
 }
 
-export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
 })(MapPage)
