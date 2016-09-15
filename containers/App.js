@@ -90,7 +90,6 @@ class App extends Component {
     if (nextProps.navToPanoramioPhoto && nextProps.navToPanoramioPhoto !== this.props.navToPanoramioPhoto) {
       browserHistory.push(`/coordinates/${nextProps.coordinatesString}/placeDetail/panoramioPhoto/${nextProps.navToPanoramioPhoto.index}-${nextProps.navToPanoramioPhoto.id}`)
     }
-
   }
 
   loadData(props) {
@@ -106,7 +105,7 @@ class App extends Component {
       this.props.loadFlickrPhoto(props.flickrPhotoIdParam, parseInt(props.indexParam))
     }
 
-    if (props.panoramioPhotoIdParam && (!props.panoramioPhoto || props.panoramioPhotoIdParam != props.panoramioPhoto.photoId)) {
+    if (props.panoramioPhotoIdParam && (!props.panoramioPhoto || props.panoramioPhotoIdParam != props.panoramioPhoto.id)) {
       this.props.loadPanoramioPhoto(props.panoramioPhotoIdParam, parseInt(props.indexParam))
     }
   }
@@ -293,6 +292,7 @@ function mapStateToProps(state, ownProps) {
     panoramioPhotoIdParam: ownProps.params.panoramioPhotoId,
     indexParam: ownProps.params.index,
     flickrPhoto: state.flickrPhoto,
+    panoramioPhoto: state.panoramioPhoto,
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto,
     navToPanoramioPhoto: state.navToPanoramioPhoto,

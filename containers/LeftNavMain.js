@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import {getCountryObject, getAreaLevel1Object, getLocalityObject, getWikiLocations, getFlickrPhotos, getPanoramioPhotos} from '../reducers'
 import { browserHistory } from 'react-router'
-import {hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty} from '../actions'
+import { hoverWikiLocation, unHoverWikiLocation, navTolocality, hoverFlickrPhoto, unHoverFlickrPhoto, hoverPanoramioPhoto, unHoverPanoramioPhoto, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty } from '../actions'
 
 import Subheader from 'material-ui/Subheader'
 import Paper from 'material-ui/Paper'
@@ -187,7 +187,10 @@ class LeftNavMain extends Component {
           <Subheader>Nearby Panoramio Photos</Subheader>
           {panoramioPhotos.map((panoramioPhoto, index) => {
             return (
-              <LeftNavItem key={index} imageUrl={panoramioPhoto.photoFileUrl} description={panoramioPhoto.photoTitle} onClick={this.props.navToPanoramioPhoto.bind(this, panoramioPhoto.photoId, index)} />
+              <LeftNavItem key={index} imageUrl={panoramioPhoto.photoFileUrl} description={panoramioPhoto.photoTitle}
+              onMouseEnter = {this.props.hoverPanoramioPhoto.bind(this, panoramioPhoto.photoId)}
+              onMouseLeave = {this.props.unHoverPanoramioPhoto.bind(this)}
+              onClick={this.props.navToPanoramioPhoto.bind(this, panoramioPhoto.photoId, index)} />
             )
           })}
           </div>
@@ -228,6 +231,8 @@ LeftNavMain.propTypes = {
   unHoverWikiLocation: PropTypes.func,
   hoverFlickrPhoto: PropTypes.func,
   unHoverFlickrPhoto: PropTypes.func,
+  hoverPanoramioPhoto: PropTypes.func,
+  unHoverPanoramioPhoto: PropTypes.func,
   navTolocality: PropTypes.func,
   navToFlickrPhoto: PropTypes.func,
   navToPanoramioPhoto: PropTypes.func,
@@ -266,4 +271,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, navTolocality, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty })(LeftNavMain)
+  hoverWikiLocation, unHoverWikiLocation, hoverFlickrPhoto, unHoverFlickrPhoto, hoverPanoramioPhoto, unHoverPanoramioPhoto, navTolocality, navToFlickrPhoto, navToPanoramioPhoto, toggleHideEmpty })(LeftNavMain)
