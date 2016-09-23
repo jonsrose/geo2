@@ -76,7 +76,7 @@ class App extends Component {
     if (nextProps.coordinatesString && nextProps.coordinatesString !== this.props.coordinatesString) {
       this.props.loadWikiLocation(nextProps.coordinates.lat, nextProps.coordinates.lng)
       this.props.loadFlickrPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
-      console.log('loadPanoramioPhotos')
+      //console.log('loadPanoramioPhotos')
       this.props.loadPanoramioPhotos(nextProps.coordinates.lat, nextProps.coordinates.lng)
     }
 

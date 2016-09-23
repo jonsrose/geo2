@@ -35,15 +35,15 @@ class MapPage extends Component {
     const newCenter = this.refs.map.getCenter()
     const latitude = newCenter.lat()
     const longitude = newCenter.lng()
-    console.log('handleCenterChanged', latitude, longitude)
-    console.log('oldvalues', this.props.coordinates.lat, this.props.coordinates.lng)
+    //console.log('handleCenterChanged', latitude, longitude)
+    //console.log('oldvalues', this.props.coordinates.lat, this.props.coordinates.lng)
 
     if (latitude === this.props.coordinates.lat && longitude === this.props.coordinates.lng) {
-      console.log('old values')
-      console.log('no difference')
+      //console.log('old values')
+      //console.log('no difference')
       return
     }
-    console.log('mapCenterChanged', latitude, longitude)
+    //console.log('mapCenterChanged', latitude, longitude)
     this.props.mapCenterChanged(latitude, longitude)
     // const lat = event.latLng.lat()
     // const lng = event.latLng.lng()

@@ -19,12 +19,12 @@ function callPanoramioApi(endpoint, schema, info) {
   .then(response => {
     return response.json()
     .then(json => {
-      console.log('json',json)
+      //console.log('json',json)
       return { json, response }
     })
   }
   ).then(({ json, response }) => {
-    console.log('response',response)
+    //console.log('response',response)
     if (!response.ok) {
       return Promise.reject(json)
     }
@@ -36,11 +36,11 @@ function callPanoramioApi(endpoint, schema, info) {
 
     const panoramioPhotos = json.photos
 
-    console.log('panoramioPhotos',panoramioPhotos)
+    //console.log('panoramioPhotos',panoramioPhotos)
 
     camelizedJson = camelizeKeys(panoramioPhotos)
 
-    console.log('camelizedJson',camelizedJson)
+    //console.log('camelizedJson',camelizedJson)
 
     const coordinatesObject= {}
     coordinatesObject.coordinatesString = info.coordinatesString
@@ -50,7 +50,7 @@ function callPanoramioApi(endpoint, schema, info) {
       normalize(coordinatesObject, schema)
     )
 
-    console.log('resulty', result)
+    //console.log('resulty', result)
 
     return result
   })
@@ -103,7 +103,7 @@ export default store => next => action => {
 
   return callPanoramioApi(endpoint, schema, info).then(
     response => {
-      console.log('response2',response)
+      //console.log('response2',response)
       return next(actionWith({
       response,
       type: successType

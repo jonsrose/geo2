@@ -199,7 +199,7 @@ function hoverFlickrPhotoId(state = null, action) {
 }
 
 function hoverPanoramioPhotoId(state = null, action) {
-  console.log(`hoverPanoramioPhotoId action = ${JSON.stringify(action)}`)
+  //console.log(`hoverPanoramioPhotoId action = ${JSON.stringify(action)}`)
   const { type } = action
   if (type === ActionTypes.LEFT_NAV_PANORAMIO_PHOTO_HOVER || type === ActionTypes.LOAD_PANORAMIO_PHOTO) {
     return action.id

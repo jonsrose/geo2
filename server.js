@@ -31,7 +31,7 @@ function random() {
 
   let latitude = (Math.PI / 2 - Math.acos(2 * getRandomInRange(0, 1000000, 0) / 1000000 - 1)) * 180 / Math.PI
   let longitude = (Math.PI - 2 * Math.PI * getRandomInRange(0, 1000000, 0) / 1000000) * 180 / Math.PI
-  console.log('latitude',latitude,'longitude',longitude)
+  //console.log('latitude',latitude,'longitude',longitude)
 
   var wikipediaPromise = new Promise(function(resolve, reject) {
     // http://stackoverflow.com/questions/34359902/better-way-to-pick-random-point-on-earth
@@ -47,14 +47,14 @@ function random() {
       json: true
     }).then(function(response) {
       if (response && response.query && response.query.pages) {
-        console.log('wiki resolve!!!')
+        //console.log('wiki resolve!!!')
         resolve({latitude, longitude});
       } else {
-        console.log('wiki invalid response')
+        //console.log('wiki invalid response')
         if (++numFailures >= maxFailures) reject('wiki error with', {latitude, longitude})
       }
     }).catch(function(err) {
-       console.log('error error!!!')
+       //console.log('error error!!!')
        if (++numFailures >= maxFailures) reject('wiki error with', {latitude, longitude})
     })
   })
@@ -67,15 +67,15 @@ function random() {
       uri: url,
       json: true
     }).then(function(response) {
-      console.log('flickr resolve!!!')
+      //console.log('flickr resolve!!!')
       if (response && response.photos && response.photos.photo && response.photos.photo.length > 0) {
         resolve({latitude, longitude});
       } else {
-        console.log('flickr invalid response')
+        //console.log('flickr invalid response')
         if (++numFailures >= maxFailures) reject('flickr error with', {latitude, longitude})
       }
     }).catch(function(err) {
-       console.log('error error!!!')
+       //console.log('error error!!!')
        if (++numFailures >= maxFailures) reject('flickr error with', {latitude, longitude})
     })
   })
@@ -88,15 +88,15 @@ function random() {
       uri: url,
       json: true
     }).then(function(response) {
-      console.log('panoramio resolve!!!', response)
+      //console.log('panoramio resolve!!!', response)
       if (response && response.photos && response.photos.length > 0) {
         resolve({latitude, longitude});
       } else {
-        console.log('panoramio invalid response')
+        //console.log('panoramio invalid response')
         if (++numFailures >= maxFailures) reject('panoramio error with', {latitude, longitude})
       }
     }).catch(function(err) {
-       console.log('error error!!!')
+       //console.log('error error!!!')
        if (++numFailures >= maxFailures) reject('panoramio error with', {latitude, longitude})
     })
   })
@@ -116,12 +116,12 @@ function random() {
 function waitRandom(req, res) {
   return random()
   .then(function(result){
-    console.log('then!!! res', result)
+    //console.log('then!!! res', result)
     //return result
     res.json(result)
   })
   .catch(function(err) {
-     console.log('catch', err)
+     //console.log('catch', err)
      waitRandom(req, res)
   });
 }
