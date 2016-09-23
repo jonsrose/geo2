@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } from '../actions'
+import { newCoordinatesString, serverRandomCoordinates, setSideNavVisibility, zoom } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadPanoramioPhotos } from '../actions/panoramioActions'
@@ -21,6 +21,7 @@ import FlickrPhotoPage from './FlickrPhotoPage'
 import PanoramioPhotoPage from './PanoramioPhotoPage'
 import LeftNavContainer from './LeftNavContainer'
 import LocalityPage from './LocalityPage'
+import LinearProgress from 'material-ui/LinearProgress'
 
 const wideDrawerWidth = 408
 const narrowDrawerWidth = 256
@@ -140,8 +141,17 @@ class App extends Component {
   }
 
   setSideNavVisibility(open) {
-
       this.props.setSideNavVisibility(open)
+  }
+
+  renderLinearProgress() {
+    const { showLinearProgress } = this.props
+
+    if (showLinearProgress) {
+      return (
+        <LinearProgress mode="indeterminate" />
+      )
+    }
   }
 
   renderLeftNav() {
@@ -201,14 +211,17 @@ class App extends Component {
       )
     }
 
+    const { showLinearProgress } = this.props
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {this.renderLeftNav()}
           </Drawer>
-          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label={showLinearProgress ? 'JUMPING...' : 'JUMP'} id="jump" onTouchTap={this.props.serverRandomCoordinates.bind(this)} secondary={true} disabled={showLinearProgress} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
+
           <div style={{
               position: 'fixed',
               top:0,
@@ -218,6 +231,7 @@ class App extends Component {
               backgroundColor:'rgb(0, 188, 212)'
             }}
           >
+            {this.renderLinearProgress()}
             <MapPage />
           </div>
         </div>
@@ -247,7 +261,7 @@ function getPageFromPath(path){
 }
 
 App.propTypes = {
-  randomCoordinates: PropTypes.func.isRequired,
+  serverRandomCoordinates: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
@@ -267,8 +281,6 @@ App.propTypes = {
   setSideNavVisibility: PropTypes.func,
   zoomed: PropTypes.bool
 }
-
-
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -296,10 +308,11 @@ function mapStateToProps(state, ownProps) {
     navTolocality: state.navTolocality,
     navToFlickrPhoto: state.navToFlickrPhoto,
     navToPanoramioPhoto: state.navToPanoramioPhoto,
-    zoomed: state.zoom
+    zoomed: state.zoom,
+    showLinearProgress: state.showLinearProgress
   }
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos, loadPanoramioPhoto, newCoordinatesString, setSideNavVisibility, zoom
+  serverRandomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos, loadPanoramioPhoto, newCoordinatesString, setSideNavVisibility, zoom
 })(App)
