@@ -31,12 +31,6 @@ class MapPage extends Component {
     this.props.hideInfoWindow()
   }
 
-  handleMapClick(event) {
-    const lat = event.latLng.lat()
-    const lng = event.latLng.lng()
-    this.props.navToCoordinatesString(`${lat},${lng}`)
-  }
-
   renderCoordinates(coordinates) {
     return (
       <div>Coordinates: {coordinates.lat}, {coordinates.lng}</div>
@@ -116,7 +110,6 @@ class MapPage extends Component {
               center={ { lat, lng } }
               ref="map"
               mapTypeId = {satelliteMap}
-              onClick={this.handleMapClick.bind(this)}
               >
               {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
                 if (!wikiLocation.coordinates || wikiLocation.coordinates.length == 0) {
