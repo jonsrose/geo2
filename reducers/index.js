@@ -224,6 +224,16 @@ function hideEmpty(state = false, action) {
   return state
 }
 
+function showLinearProgress(state = false, action) {
+  const { type } = action
+
+  if (type == ActionTypes.REQUEST_SERVER_RANDOM_COORDINATES) return true
+
+  if (type == ActionTypes.NAV_TO_COORDINATES) return false
+
+  return state
+}
+
 export function getCurrentLocation(state) {
   var coordinatesString = state.coordinatesString
 
@@ -515,7 +525,8 @@ const rootReducer = combineReducers({
   hoverFlickrPhotoId,
   hoverPanoramioPhotoId,
   zoom,
-  hideEmpty
+  hideEmpty,
+  showLinearProgress
 })
 
 
