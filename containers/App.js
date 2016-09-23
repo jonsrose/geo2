@@ -45,7 +45,7 @@ class App extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleDismissClick =
-     this.handleDismissClick.bind(this)
+    this.handleDismissClick.bind(this)
   }
 
   mapInfo() {

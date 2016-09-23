@@ -211,7 +211,6 @@ class LeftNavMain extends Component {
             <p><strong>Welcome to GEOJUMP!</strong></p>
             <p>Press the JUMP button to start!</p>
             <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Panoramio or Flickr or locations from Wikipedia</p>
-            <p>Note that you may have to jump several times before landing on a location with nearby places as 71% of earths surface is water!</p>
             <p>Questions? email <a href="jonrosesf@gmail.com">jonrosesf@gmail.com</a></p>
           </Paper>
         }
