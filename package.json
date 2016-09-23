@@ -17,6 +17,7 @@
   "homepage": "http://redux.js.org",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
+    "bluebird": "^3.4.6",
     "fetch-jsonp": "^1.0.0",
     "geopoint": "^1.0.1",
     "humps": "^0.6.0",
@@ -35,7 +36,8 @@
     "redux": "^3.2.1",
     "redux-logger": "^2.4.0",
     "redux-thunk": "^1.0.3",
-    "request": "^2.71.0"
+    "request": "^2.71.0",
+    "request-promise": "^4.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

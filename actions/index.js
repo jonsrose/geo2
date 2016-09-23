@@ -1,7 +1,30 @@
-import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, LEFT_NAV_PANORAMIO_PHOTO_HOVER, LEFT_NAV_PANORAMIO_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, NAV_TO_PANORAMIO_PHOTO, LOAD_FLICKR_PHOTO, LOAD_PANORAMIO_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM, UNZOOM, TOGGLE_HIDE_EMPTY } from './ActionTypes'
+import { NAV_TO_COORDINATES, NEW_COORDINATES, SHOW_INFO_WINDOW, HIDE_INFO_WINDOW, NEW_LOCALITY, NAV_TO_LOCALITY, LEFT_NAV_WIKI_LOCATION_HOVER, LEFT_NAV_WIKI_LOCATION_UNHOVER, LEFT_NAV_FLICKR_PHOTO_HOVER, LEFT_NAV_FLICKR_PHOTO_UNHOVER, LEFT_NAV_PANORAMIO_PHOTO_HOVER, LEFT_NAV_PANORAMIO_PHOTO_UNHOVER, NAV_TO_FLICKR_PHOTO, NAV_TO_PANORAMIO_PHOTO, LOAD_FLICKR_PHOTO, LOAD_PANORAMIO_PHOTO, SET_SIDE_NAV_VISIBILITY, ZOOM, UNZOOM, TOGGLE_HIDE_EMPTY, REQUEST_SERVER_RANDOM_COORDINATES,
+RECEIVE_SERVER_RANDOM_COORDINATES } from './ActionTypes'
 
 function getRandomInRange(from, to, fixed) {
     return (Math.random() * (to - from) + from).toFixed(fixed) * 1
+}
+
+export function requestServerRandomCoordinates() {
+  return {
+    type: REQUEST_SERVER_RANDOM_COORDINATES
+  }
+}
+
+export function recieveServerRandomCoordinates(coordinates) {
+  return {
+    type: NAV_TO_COORDINATES,
+    coordinatesString: `${coordinates.latitude},${coordinates.longitude}`
+  }
+}
+
+export function serverRandomCoordinates() {
+    return dispatch => {
+      dispatch(requestServerRandomCoordinates())
+      return fetch('/api/random')
+        .then(response => response.json())
+        .then(json => dispatch(recieveServerRandomCoordinates(json)))
+    }
 }
 
 export function randomCoordinates() {

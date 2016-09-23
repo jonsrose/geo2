@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { newCoordinatesString, randomCoordinates, setSideNavVisibility, zoom } from '../actions'
+import { newCoordinatesString, serverRandomCoordinates, setSideNavVisibility, zoom } from '../actions'
 import { loadWikiLocation, loadLocality } from '../actions/wikipediaActions'
 import { loadFlickrPhotos } from '../actions/flickrActions'
 import { loadPanoramioPhotos } from '../actions/panoramioActions'
@@ -207,7 +207,7 @@ class App extends Component {
           <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {this.renderLeftNav()}
           </Drawer>
-          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.randomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
+          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label="Jump" id="jump" onTouchTap={this.props.serverRandomCoordinates.bind(this)} secondary={true} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
           <div style={{
               position: 'fixed',
@@ -247,7 +247,7 @@ function getPageFromPath(path){
 }
 
 App.propTypes = {
-  randomCoordinates: PropTypes.func.isRequired,
+  serverRandomCoordinates: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   currentLocationObject: PropTypes.object,
@@ -267,8 +267,6 @@ App.propTypes = {
   setSideNavVisibility: PropTypes.func,
   zoomed: PropTypes.bool
 }
-
-
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -301,5 +299,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  randomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos, loadPanoramioPhoto, newCoordinatesString, setSideNavVisibility, zoom
+  serverRandomCoordinates, loadLocality, loadFlickrPhoto, loadWikiLocation, loadFlickrPhotos, loadPanoramioPhotos, loadPanoramioPhoto, newCoordinatesString, setSideNavVisibility, zoom
 })(App)
