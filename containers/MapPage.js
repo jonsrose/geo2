@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-map
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto, getPanoramioPhotos, getHoverPanoramioPhoto} from '../reducers'
 import { satelliteMap } from '../util/GoogleMapsHelper'
-import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString } from '../actions'
+import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, mapCenterChanged } from '../actions'
 
 class MapPage extends Component {
   constructor(props) {
@@ -30,6 +30,48 @@ class MapPage extends Component {
   handleCloseInfoWindow() {
     this.props.hideInfoWindow()
   }
+
+  handleCenterChanged() {
+    const newCenter = this.refs.map.getCenter()
+    const latitude = newCenter.lat()
+    const longitude = newCenter.lng()
+    console.log('handleCenterChanged', latitude, longitude)
+    console.log('oldvalues', this.props.coordinates.lat, this.props.coordinates.lng)
+
+    if (latitude === this.props.coordinates.lat && longitude === this.props.coordinates.lng) {
+      console.log('old values')
+      console.log('no difference')
+      return
+    }
+    console.log('mapCenterChanged', latitude, longitude)
+    this.props.mapCenterChanged(latitude, longitude)
+    // const lat = event.latLng.lat()
+    // const lng = event.latLng.lng()
+    // this.props.mapCenterChanged(lat,lng)
+  }
+
+  // handleMapCenterChanged() {
+  //   const newPos = this.refs.map.getCenter();
+  //   if (newPos.equals(new google.maps.LatLng(this.props.initialCenter))) {
+  //     // Notice: Check newPos equality here,
+  //     // or it will fire center_changed event infinitely
+  //     return;
+  //   }
+  //   if (this._timeoutId) {
+  //     clearTimeout(this._timeoutId);
+  //   }
+  //   this._timeoutId = setTimeout(() => {
+  //     this.setState({ center: this.props.initialCenter });
+  //   }, 3000);
+  //
+  //   this.setState({
+  //     // Because center now is a controlled variable, we need to set it to new
+  //     // value when "center_changed". Or in the next render it will use out-dated
+  //     // state.center and reset the center of the map to the old location.
+  //     // We can never drag the map.
+  //     center: newPos,
+  //   });
+  // }
 
   renderCoordinates(coordinates) {
     return (
@@ -83,9 +125,9 @@ class MapPage extends Component {
   render() {
     let {lat, lng} = {lat: 0, lng: 0}
 
-    if (this.props.coordinates) {
-        lat = this.props.coordinates.lat
-        lng = this.props.coordinates.lng
+    if (this.props.mapCenter) {
+        lat = this.props.mapCenter.lat
+        lng = this.props.mapCenter.lng
     }
 
     // sole.log('read lat lng')
@@ -108,6 +150,7 @@ class MapPage extends Component {
               ref={(map) => console.log(map)}
               defaultZoom={6}
               center={ { lat, lng } }
+              onDragend={this.handleCenterChanged.bind(this)}
               ref="map"
               mapTypeId = {satelliteMap}
               >
@@ -193,6 +236,7 @@ class MapPage extends Component {
 
 MapPage.propTypes = {
   coordinates: PropTypes.object,
+  mapCenter: PropTypes.object,
   coordinatesString: PropTypes.string,
   newCoordinatesString: PropTypes.func.isRequired,
   currentLocationObject: PropTypes.object
@@ -201,6 +245,7 @@ MapPage.propTypes = {
 function mapStateToProps(state) {
   return {
     coordinates: state.coordinates,
+    mapCenter: state.mapCenter,
     coordinatesString: state.coordinatesString,
     currentLocationObject: getCurrentLocationObject(state),
     infoWindow: state.infoWindow,
@@ -213,5 +258,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow
+export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow, mapCenterChanged
 })(MapPage)

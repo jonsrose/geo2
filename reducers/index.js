@@ -21,6 +21,14 @@ function coordinates(state = null, action) {
   return state
 }
 
+function mapCenter(state = null, action) {
+  const { type } = action
+  if (type === ActionTypes.NEW_COORDINATES || type === ActionTypes.MAP_CENTER_CHANGED) {
+    return action.coordinates
+  }
+  return state
+}
+
 function coordinatesString(state = null, action) {
   const { type } = action
   if (type === ActionTypes.NEW_COORDINATES) {
@@ -508,6 +516,7 @@ const rootReducer = combineReducers({
   entities,
   routing,
   coordinates,
+  mapCenter,
   sideNav,
   persistentSideNav,
   infoWindow,
