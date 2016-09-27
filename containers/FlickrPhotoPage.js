@@ -30,6 +30,8 @@ class FlickrPhotoPage extends Component {
         imageUrl = flickrPhoto.urlM
       }
 
+      const flickrLink = `https://www.flickr.com/photos/${this.props.flickrPhoto.owner}/${this.props.flickrPhoto.id}`
+
       return (
             <div>
               <div>
@@ -40,7 +42,12 @@ class FlickrPhotoPage extends Component {
                 {flickrPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToFlickrPhoto.bind(this, next.id, next.index )}/>}
                 {!flickrPhoto.next && <FlatButton label="Next" disabled={true}/>}
               </div>
-              <img className={'responsive-image'} src={imageUrl} />
+              <a href={flickrLink} target="_blank">
+                <img className={'responsive-image'} src={imageUrl} />
+              </a>
+              <div>
+                <a href={flickrLink} target="_blank">Go to flickr page</a>
+              </div>
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.flickrPhoto.title)} />
             </div>
       )

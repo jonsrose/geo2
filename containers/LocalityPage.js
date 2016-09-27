@@ -17,7 +17,7 @@ class LocalityPage extends Component {
 
   render() {
     if (this.props.locality) {
-      // const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
+      const link = `https://en.wikipedia.org/wiki/${encodeURI(this.props.locality.title)}`
       const {locality} = this.props
 
       const { prev, next } = locality
@@ -36,8 +36,11 @@ class LocalityPage extends Component {
 
           </div>
           {this.props.localityThumbnail &&
-            <img className={'responsive-image'} src={this.props.localityThumbnail.source} />
+            <a href={link} target="_blank"><img className={'responsive-image'} src={this.props.localityThumbnail.source} /></a>
           }
+          <div>
+            <a href={link} target="_blank">Go to wikipedia page</a>		
+          </div>
           <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.localityText)} />
         </div>
       )

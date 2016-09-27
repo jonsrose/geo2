@@ -24,6 +24,8 @@ class PanoramioPhotoPage extends Component {
 
       let imageUrl = panoramioPhoto.photoFileUrl
 
+      let pageUrl = panoramioPhoto.photoUrl
+
       return (
             <div>
               <div>
@@ -34,7 +36,12 @@ class PanoramioPhotoPage extends Component {
                 {panoramioPhoto.next && <FlatButton label="Next" primary={true} onTouchTap={this.props.navToPanoramioPhoto.bind(this, next.id, next.index )}/>}
                 {!panoramioPhoto.next && <FlatButton label="Next" disabled={true}/>}
               </div>
-              <img className={'responsive-image'} src={imageUrl} />
+              <a href={pageUrl} target="_blank">
+                <img className={'responsive-image'} src={imageUrl} />
+              </a>
+              <div>
+                <a href={pageUrl} target="_blank">Go to panoramio page</a>
+              </div>
               <div style={{padding:5}} dangerouslySetInnerHTML={this.createMarkup(this.props.panoramioPhoto.photoTitle)} />
             </div>
       )
