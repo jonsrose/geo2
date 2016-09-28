@@ -1,7 +1,7 @@
 {
   "name": "geojump",
   "version": "0.2.0",
-  "description": "Geojump will take you to random coordinates on Google Maps",
+  "description": "Mapjump will take you to random coordinates on Google Maps",
   "scripts": {
     "start": "node server.js"
   },

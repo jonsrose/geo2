@@ -219,7 +219,7 @@ class App extends Component {
           <Drawer width={drawerWidth} overlayStyle={{opacity:0.25}} onRequestChange={(open) => this.setSideNavVisibility(open)} docked={false} open={sideNavVisibility}>
             {this.renderLeftNav()}
           </Drawer>
-          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">GEOJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label={showLinearProgress ? 'JUMPING...' : 'JUMP'} id="jump" onTouchTap={this.props.serverRandomCoordinates.bind(this)} secondary={true} disabled={showLinearProgress} style={{marginTop:6, marginRight:6}} />}>
+          <AppBar style={{position:'fixed'}}title={<span><a style={{textDecoration:'none', color:'white'}} href="/">MAPJUMP</a> <span style={{fontSize:10}}>beta</span></span>} onLeftIconButtonTouchTap={this.setSideNavVisibility.bind(this, true)} iconElementRight={<RaisedButton label={showLinearProgress ? 'JUMPING...' : 'JUMP'} id="jump" onTouchTap={this.props.serverRandomCoordinates.bind(this)} secondary={true} disabled={showLinearProgress} style={{marginTop:6, marginRight:6}} />}>
           </AppBar>
 
           <div style={{

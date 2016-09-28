@@ -208,9 +208,9 @@ class LeftNavMain extends Component {
 
         {!coordinatesString &&
           <Paper style={{position: 'absolute', top: 0, bottom:10, overflow:'auto', paddingLeft:10, paddingRight:10}}>
-            <p><strong>Welcome to GEOJUMP!</strong></p>
+            <p><strong>Welcome to MAPJUMP!</strong></p>
             <p>Press the JUMP button to start!</p>
-            <p>GEOJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Panoramio or Flickr or locations from Wikipedia</p>
+            <p>MAPJUMP will generate random coordinates and will jump to that location on a map, and will look for nearby photos from Panoramio or Flickr or locations from Wikipedia</p>
             <p>Questions? email <a href="jonrosesf@gmail.com">jonrosesf@gmail.com</a></p>
           </Paper>
         }
