@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto, getPanoramioPhotos, getHoverPanoramioPhoto} from '../reducers'
-import { satelliteMap } from '../util/GoogleMapsHelper'
+import { satelliteMap, roadMap, hybrid, terrain } from '../util/GoogleMapsHelper'
 import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, mapCenterChanged } from '../actions'
 
 class MapPage extends Component {
@@ -50,28 +50,10 @@ class MapPage extends Component {
     // this.props.mapCenterChanged(lat,lng)
   }
 
-  // handleMapCenterChanged() {
-  //   const newPos = this.refs.map.getCenter();
-  //   if (newPos.equals(new google.maps.LatLng(this.props.initialCenter))) {
-  //     // Notice: Check newPos equality here,
-  //     // or it will fire center_changed event infinitely
-  //     return;
-  //   }
-  //   if (this._timeoutId) {
-  //     clearTimeout(this._timeoutId);
-  //   }
-  //   this._timeoutId = setTimeout(() => {
-  //     this.setState({ center: this.props.initialCenter });
-  //   }, 3000);
-  //
-  //   this.setState({
-  //     // Because center now is a controlled variable, we need to set it to new
-  //     // value when "center_changed". Or in the next render it will use out-dated
-  //     // state.center and reset the center of the map to the old location.
-  //     // We can never drag the map.
-  //     center: newPos,
-  //   });
-  // }
+  handleMapTypeIdChanged() {
+    const newMapTypeId = this.refs.map.getMapTypeId()
+    console.log('newMapTypeId', newMapTypeId)
+  }
 
   renderCoordinates(coordinates) {
     return (
@@ -152,7 +134,8 @@ class MapPage extends Component {
               center={ { lat, lng } }
               onDragend={this.handleCenterChanged.bind(this)}
               ref="map"
-              mapTypeId = {satelliteMap}
+              mapTypeId = {hybrid}
+              onMaptypeidChanged={this.handleMapTypeIdChanged.bind(this)}
               >
               {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
                 if (!wikiLocation.coordinates || wikiLocation.coordinates.length == 0) {
