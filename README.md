@@ -1,6 +1,6 @@
-# GEOJUMP
+# MAPJUMP
 
-GEOJUMP helps you discover new places completely by random.
+MAPJUMP helps you discover new places completely by random.
 
 It generates random coordinates via latitude and longitude then you jump to those coordinates on a map.
 

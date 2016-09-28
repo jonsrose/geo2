@@ -8,4 +8,7 @@ export const marker = (position, map) => new google.maps.Marker({
     map: map
 })
 export const GeocoderStatusOK = google.maps.GeocoderStatus.OK
-export const satelliteMap = google.maps.MapTypeId.HYBRID
+export const satelliteMap = google.maps.MapTypeId.SATELLITE
+export const roadMap = google.maps.MapTypeId.ROADMAP
+export const hybrid = google.maps.MapTypeId.HYBRID
+export const terrain = google.maps.MapTypeId.TERRAIN

@@ -29,6 +29,14 @@ function mapCenter(state = null, action) {
   return state
 }
 
+function mapTypeId(state = 'hybrid', action) {
+  const { type } = action
+  if (type === ActionTypes.MAP_TYPE_ID_CHANGED) {
+    return action.mapTypeId
+  }
+  return state
+}
+
 function coordinatesString(state = null, action) {
   const { type } = action
   if (type === ActionTypes.NEW_COORDINATES) {
@@ -517,6 +525,7 @@ const rootReducer = combineReducers({
   routing,
   coordinates,
   mapCenter,
+  mapTypeId,
   sideNav,
   persistentSideNav,
   infoWindow,
