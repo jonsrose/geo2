@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker, InfoWindow } from 'react-google-map
 import { newCoordinatesString, showInfoWindow, hideInfoWindow } from '../actions'
 import {getCurrentLocationObject, getWikiLocations, getHoverWikiLocation, getFlickrPhotos, getHoverFlickrPhoto, getPanoramioPhotos, getHoverPanoramioPhoto} from '../reducers'
 import { satelliteMap, roadMap, hybrid, terrain } from '../util/GoogleMapsHelper'
-import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, mapCenterChanged } from '../actions'
+import { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, mapCenterChanged, mapTypeIdChanged } from '../actions'
 
 class MapPage extends Component {
   constructor(props) {
@@ -52,7 +52,8 @@ class MapPage extends Component {
 
   handleMapTypeIdChanged() {
     const newMapTypeId = this.refs.map.getMapTypeId()
-    console.log('newMapTypeId', newMapTypeId)
+    //console.log('newMapTypeId', newMapTypeId)
+    this.props.mapTypeIdChanged(newMapTypeId)
   }
 
   renderCoordinates(coordinates) {
@@ -134,7 +135,7 @@ class MapPage extends Component {
               center={ { lat, lng } }
               onDragend={this.handleCenterChanged.bind(this)}
               ref="map"
-              mapTypeId = {hybrid}
+              mapTypeId = {this.props.mapTypeId}
               onMaptypeidChanged={this.handleMapTypeIdChanged.bind(this)}
               >
               {this.props.wikiLocations && this.props.wikiLocations.map((wikiLocation, index) => {
@@ -222,7 +223,8 @@ MapPage.propTypes = {
   mapCenter: PropTypes.object,
   coordinatesString: PropTypes.string,
   newCoordinatesString: PropTypes.func.isRequired,
-  currentLocationObject: PropTypes.object
+  currentLocationObject: PropTypes.object,
+  mapTypeId: PropTypes.string
 }
 
 function mapStateToProps(state) {
@@ -237,9 +239,10 @@ function mapStateToProps(state) {
     panoramioPhotos: getPanoramioPhotos(state),
     hoverWikiLocation: getHoverWikiLocation(state),
     hoverFlickrPhoto: getHoverFlickrPhoto(state),
-    hoverPanoramioPhoto: getHoverPanoramioPhoto(state)
+    hoverPanoramioPhoto: getHoverPanoramioPhoto(state),
+    mapTypeId: state.mapTypeId
   }
 }
 
-export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow, mapCenterChanged
+export default connect(mapStateToProps, { navTolocality, navToFlickrPhoto, navToPanoramioPhoto, navToCoordinatesString, newCoordinatesString, showInfoWindow, hideInfoWindow, mapCenterChanged, mapTypeIdChanged
 })(MapPage)
