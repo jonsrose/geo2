@@ -135,6 +135,12 @@ router.get('/random',function (req, res) {
 app.use('/api', router);
 
 app.use(function(req, res) {
+
+  if (req.headers.host.search(/geojump/) !== -1) {
+    res.redirect(301,  'http://www.mapjump.io' + req.originalUrl)
+    return
+  }
+
   res.sendFile(__dirname + '/index.html')
 })
 
